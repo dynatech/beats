@@ -1,0 +1,259 @@
+@import "variables";
+@import "bootstrap";
+
+// Reusable function components
+@import "mixins";
+
+// Per component
+@import "text";
+@import "footer";
+@import "socialmedia";
+@import "forms";
+@import "modallanding";
+
+#mainNav {
+	margin-bottom: 10px;
+	background-color: $body-bg-navyblue;
+}
+
+.navbar-default {
+	.navbar-brand {
+		color: $text-navbar;
+
+		&:focus, &:hover {
+			color: $text-navbar-hover;
+		}
+	}
+
+	.navbar-toggle {
+		background-color: $text-navbar;
+
+		&:focus, &:hover {
+			background-color: $white;
+			color: $black;
+		}
+	}
+}
+
+#enroll-buddy-navbar-collapse {
+	.page-scroll {
+		@include mQ(768px) {
+			text-align: center;
+		}
+
+		a {
+			font-weight: 600;
+			color: $text-navbar;
+			&:hover {
+				color: $text-navbar-hover;
+			}
+		}
+	}
+
+	button {
+		margin-top: 8px;
+		margin-bottom: auto;
+	}
+}
+
+#main-content-bg {
+	margin-top: 20px;
+	padding-top: 40px;
+	background-color: $white;
+}
+
+#main-content {
+	margin-top: 0px;
+	padding-top: 40px;
+	padding-bottom: 30px;
+
+	&:focus {
+		outline: none;
+	}
+
+	@include mQ(768px) {
+		margin-top: 0px;
+		padding-top: 30px;
+	}
+
+	@include mQ(480px) {
+		margin-top: 0px;
+		padding-top: 20px;
+	}
+}
+
+.cta-divider {
+	margin-top: 15px;
+	margin-bottom: 20px;
+	width: 55%;
+
+	@include mQ(480px) {
+		margin-top: 0px;
+		margin-bottom: 10px;
+		width: 80%;
+	}
+}
+
+.social-media-register {
+	button {
+		margin-bottom: 15px;
+		padding: 15px 30px 15px 30px;
+		height: 48px;
+		font-size: 16px;
+		font-weight: 700;
+	}
+}
+
+.advantages-basic-info {
+	padding: 2% 0;
+
+	h2 {
+		padding-bottom: 10px;
+		font-size: 26px;
+		font-weight: 700;
+		line-height: 1.4;
+
+		@include mQ(480px) {
+			font-size: 24px;
+		}
+	}
+
+	h4 {
+		line-height: 1.5;
+		color: $gray-slightly-light;
+
+		@include mQ(480px) {
+			font-size: 16px;
+			line-height: 1.8;
+		}
+	}
+}
+
+.advantages-icons-set {
+	margin: auto;
+	padding: 2% 0;
+}
+
+.advantage-info {
+	padding-left: 30px;
+	padding-right: 30px;
+	margin-bottom: 30px;
+	line-height: 1.8;
+
+	h3 {
+		font-weight: 700;
+		padding-bottom: 20px;
+	}
+
+	p {
+		font-weight: 500;
+		font-size: 17px;
+		color: $gray-light;
+	}
+}
+
+.icon-advantages {
+	margin-bottom: 40px;
+	width: 128px;
+	height: 128px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.conversion-section {
+	@include conversionSection($body-bg-grayblue, $white);
+}
+
+.advantage-details {
+	padding: 8% 0;
+
+	@include mQ(768px) {
+		padding: 15% 0;
+	}
+
+	h2 {
+		padding-bottom: 10px;
+		font-size: 26px;
+		font-weight: 700;
+		line-height: 1.4;
+	}
+
+	p {
+		line-height: 1.8;
+		font-size: 16px;
+	}
+}
+
+.icon-advantage-details {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 40px;
+	width: 256px;
+	height: 256px;
+
+	@include mQ(768px) {
+		width: 128px;
+		height: 128px;
+	}
+}
+
+#show-clients-you-care {
+	background-color: $gray-lighter;
+}
+
+.left-padding {
+	padding-left: 10%;
+
+	@include mQ(768px) {
+		text-align: center;
+		padding: 0 10%;
+	}
+
+	p {
+		padding: 0;
+	}
+}
+
+.right-padding {
+	padding-right: 10%;
+
+	@include mQ(768px) {
+		text-align: center;
+		padding: 0 10%;
+	}
+
+	p {
+		padding: 0;
+	}
+}
+
+.case-step {
+	display: flex;
+	justify-content: space-between;
+
+	.steps {
+		display: flex;
+		align-content: flex-start;
+	}
+
+	.beats-action {
+		display: flex;
+		align-content: flex-end;
+		align-self: center;
+	}
+
+	.item {
+		margin-right: 10px;
+		flex-shrink: 1;
+		align-self: center;
+
+		label {
+			font-weight: normal;
+		}
+	}
+}
+
+hr {
+	margin: 5px 0;
+}

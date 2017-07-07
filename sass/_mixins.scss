@@ -1,0 +1,235 @@
+// Mixins
+
+//Media Query
+@mixin mQ($arg...) {
+	@if length($arg) == 1 {
+		@media screen and (max-width: nth($arg, 1)) {
+			@content;
+		}
+	}
+	@if length($arg) == 2 {
+		@media screen and (max-width: nth($arg, 1)) and (min-width: nth($arg, 2)) {
+			@content;
+		}
+	}
+
+}
+
+//Media Query Minimum
+@mixin mQMin($arg...) {
+	@if length($arg) == 1 {
+		@media screen and (min-width: nth($arg, 1)) {
+			@content;
+		}
+	}
+}
+
+//Custom Button (default)
+@mixin customButton($arg...) {
+	// Change only the background color
+	@if length($arg) == 1 {
+		background-color: nth($arg, 1);
+		color: $white;
+
+		&:hover, &:active, &:focus, &:active:hover {
+			background-color: lighten(nth($arg, 1), 10%);
+			color: $white;
+		}
+
+		&:active:focus {
+			background-color: darken(nth($arg, 1), 5%);
+			color: darken(nth($arg, 1), 15%);
+		}
+	}
+
+	// Change both background color and text color
+	@if length($arg) == 2 {
+		background-color: nth($arg, 1);
+		color: nth($arg, 2);
+
+		&:hover, &:active, &:focus, &:active:hover {
+			background-color: lighten(nth($arg, 1), 10%);
+			color: nth($arg, 2);
+		}
+
+		&:active:focus {
+			background-color: darken(nth($arg, 1), 5%);
+			color: darken(nth($arg, 2), 15%);
+		}
+	}
+}
+
+@mixin customButtonLight($arg...) {
+	// Change only the background color
+	@if length($arg) == 1 {
+		background-color: nth($arg, 1);
+		color: $white;
+
+		&:hover, &:active, &:focus, &:active:hover {
+			background-color: lighten(nth($arg, 1), 5%);
+			color: $white;
+		}
+
+		&:active:focus {
+			background-color: lighten(nth($arg, 1), 10%);
+			color: $white;
+		}
+	}
+
+	// Change both background color and text color
+	@if length($arg) == 2 {
+		background-color: nth($arg, 1);
+		color: nth($arg, 2);
+
+		&:hover, &:active, &:focus, &:active:hover {
+			background-color: lighten(nth($arg, 1), 5%);
+			color: nth($arg, 2);
+		}
+
+		&:active:focus {
+			background-color: lighten(nth($arg, 1), 10%);
+			color: nth($arg, 2);
+		}
+	}
+}
+
+//Custom Button Inverse
+@mixin customButtonInverse($arg...) {
+	padding: 5px 12px;
+	border-width: 2px;
+	font-weight: 700;
+
+	// Change only the background color
+	@if length($arg) == 1 {
+		background-color: $white;
+		color: nth($arg, 1);
+		border-color: nth($arg, 1);
+
+		&:hover, &:active, &:focus, &:active:hover {
+			background-color: nth($arg, 1);
+			color: $white;
+		}
+
+		&:active:focus {
+			background-color: darken(nth($arg, 1), 5%);
+			color: darken(nth($arg, 1), 15%);
+		}
+	}
+
+	// Change both background color and text color
+	@if length($arg) == 2 {
+		background-color: nth($arg, 2);
+		color: nth($arg, 1);
+		border-color: nth($arg, 1);
+
+		&:hover, &:active, &:focus, &:active:hover {
+			background-color: nth($arg, 1);
+			color: nth($arg, 2);
+		}
+
+		&:active:focus {
+			background-color: darken(nth($arg, 1), 5%);
+			color: darken(nth($arg, 2), 15%);
+		}
+	}
+}
+
+@mixin customSectionColorSetter($arg...) {
+	// Change only the background color
+	@if length($arg) == 1 {
+		background-color: nth($arg, 1);
+
+		h1, h2, h3, h4, h5, h6, p {
+			color: $black;
+		}
+	}
+
+	// Change background color and text colors
+	@if length($arg) == 2 {
+		background-color: nth($arg, 1);
+
+		h1, h2, h3, h4, h5, h6, p {
+			color: nth($arg, 2);
+		}
+	}
+
+	// Change background color, header, and subheader colors
+	@if length($arg) == 3 {
+		background-color: nth($arg, 1);
+
+		h1, h2 {
+			color: nth($arg, 2);
+		}
+
+		h3, h4, h5, h6, p {
+			color: nth($arg, 3);
+		}
+	}
+}
+
+@mixin conversionSection($arg...) {
+	padding: 8% 0;
+
+	@if length($arg) == 1 {
+		@include customSectionColorSetter(nth($arg, 1));
+	}
+
+	@if length($arg) == 2 {
+		@include customSectionColorSetter(nth($arg, 1), nth($arg, 2));
+	}
+
+	@if length($arg) == 3 {
+		@include customSectionColorSetter(nth($arg, 1), nth($arg, 2), nth($arg, 3));
+	}
+
+	@include mQ(768px) {
+		padding: 15% 0;
+	}
+
+	.description {
+		padding-bottom: 20px;
+
+		@include mQ(768px) {
+			padding-left: 15%;
+			padding-right: 15%;
+		}
+	}
+
+	h2 {
+		padding-bottom: 10px;
+		font-size: 26px;
+		font-weight: 700;
+		line-height: 1.4;
+
+		@include mQ(480px) {
+			font-size: 24px;
+		}
+	}
+
+	h4 {
+		line-height: 1.5;
+
+		@include mQ(480px) {
+			font-size: 16px;
+			line-height: 1.8;
+		}
+	}
+
+	button {
+		margin-bottom: 15px;
+		padding: 17px 30px 17px 30px;
+		height: 52px;
+		font-size: 16px;
+		font-weight: 700;
+
+		@include mQ(480px) {
+			padding: 15px 25px 15px 25px;
+			font-size: 14px;
+		}
+
+		@include mQ(360px) {
+			padding: 14px 22px 14px 22px;
+			font-size: 12px;
+		}
+	}
+}

@@ -1,0 +1,41 @@
+// Regular Social Buttons
+
+.social-facebook {
+	@include customButton($link-facebook-color);
+}
+
+.social-facebook-light {
+	@include customButton($link-facebook-color-light);
+}
+
+.social-google-plus {
+	@include customButton($link-google-plus-color);
+}
+
+.social-google-plus-light {
+	@include customButton($link-google-plus-color);
+}
+
+// Footer Social Buttons (less attention grabbing)
+
+.footer-social-button {
+	color: $link-social-color-gray;
+}
+
+.footer-social-button-facebook {
+	&:active, &:focus, &:hover {
+		color: $link-facebook-color;
+	}
+}
+
+.footer-social-button-google-plus {
+	&:active, &:focus, &:hover {
+		color: $link-google-plus-color;
+	}
+}
+
+.footer-social-button-twitter {
+	&:active, &:focus, &:hover {
+		color: $link-twitter-color;
+	}
+}

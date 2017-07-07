@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BEATS - Builder of End-to-end Automated Tests System</title>
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+
+<body id="page-top" class="index">
+
+<!-- Start of Angular App -->
+<div ng-app="myApp">
+
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#enroll-buddy-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span> Menu 
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="#page-top"><i>BEATS</i></a>
+                <a class="navbar-brand" href="#"><small>Alpha</small></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="enroll-buddy-navbar-collapse" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">LOG IN</a>
+                    </li>
+                    <li class="page-scroll">
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#signupSchoolModal" data-backdrop="static" data-keyboard="false">Get Started</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <section id="main-content-bg">
+        <div class="container">
+            <div class="row">
+                <h4><a href="#">Test Suite</a> > <a href="#">Test Case Name</a></h4>
+<!--                 <h4>Steps</h4>
+                <div class="case-step">
+                    <div class="steps">
+                        <div class="item">
+                            1.
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Step Name:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Action:</label>
+                                <select class="form-control">
+                                    <option>Choose action</option>
+                                    <option>Click</option>
+                                    <option>Write Text</option>
+                                    <option>Go to URL</option>
+                                    <option>Select Option</option>
+                                    <option>Add Assertion</option>
+                                    <option>Import Test Case</option>
+                                    <option>Close Alert Box</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Full URL:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="beats-action">
+                        <div class="item">
+                            <a href="#">Move</a>
+                        </div>
+                        <div class="item">
+                            <a href="#">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="case-step">
+                    <div class="steps">
+                        <div class="item">
+                            2.
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Step Name:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Action:</label>
+                                <select class="form-control">
+                                    <option>Choose action</option>
+                                    <option>Click</option>
+                                    <option>Write Text</option>
+                                    <option>Go to URL</option>
+                                    <option>Select Option</option>
+                                    <option>Add Assertion</option>
+                                    <option>Import Test Case</option>
+                                    <option>Close Alert Box</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Locate Element By:</label>
+                                <select class="form-control">
+                                    <option>Choose locator</option>
+                                    <option>Id</option>
+                                    <option>Text Inside</option>
+                                    <option>Name</option>
+                                    <option>Class Name</option>
+                                    <option>XPath</option>
+                                    <option>CSS Selector</option>
+                                    <option>Link Text</option>
+                                    <option>Partial Link Text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="form-group">
+                                <label>Input:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="beats-action">
+                        <div class="item">
+                            <a href="#">Move</a>
+                        </div>
+                        <div class="item">
+                            <a href="#">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <hr> -->
+<!--                 <case-step></case-step>
+                <div>
+                    <button class="btn btn-default">Add step</button>
+                </div> -->
+                <test-case></test-case>
+            </div>
+        </div>
+    </section>
+
+</div>
+<!-- End of Angular app -->
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <script type="text/javascript">
+    angular.module("myApp", [])
+        .component("testCase", testCase())
+        .component("caseStep", caseStep());
+
+    function testCase() {
+        var component = {
+            transclude: true,
+            templateUrl: "templates/testCase.html",
+            controller: testCaseController,
+            controllerAs: 'vm'
+        }
+        return component;
+    }
+
+    function caseStep() {
+        var component = {
+            transclude: true,
+            require: {
+                parent: '^testCase'
+            },
+            templateUrl: "templates/caseStep.html",
+            controller: caseStepController,
+            controllerAs: 'vm',
+        }
+        return component;
+    }
+
+    testCaseController.$inject = ['$log', '$scope'];
+
+    function testCaseController ($log, $scope) {
+        var vm = this;
+        vm.case_steps = [
+            {id:3, name:'my first step', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''},
+        ];
+
+        function addStep() {
+            var step_blank = {id:99, name:'', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''};
+
+            vm.case_steps.push(step_blank);
+        }
+    }
+
+    caseStepController.$inject = ['$log', '$scope'];
+
+    function caseStepController ($log, $scope) {
+        var vm = this;
+        vm.id = '2';
+    }
+    </script>
+</body>
+</html>

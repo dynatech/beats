@@ -1,0 +1,55 @@
+.focused-form {
+	padding-left: 8%;
+	padding-right: 8%;
+
+	h3 {
+		margin-bottom: 15px;
+		color: $white;
+		font-size: 24px;
+
+		@include mQ($screen-xxs-max) {
+			font-size: 18px;
+		}
+	}
+
+	h4 {
+		color: $body-bg-azure-white;
+	}
+
+	hr {
+		margin-top: 12px;
+		margin-bottom: 12px;
+		border-top: 1px solid $gray-upper-mid-light;
+	}
+
+	input {
+		height: 52px;
+		margin-bottom: 10px;
+		font-size: 16px;
+		border-radius: 6px;
+
+		@include mQ($screen-xxs-max) {
+			height: 42px;
+			font-size: 14px;
+		}
+	}
+
+	p {
+		color: $gray-mid-mid-light;
+	}
+
+	.button-create {
+		margin-bottom: 10px;
+		padding: 16px 30px 16px 30px;
+		height: 52px;
+		font-size: 18px;
+		font-weight: 700;
+		border-radius: 6px;
+
+		@include mQ($screen-xxs-max) {
+			padding: 11px 30px 11px 30px;
+			height: 42px;
+			font-size: 16px;
+		}
+	}
+}

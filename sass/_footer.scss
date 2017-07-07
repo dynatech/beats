@@ -1,0 +1,45 @@
+footer {
+	padding: 2% 0;
+}
+
+#footer {
+	h4 {
+		margin-bottom: 20px;
+	}
+
+	.newsletter-email-input {
+		margin-bottom: 10px;
+		padding: 17px 16px 17px 16px;
+		height: 42px;
+		font-size: 16px;
+
+		@include mQ(1000px) {
+			padding: 10px 10px 10px 10px;
+			font-size: 12px;
+		}
+
+		@include mQ(768px) {
+			padding: 17px 16px 17px 16px;
+			font-size: 16px;
+		}
+	}
+
+	.newsletter-button {
+		margin-bottom: 10px;
+		padding: 10px 30px 10px 30px;
+		height: 42px;
+		font-size: 16px;
+		font-weight: 700;
+
+		@include mQ(1000px) {
+			padding: 10px 10px 10px 10px;
+			font-size: 12px;
+		}
+
+		@include mQ(768px) {
+			padding: 10px 30px 10px 30px;
+			font-size: 16px;
+		}
+	}
+}
+
