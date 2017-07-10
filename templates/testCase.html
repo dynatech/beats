@@ -15,7 +15,7 @@
 	        <div class="item">
 	            <div class="form-group">
 	                <label>Action:</label>
-	                <select class="form-control" ng-model="indiv_step.action">
+	                <select class="form-control" ng-model="indiv_step.action" ng-change="vm.selectedAction(indiv_step)">
 	                    <option>Choose action</option>
 	                    <option>Click</option>
 	                    <option>Write Text</option>
@@ -26,6 +26,28 @@
 	                    <option>Close Alert Box</option>
 	                </select>
 	            </div>
+	        </div>
+	        <div class="item" ng-show="indiv_step.locateElementByShow">
+	        	<div class="form-group">
+	        		<label>Locate Element By:</label>
+	                <select class="form-control" ng-model="indiv_step.locateElementBy" ng-change="vm.selectedLocator(indiv_step)">
+	                    <option>Choose locator</option>
+	                    <option>Id</option>
+	                    <option>Text Inside</option>
+	                    <option>Name</option>
+	                    <option>Class Name</option>
+	                    <option>XPath</option>
+	                    <option>CSS Selector</option>
+	                    <option>Link Text</option>
+	                    <option>Partial Link Text</option>
+	                </select>
+	        	</div>
+	        </div>
+	        <div class="item" ng-show="indiv_step.elementIdLabelShow">
+	        	<div class="form-group">
+	        		<label>{{indiv_step.locateElementBy}}:</label>
+	                <input type="text" class="form-control" ng-model="indiv_step.elementId">
+	        	</div>
 	        </div>
 	    </div>
 	    <div class="beats-action">

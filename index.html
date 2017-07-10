@@ -227,14 +227,37 @@
         $log.log("testCaseController: start");
         var vm = this;
         vm.case_steps = [
-            {name:'my first step', action:'Choose action', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''},
+            {name:'my first step', 
+            action:'Choose action', 
+            locateElementByShow:false, 
+            locateElementBy:'Choose locator', 
+            elementIdLabelShow:false,
+            elementId:'', 
+            op_special_label_1:'', 
+            op_special_value_1:'', 
+            op_special_label_2:'', 
+            op_special_value_2:'', 
+            op_special_label_1:'', 
+            op_special_value_3:''},
         ];
 
         vm.addStep = function() {
             $log.log("addStep: start");
             $log.log(vm.case_steps.length);
 
-            var step_blank = {name:'', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''};
+            var step_blank = 
+                {name:'', 
+                action:'Choose action', 
+                locateElementByShow:false, 
+                locateElementBy:'Choose locator', 
+                elementIdLabelShow:false,
+                elementId:'', 
+                op_special_label_1:'', 
+                op_special_value_1:'', 
+                op_special_label_2:'', 
+                op_special_value_2:'', 
+                op_special_label_3:'', 
+                op_special_value_3:''};
 
             vm.case_steps.push(step_blank);
             $log.log("addStep: end");
@@ -246,6 +269,47 @@
 
             vm.case_steps.splice(x, 1);
             $log.log("removeStep: end");
+        }
+
+        vm.selectedAction = function(param) {
+            $log.log("selectedAction: start");
+            $log.log(param);
+            
+            switch(param.action) {
+                case "Choose action":
+                case "Go to URL":
+                case "Add Assertion":
+                case "Import Test Case":
+                case "Close Alert Box":
+                    param.locateElementByShow = false;
+                    break;
+                default:
+                    param.locateElementByShow = true;
+                    param.locateElementBy = 'Choose locator';
+                    break;
+            }
+
+            //Reset showing the element id label
+            param.elementIdLabelShow = false;
+
+            $log.log(param);
+            $log.log("selectedAction: end");
+        }
+
+        vm.selectedLocator = function(param) {
+            $log.log("selectedLocator: start");
+            $log.log(param);
+
+            switch(param.locateElementBy) {
+                case "Choose locator":
+                    param.elementIdLabelShow = false;
+                    break;
+                default:
+                    param.elementIdLabelShow = true;
+                    break;
+            }
+
+            $log.log("selectedLocator: end");
         }
 
         vm.walaLang = function(param) {
