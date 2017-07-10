@@ -1,8 +1,45 @@
 <h4>Steps</h4>
-<!-- <div ng-repeat="step in vm.case_steps">
-	<case-step></case-step>
-</div> -->
-<case-step></case-step>
+<div ng-repeat="indiv_step in vm.case_steps">
+	<!-- <case-step ng-model="step"></case-step> -->
+	<div class="case-step">
+	    <div class="step">
+	        <div class="item">
+	            {{indiv_step.id}}.
+	        </div>
+	        <div class="item">
+	            <div class="form-group">
+	                <label>Step Name:</label>
+	                <input type="text" class="form-control">
+	            </div>
+	        </div>
+	        <div class="item">
+	            <div class="form-group">
+	                <label>Action:</label>
+	                <select class="form-control">
+	                    <option>Choose action</option>
+	                    <option>Click</option>
+	                    <option>Write Text</option>
+	                    <option>Go to URL</option>
+	                    <option>Select Option</option>
+	                    <option>Add Assertion</option>
+	                    <option>Import Test Case</option>
+	                    <option>Close Alert Box</option>
+	                </select>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="beats-action">
+	        <div class="item">
+	            <a href="#" ng-click="vm.walaLang(indiv_step)">Move</a>
+	        </div>
+	        <div class="item">
+	            <a href="#" ng-click="vm.removeStep($index)">Delete</a>
+	        </div>
+	    </div>
+	</div>
+	<hr>
+</div>
+<!-- <case-step></case-step> -->
 <div>
     <button class="btn btn-default" ng-click="vm.addStep()">Add step</button>
 </div>

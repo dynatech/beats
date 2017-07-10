@@ -32,7 +32,7 @@
 <body id="page-top" class="index">
 
 <!-- Start of Angular App -->
-<div ng-app="myApp">
+<div ng-app="beatsApp">
 
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -194,7 +194,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
     <script type="text/javascript">
-    angular.module("myApp", [])
+    angular.module("beatsApp", [])
         .component("testCase", testCase())
         .component("caseStep", caseStep());
 
@@ -224,15 +224,33 @@
     testCaseController.$inject = ['$log', '$scope'];
 
     function testCaseController ($log, $scope) {
+        $log.log("testCaseController: start");
         var vm = this;
         vm.case_steps = [
-            {id:3, name:'my first step', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''},
+            {id:1, name:'my first step', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''},
         ];
 
-        function addStep() {
+        vm.addStep = function() {
+            $log.log("addStep: start");
+
             var step_blank = {id:99, name:'', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''};
 
             vm.case_steps.push(step_blank);
+            $log.log("addStep: end");
+        }
+
+        vm.removeStep = function(x) {
+            $log.log("removeStep: start ");
+            $log.log(x);
+
+            vm.case_steps.splice(x, 1);
+            $log.log("removeStep: end");
+        }
+
+        vm.walaLang = function(param) {
+            $log.log("walaLang: start ");
+            $log.log(param);
+            $log.log("walaLang: end");
         }
     }
 

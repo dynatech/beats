@@ -6182,7 +6182,7 @@ footer {
 .case-step {
   display: flex;
   justify-content: space-between; }
-  .case-step .steps {
+  .case-step .step {
     display: flex;
     align-content: flex-start; }
   .case-step .beats-action {
