@@ -69,113 +69,6 @@
         <div class="container">
             <div class="row">
                 <h4><a href="#">Test Suite</a> > <a href="#">Test Case Name</a></h4>
-<!--                 <h4>Steps</h4>
-                <div class="case-step">
-                    <div class="steps">
-                        <div class="item">
-                            1.
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Step Name:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Action:</label>
-                                <select class="form-control">
-                                    <option>Choose action</option>
-                                    <option>Click</option>
-                                    <option>Write Text</option>
-                                    <option>Go to URL</option>
-                                    <option>Select Option</option>
-                                    <option>Add Assertion</option>
-                                    <option>Import Test Case</option>
-                                    <option>Close Alert Box</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Full URL:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="beats-action">
-                        <div class="item">
-                            <a href="#">Move</a>
-                        </div>
-                        <div class="item">
-                            <a href="#">Delete</a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="case-step">
-                    <div class="steps">
-                        <div class="item">
-                            2.
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Step Name:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Action:</label>
-                                <select class="form-control">
-                                    <option>Choose action</option>
-                                    <option>Click</option>
-                                    <option>Write Text</option>
-                                    <option>Go to URL</option>
-                                    <option>Select Option</option>
-                                    <option>Add Assertion</option>
-                                    <option>Import Test Case</option>
-                                    <option>Close Alert Box</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Locate Element By:</label>
-                                <select class="form-control">
-                                    <option>Choose locator</option>
-                                    <option>Id</option>
-                                    <option>Text Inside</option>
-                                    <option>Name</option>
-                                    <option>Class Name</option>
-                                    <option>XPath</option>
-                                    <option>CSS Selector</option>
-                                    <option>Link Text</option>
-                                    <option>Partial Link Text</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="form-group">
-                                <label>Input:</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="beats-action">
-                        <div class="item">
-                            <a href="#">Move</a>
-                        </div>
-                        <div class="item">
-                            <a href="#">Delete</a>
-                        </div>
-                    </div>
-                </div>
-                <hr> -->
-<!--                 <case-step></case-step>
-                <div>
-                    <button class="btn btn-default">Add step</button>
-                </div> -->
                 <test-case></test-case>
             </div>
         </div>
@@ -184,169 +77,169 @@
 </div>
 <!-- End of Angular app -->
 
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Plugin JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
-    <script type="text/javascript">
-    angular.module("beatsApp", [])
-        .component("testCase", testCase())
-        .component("caseStep", caseStep());
+<script type="text/javascript">
+angular.module("beatsApp", [])
+    .component("testCase", testCase())
+    .component("caseStep", caseStep());
 
-    function testCase() {
-        var component = {
-            transclude: true,
-            templateUrl: "templates/testCase.html",
-            controller: testCaseController,
-            controllerAs: 'vm'
-        }
-        return component;
+function testCase() {
+    var component = {
+        transclude: true,
+        templateUrl: "templates/testCase.html",
+        controller: testCaseController,
+        controllerAs: 'vm'
     }
+    return component;
+}
 
-    function caseStep() {
-        var component = {
-            transclude: true,
-            require: {
-                parent: '^testCase'
-            },
-            templateUrl: "templates/caseStep.html",
-            controller: caseStepController,
-            controllerAs: 'vm',
-        }
-        return component;
+function caseStep() {
+    var component = {
+        transclude: true,
+        require: {
+            parent: '^testCase'
+        },
+        templateUrl: "templates/caseStep.html",
+        controller: caseStepController,
+        controllerAs: 'vm',
     }
+    return component;
+}
 
-    testCaseController.$inject = ['$log', '$scope'];
+testCaseController.$inject = ['$log', '$scope'];
 
-    function testCaseController ($log, $scope) {
-        $log.log("testCaseController: start");
-        var vm = this;
-        vm.case_steps = [
-            {name:'my first step', 
+function testCaseController ($log, $scope) {
+    $log.log("testCaseController: start");
+    var vm = this;
+    vm.case_steps = [
+        {name:'my first step', 
+        action:'Choose action', 
+        locateElement:{},
+        element_id:{},
+        op_special_1:{},
+        op_special_2_show:false,
+        op_special_2_label:'', 
+        op_special_2_value:'', 
+        assert_options:{}},
+    ];
+
+    vm.addStep = function() {
+        $log.log("addStep: start");
+        $log.log(vm.case_steps.length);
+
+        var step_blank = 
+            {name:'', 
             action:'Choose action', 
-            locateElementByShow:false, 
-            locateElementBy:'Choose locator', 
-            elementIdLabelShow:false,
-            elementId:'', 
-            op_special_1_show:false,
-            op_special_1_label:'', 
-            op_special_1_value:'', 
+            locateElement:{},
+            element_id:{},
+            op_special_1:{},
             op_special_2_show:false,
             op_special_2_label:'', 
             op_special_2_value:'', 
-            op_special_3_show:false,
-            op_special_3_label:'', 
-            op_special_3_value:''},
-        ];
+            assert_options:{}};
 
-        vm.addStep = function() {
-            $log.log("addStep: start");
-            $log.log(vm.case_steps.length);
-
-            var step_blank = 
-                {name:'', 
-                action:'Choose action', 
-                locateElementByShow:false, 
-                locateElementBy:'Choose locator', 
-                elementIdLabelShow:false,
-                elementId:'', 
-                op_special_1_show:false,
-                op_special_1_label:'', 
-                op_special_1_value:'', 
-                op_special_2_show:false,
-                op_special_2_label:'', 
-                op_special_2_value:'', 
-                op_special_3_show:false,
-                op_special_3_label:'', 
-                op_special_3_value:''};
-
-            vm.case_steps.push(step_blank);
-            $log.log("addStep: end");
-        }
-
-        vm.removeStep = function(x) {
-            $log.log("removeStep: start ");
-            $log.log(x);
-
-            vm.case_steps.splice(x, 1);
-            $log.log("removeStep: end");
-        }
-
-        vm.selectedAction = function(param) {
-            $log.log("selectedAction: start");
-            $log.log(param);
-            
-            switch(param.action) {
-                case "Choose action":
-                case "Add Assertion":
-                case "Import Test Case":
-                case "Close Alert Box":
-                    param.locateElementByShow = false;
-                    break;
-                case "Go to URL":
-                    param.op_special_1_label = 'Full URL';
-                    param.op_special_1_show = true;
-                    break;
-                default:
-                    param.locateElementByShow = true;
-                    param.locateElementBy = 'Choose locator';
-                    break;
-            }
-
-            //Reset showing the element id label
-            param.elementIdLabelShow = false;
-
-            $log.log(param);
-            $log.log("selectedAction: end");
-        }
-
-        vm.selectedLocator = function(param) {
-            $log.log("selectedLocator: start");
-            $log.log(param);
-
-            switch(param.action) {
-                case "Write Text":
-                    param.op_special_1_label = "Text to write";
-                    param.op_special_1_show = true;
-                    break;
-                case "Select Option":
-                    param.op_special_1_label = "Option to pick";
-                    param.op_special_1_show = true;
-                default:
-                    break;
-            }
-
-            switch(param.locateElementBy) {
-                case "Choose locator":
-                    param.elementIdLabelShow = false;
-                    param.op_special_1_show = false;
-                    break;
-                default:
-                    param.elementIdLabelShow = true;
-                    break;
-            }
-
-            $log.log("selectedLocator: end");
-        }
-
-        vm.walaLang = function(param) {
-            $log.log("walaLang: start ");
-            $log.log(param);
-            $log.log("walaLang: end");
-        }
+        vm.case_steps.push(step_blank);
+        $log.log("addStep: end");
     }
 
-    caseStepController.$inject = ['$log', '$scope'];
+    vm.removeStep = function(x) {
+        $log.log("removeStep: start ");
+        $log.log(x);
 
-    function caseStepController ($log, $scope) {
-        var vm = this;
-        vm.id = '2';
+        vm.case_steps.splice(x, 1);
+        $log.log("removeStep: end");
     }
-    </script>
+
+    vm.selectedAction = function(param) {
+        $log.log("selectedAction: start");
+        $log.log(param);
+        
+        switch(param.action) {
+            case "Choose action":
+            case "Import Test Case":
+            case "Close Alert Box":
+                param.locateElement = {};
+                param.assert_options = {};
+                param.op_special_1 = {};
+                break;
+            case "Go to URL":
+                param.locateElement = {};
+                param.op_special_1.label = 'Full URL';
+                param.op_special_1.show = true;
+                param.assert_options = {};
+                break;
+            case "Add Assertion":
+                param.locateElement = {};
+                param.op_special_1 = {};
+                param.assert_options.show = true;
+                param.assert_options.type = 'Choose Type';
+                break;
+            default:
+                param.locateElement.show = true;
+                param.locateElement.by = 'Choose locator';
+                param.op_special_1 = {};
+                param.assert_options = {};
+                break;
+        }
+
+        //Reset showing the element id label
+        param.element_id.show = false;
+
+        $log.log(param);
+        $log.log("selectedAction: end");
+    }
+
+    vm.selectedLocator = function(param) {
+        $log.log("selectedLocator: start");
+        $log.log(param);
+
+        switch(param.action) {
+            case "Write Text":
+                param.op_special_1.label = "Text to write";
+                param.op_special_1.show = true;
+                break;
+            case "Select Option":
+                param.op_special_1.label = "Option to pick";
+                param.op_special_1.show = true;
+            default:
+                break;
+        }
+
+        switch(param.locateElement.by) {
+            case "Choose locator":
+                param.element_id.show = false;
+                param.op_special_1 = {};
+                break;
+            default:
+                param.element_id.show = true;
+                break;
+        }
+
+        $log.log("selectedLocator: end");
+    }
+
+    vm.walaLang = function(param) {
+        $log.log("walaLang: start ");
+        $log.log(param);
+        $log.log("walaLang: end");
+    }
+}
+
+caseStepController.$inject = ['$log', '$scope'];
+
+function caseStepController ($log, $scope) {
+    var vm = this;
+    vm.id = '2';
+}
+</script>
+
 </body>
 </html>
