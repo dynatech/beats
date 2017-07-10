@@ -283,11 +283,14 @@
             
             switch(param.action) {
                 case "Choose action":
-                case "Go to URL":
                 case "Add Assertion":
                 case "Import Test Case":
                 case "Close Alert Box":
                     param.locateElementByShow = false;
+                    break;
+                case "Go to URL":
+                    param.op_special_1_label = 'Full URL';
+                    param.op_special_1_show = true;
                     break;
                 default:
                     param.locateElementByShow = true;
