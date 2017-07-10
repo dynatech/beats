@@ -125,9 +125,7 @@ function testCaseController ($log, $scope) {
         locateElement:{},
         element_id:{},
         op_special_1:{},
-        op_special_2_show:false,
-        op_special_2_label:'', 
-        op_special_2_value:'', 
+        op_special_2:{},
         assert_options:{}},
     ];
 
@@ -141,26 +139,23 @@ function testCaseController ($log, $scope) {
             locateElement:{},
             element_id:{},
             op_special_1:{},
-            op_special_2_show:false,
-            op_special_2_label:'', 
-            op_special_2_value:'', 
+            op_special_2:{},
             assert_options:{}};
 
         vm.case_steps.push(step_blank);
         $log.log("addStep: end");
     }
 
-    vm.removeStep = function(x) {
+    vm.removeStep = function(index) {
         $log.log("removeStep: start ");
-        $log.log(x);
+        $log.log(index);
 
-        vm.case_steps.splice(x, 1);
+        vm.case_steps.splice(index, 1);
         $log.log("removeStep: end");
     }
 
     vm.selectedAction = function(param) {
         $log.log("selectedAction: start");
-        $log.log(param);
         
         switch(param.action) {
             case "Choose action":
@@ -169,16 +164,19 @@ function testCaseController ($log, $scope) {
                 param.locateElement = {};
                 param.assert_options = {};
                 param.op_special_1 = {};
+                param.op_special_2 = {};
                 break;
             case "Go to URL":
                 param.locateElement = {};
                 param.op_special_1.label = 'Full URL';
                 param.op_special_1.show = true;
+                param.op_special_2 = {};
                 param.assert_options = {};
                 break;
             case "Add Assertion":
                 param.locateElement = {};
                 param.op_special_1 = {};
+                param.op_special_2 = {};
                 param.assert_options.show = true;
                 param.assert_options.type = 'Choose Type';
                 break;
@@ -186,6 +184,7 @@ function testCaseController ($log, $scope) {
                 param.locateElement.show = true;
                 param.locateElement.by = 'Choose locator';
                 param.op_special_1 = {};
+                param.op_special_2 = {};
                 param.assert_options = {};
                 break;
         }
@@ -197,9 +196,50 @@ function testCaseController ($log, $scope) {
         $log.log("selectedAction: end");
     }
 
+    vm.selectedAssertion = function(param) {
+        $log.log("selectedAssertion: start");
+
+        switch(param.assert_options.type) {
+            case "Choose Type":
+                param.locateElement = {};
+                break;
+            case "Title Contains Value":
+                param.locateElement = {};
+                param.op_special_2 = {};
+                param.op_special_1.label = "Expected Title";
+                param.op_special_1.show = true;
+                break;
+            case "URL Contains Value":
+                param.locateElement = {};
+                param.op_special_1 = {};
+                param.op_special_2.label = 'Value to check for';
+                param.op_special_2.show = true;
+                break;
+            case "Element is Present":
+            case "Element is Not Present":
+                param.op_special_1 = {};
+                param.op_special_2 = {};
+                param.locateElement.show = true;
+                param.locateElement.by = 'Choose locator';
+                break;
+            default:
+                param.op_special_1 = {};
+                param.op_special_2.show = false;
+                param.op_special_2.label = 'Value to check for';
+                param.locateElement.show = true;
+                param.locateElement.by = 'Choose locator';
+                break;
+        }
+
+        //Reset showing the element id label
+        param.element_id.show = false;
+
+        $log.log(param);
+        $log.log("selectedAssertion: end");
+    }
+
     vm.selectedLocator = function(param) {
         $log.log("selectedLocator: start");
-        $log.log(param);
 
         switch(param.action) {
             case "Write Text":
@@ -220,16 +260,14 @@ function testCaseController ($log, $scope) {
                 break;
             default:
                 param.element_id.show = true;
+                if (param.op_special_2.label == 'Value to check for') {
+                    param.op_special_2.show = true;
+                }
+
                 break;
         }
 
         $log.log("selectedLocator: end");
-    }
-
-    vm.walaLang = function(param) {
-        $log.log("walaLang: start ");
-        $log.log(param);
-        $log.log("walaLang: end");
     }
 }
 

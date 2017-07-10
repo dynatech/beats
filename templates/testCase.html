@@ -71,11 +71,17 @@
 	                <input type="text" class="form-control" ng-model="indiv_step.op_special_1.value">
 	        	</div>
 	        </div>
+	        <div class="item" ng-show="indiv_step.op_special_2.show">
+	        	<div class="form-group">
+	        		<label>{{indiv_step.op_special_2.label}}:</label>
+	                <input type="text" class="form-control" ng-model="indiv_step.op_special_2.value">
+	        	</div>
+	        </div>
 	    </div>
 	    <div class="beats-action">
-	        <div class="item">
+<!-- 	        <div class="item">
 	            <a href="#" ng-click="vm.walaLang(indiv_step)">Move</a>
-	        </div>
+	        </div> -->
 	        <div class="item">
 	            <a href="#" ng-click="vm.removeStep($index)">Delete</a>
 	        </div>
@@ -83,7 +89,6 @@
 	</div>
 	<hr>
 </div>
-<!-- <case-step></case-step> -->
 <div>
     <button class="btn btn-default" ng-click="vm.addStep()">Add step</button>
 </div>
