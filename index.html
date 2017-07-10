@@ -233,12 +233,15 @@
             locateElementBy:'Choose locator', 
             elementIdLabelShow:false,
             elementId:'', 
-            op_special_label_1:'', 
-            op_special_value_1:'', 
-            op_special_label_2:'', 
-            op_special_value_2:'', 
-            op_special_label_1:'', 
-            op_special_value_3:''},
+            op_special_1_show:false,
+            op_special_1_label:'', 
+            op_special_1_value:'', 
+            op_special_2_show:false,
+            op_special_2_label:'', 
+            op_special_2_value:'', 
+            op_special_3_show:false,
+            op_special_3_label:'', 
+            op_special_3_value:''},
         ];
 
         vm.addStep = function() {
@@ -252,12 +255,15 @@
                 locateElementBy:'Choose locator', 
                 elementIdLabelShow:false,
                 elementId:'', 
-                op_special_label_1:'', 
-                op_special_value_1:'', 
-                op_special_label_2:'', 
-                op_special_value_2:'', 
-                op_special_label_3:'', 
-                op_special_value_3:''};
+                op_special_1_show:false,
+                op_special_1_label:'', 
+                op_special_1_value:'', 
+                op_special_2_show:false,
+                op_special_2_label:'', 
+                op_special_2_value:'', 
+                op_special_3_show:false,
+                op_special_3_label:'', 
+                op_special_3_value:''};
 
             vm.case_steps.push(step_blank);
             $log.log("addStep: end");
@@ -306,6 +312,15 @@
                     break;
                 default:
                     param.elementIdLabelShow = true;
+                    break;
+            }
+
+            switch(param.action) {
+                case "Write Text":
+                    param.op_special_1_label = "Text to write";
+                    param.op_special_1_show = true;
+                    break;
+                default:
                     break;
             }
 
