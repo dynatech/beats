@@ -227,13 +227,14 @@
         $log.log("testCaseController: start");
         var vm = this;
         vm.case_steps = [
-            {id:1, name:'my first step', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''},
+            {name:'my first step', action:'Choose action', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''},
         ];
 
         vm.addStep = function() {
             $log.log("addStep: start");
+            $log.log(vm.case_steps.length);
 
-            var step_blank = {id:99, name:'', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''};
+            var step_blank = {name:'', action:'', locateElementBy:'', elementId:'', op_special_type:'', op_special_val:''};
 
             vm.case_steps.push(step_blank);
             $log.log("addStep: end");

@@ -4,18 +4,18 @@
 	<div class="case-step">
 	    <div class="step">
 	        <div class="item">
-	            {{indiv_step.id}}.
+	            {{$index + 1}}.
 	        </div>
 	        <div class="item">
 	            <div class="form-group">
 	                <label>Step Name:</label>
-	                <input type="text" class="form-control">
+	                <input type="text" class="form-control" ng-model="indiv_step.name">
 	            </div>
 	        </div>
 	        <div class="item">
 	            <div class="form-group">
 	                <label>Action:</label>
-	                <select class="form-control">
+	                <select class="form-control" ng-model="indiv_step.action">
 	                    <option>Choose action</option>
 	                    <option>Click</option>
 	                    <option>Write Text</option>
