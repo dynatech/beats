@@ -131,7 +131,6 @@ function testCaseController ($log, $scope) {
 
     vm.addStep = function() {
         $log.log("addStep: start");
-        $log.log(vm.case_steps.length);
 
         var step_blank = 
             {name:'', 
@@ -143,6 +142,7 @@ function testCaseController ($log, $scope) {
             assert_options:{}};
 
         vm.case_steps.push(step_blank);
+        $log.log(vm.case_steps);
         $log.log("addStep: end");
     }
 
