@@ -119,15 +119,105 @@ testCaseController.$inject = ['$log', '$scope'];
 function testCaseController ($log, $scope) {
     $log.log("testCaseController: start");
     var vm = this;
+    // vm.case_steps = [
+    //     {name:'my first step', 
+    //     action:'Choose action', 
+    //     locateElement:{},
+    //     element_id:{},
+    //     op_special_1:{},
+    //     op_special_2:{},
+    //     assert_options:{}},
+    // ];
+
     vm.case_steps = [
-        {name:'my first step', 
-        action:'Choose action', 
-        locateElement:{},
-        element_id:{},
-        op_special_1:{},
-        op_special_2:{},
-        assert_options:{}},
+        {
+            name:'Go to DEWSL-L', 
+            action:'Go to URL', 
+            locateElement:{},
+            element_id:{},
+            op_special_1:{
+                label:'Full URL',
+                show:true,
+                value:'http://www.dewslandslide.com'
+            },
+            op_special_2:{},
+            assert_options:{}
+        },
+        {
+            name:'Add Username', 
+            action:'Write Text', 
+            locateElement:{
+                by:'Name',
+                show:true
+            },
+            element_id:{
+                show:true,
+                value:'username'
+            },
+            op_special_1:{
+                label:'Text to write',
+                show:true,
+                value:'prado'
+            },
+            op_special_2:{},
+            assert_options:{}
+        },
+        {
+            name:'Add Password', 
+            action:'Write Text', 
+            locateElement:{
+                by:'Name',
+                show:true
+            },
+            element_id:{
+                show:true,
+                value:'password'
+            },
+            op_special_1:{
+                label:'Text to write',
+                show:true,
+                value:'senslope'
+            },
+            op_special_2:{},
+            assert_options:{}
+        },
+        {
+            name:'Click login button', 
+            action:'Click', 
+            locateElement:{
+                by:'Name',
+                show:true
+            },
+            element_id:{
+                show:true,
+                value:'submit'
+            },
+            op_special_1:{},
+            op_special_2:{},
+            assert_options:{}
+        },
+        {
+            name:'Check if user was able to log in', 
+            action:'Add Assertion', 
+            locateElement:{},
+            element_id:{},
+            op_special_1:{
+                label:'Expected Title',
+                show:true,
+                value:'DEWS-L Monitoring Dashboard'
+            },
+            op_special_2:{},
+            assert_options:{
+                show:true,
+                type:'Title Contains Value',
+                delay:1000
+            }
+        },
     ];
+
+    vm.showData = function() {
+        $log.log("showData: ", vm.case_steps);
+    }
 
     vm.addStep = function() {
         $log.log("addStep: start");
@@ -198,22 +288,26 @@ function testCaseController ($log, $scope) {
 
     vm.selectedAssertion = function(param) {
         $log.log("selectedAssertion: start");
+        var delay_dft = 100;
 
         switch(param.assert_options.type) {
             case "Choose Type":
                 param.locateElement = {};
+                param.assert_options.delay = null;
                 break;
             case "Title Contains Value":
                 param.locateElement = {};
                 param.op_special_2 = {};
                 param.op_special_1.label = "Expected Title";
                 param.op_special_1.show = true;
+                param.assert_options.delay = delay_dft;
                 break;
             case "URL Contains Value":
                 param.locateElement = {};
                 param.op_special_1 = {};
                 param.op_special_2.label = 'Value to check for';
                 param.op_special_2.show = true;
+                param.assert_options.delay = delay_dft;
                 break;
             case "Element is Present":
             case "Element is Not Present":
@@ -221,6 +315,7 @@ function testCaseController ($log, $scope) {
                 param.op_special_2 = {};
                 param.locateElement.show = true;
                 param.locateElement.by = 'Choose locator';
+                param.assert_options.delay = delay_dft;
                 break;
             default:
                 param.op_special_1 = {};
@@ -228,6 +323,7 @@ function testCaseController ($log, $scope) {
                 param.op_special_2.label = 'Value to check for';
                 param.locateElement.show = true;
                 param.locateElement.by = 'Choose locator';
+                param.assert_options.delay = delay_dft;
                 break;
         }
 

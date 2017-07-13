@@ -1,6 +1,5 @@
-<h4>Steps</h4>
+<h4>Steps <small>(<a href="#" ng-click="vm.showData()">Download script</a>)</small></h4>
 <div ng-repeat="indiv_step in vm.case_steps">
-	<!-- <case-step ng-model="step"></case-step> -->
 	<div class="case-step">
 	    <div class="step">
 	        <div class="item">
@@ -22,10 +21,15 @@
 	                    <option>Go to URL</option>
 	                    <option>Select Option</option>
 	                    <option>Add Assertion</option>
-	                    <option>Import Test Case</option>
 	                    <option>Close Alert Box</option>
 	                </select>
 	            </div>
+	        </div>
+	        <div class="item-smaller" ng-show="indiv_step.assert_options.delay">
+	        	<div class="form-group">
+	        		<label>Wait/Delay (ms):</label>
+	                <input type="text" class="form-control" ng-model="indiv_step.assert_options.delay">
+	        	</div>
 	        </div>
 	        <div class="item" ng-show="indiv_step.assert_options.show">
 	        	<div class="form-group">
@@ -59,19 +63,19 @@
 	                </select>
 	        	</div>
 	        </div>
-	        <div class="item" ng-show="indiv_step.element_id.show">
+	        <div class="item-smaller" ng-show="indiv_step.element_id.show">
 	        	<div class="form-group">
 	        		<label>{{indiv_step.locateElement.by}}:</label>
 	                <input type="text" class="form-control" ng-model="indiv_step.element_id.value">
 	        	</div>
 	        </div>
-	        <div class="item" ng-show="indiv_step.op_special_1.show">
+	        <div class="item-smaller" ng-show="indiv_step.op_special_1.show">
 	        	<div class="form-group">
 	        		<label>{{indiv_step.op_special_1.label}}:</label>
 	                <input type="text" class="form-control" ng-model="indiv_step.op_special_1.value">
 	        	</div>
 	        </div>
-	        <div class="item" ng-show="indiv_step.op_special_2.show">
+	        <div class="item-smaller" ng-show="indiv_step.op_special_2.show">
 	        	<div class="form-group">
 	        		<label>{{indiv_step.op_special_2.label}}:</label>
 	                <input type="text" class="form-control" ng-model="indiv_step.op_special_2.value">
@@ -79,9 +83,6 @@
 	        </div>
 	    </div>
 	    <div class="beats-action">
-<!-- 	        <div class="item">
-	            <a href="#" ng-click="vm.walaLang(indiv_step)">Move</a>
-	        </div> -->
 	        <div class="item">
 	            <a href="#" ng-click="vm.removeStep($index)">Delete</a>
 	        </div>
