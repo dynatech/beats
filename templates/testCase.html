@@ -1,4 +1,4 @@
-<h4>Steps <small>(<a href="#" ng-click="vm.showData()">Download script</a>)</small></h4>
+<h4>Steps <small>(<a href="#" ng-click="vm.showData()">Show Data</a>)</small></h4>
 <div ng-repeat="indiv_step in vm.case_steps">
 	<div class="case-step">
 	    <div class="step">
@@ -90,6 +90,7 @@
 	</div>
 	<hr>
 </div>
-<div>
+<div class="test-case-bottom-buttons">
     <button class="btn btn-default" ng-click="vm.addStep()">Add step</button>
+    <button class="btn btn-warning" ng-click="vm.downloadTestCase()">Download Test Script</button>
 </div>

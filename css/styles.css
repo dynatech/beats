@@ -6203,6 +6203,10 @@ footer {
     .case-step .item-smaller label {
       font-weight: normal; }
 
+.test-case-bottom-buttons {
+  display: flex;
+  justify-content: space-between; }
+
 hr {
   margin: 5px 0; }
 

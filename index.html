@@ -56,9 +56,6 @@
                     <li class="page-scroll">
                         <a href="#" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">LOG IN</a>
                     </li>
-                    <li class="page-scroll">
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#signupSchoolModal" data-backdrop="static" data-keyboard="false">Get Started</button>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -281,6 +278,101 @@ function testCaseController ($log, $scope, $http) {
         }
 
         $log.log("selectedLocator: end");
+    }
+
+    vm.downloadTestCase = function() {
+        $log.log("downloadTestCase: start");
+
+        var base_script = [
+            "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
+            "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
+            "var assert = require('selenium-webdriver/testing/assert'); \n",
+            "var log4js = require('log4js'); \n",
+            "log4js.loadAppender('file'); \n",
+            "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n",
+            "var logger = log4js.getLogger('sampleTestCase'); \n",
+        ].join("");
+
+        
+        angular.forEach(vm.case_steps, function(data) {
+            //$log.log(data.action);
+            var SeAction = generateSeAction(data);
+            if (SeAction) {
+                base_script = base_script + SeAction;
+            }
+        })
+
+        $log.log(base_script);
+        $log.log("downloadTestCase: end");
+    }
+
+    //Generate Selenium Action Test line
+    function generateSeAction(param) {
+        var actionSe = null;
+        switch(param.action) {
+            case "Go to URL":
+                actionSe = actionGoToURL(param);
+                break;
+            case "Write Text":
+                actionSe = actionWriteText(param);
+                break;
+            default:
+                $log.log("To do test script for ", param.action);
+                break;
+        }
+
+        return actionSe;
+    }
+
+    function actionGoToURL(param) {
+        var stepName = param.name;
+        var targetURL = param.op_special_1.value;
+        var actionSe = [
+            "driver.get('", targetURL,"') \n",
+            "   .then(function() {logger.info('Done: ", stepName,"');}); \n"
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionWriteText(param) {
+        var stepName = param.name;
+        var locateElementBy;
+
+        switch(param.locateElement.by) {
+            case "Id":
+                locateElementBy = 'id';
+                break;
+            case "Name":
+                locateElementBy = 'name';
+                break;
+            case "Class Name":
+                locateElementBy = 'className';
+                break;
+            case "XPath":
+                locateElementBy = 'xpath';
+                break;
+            case "CSS Selector":
+                locateElementBy = 'css';
+                break;
+            case "Link Text":
+                locateElementBy = 'linkText';
+                break;
+            case "Partial Link Text":
+                locateElementBy = 'partialLinkText';
+                break;
+            case "Text Inside":
+            default:
+                break;
+        }
+
+        var actionSe = [
+            "driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys('", param.op_special_1.value, "'); \n"
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
     }
 }
 
