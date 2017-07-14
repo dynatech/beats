@@ -111,9 +111,9 @@ function caseStep() {
     return component;
 }
 
-testCaseController.$inject = ['$log', '$scope', '$http'];
+testCaseController.$inject = ['$log', '$scope', '$http', '$window'];
 
-function testCaseController ($log, $scope, $http) {
+function testCaseController ($log, $scope, $http, $window) {
     $log.log("testCaseController: start");
     var vm = this;
     vm.case_steps = null;
@@ -304,6 +304,17 @@ function testCaseController ($log, $scope, $http) {
 
         $log.log(base_script);
         $log.log("downloadTestCase: end");
+
+        var blob = new Blob([base_script], { type: 'text/javascript' }),
+            url = $window.URL || $window.webkitURL,
+            fileUrl = url.createObjectURL(blob);
+
+        var hiddenElement = document.createElement('a');
+
+        hiddenElement.href = fileUrl;
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'seleniumScript.js';
+        hiddenElement.click();
     }
 
     //Generate Selenium Action Test line
