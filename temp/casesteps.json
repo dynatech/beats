@@ -1,0 +1,22 @@
+{
+  "records": [
+    {
+      "Name": "Alfreds Futterkiste",
+      "City": "Berlin",
+      "Country": "Germany"
+    },
+    {
+      "name":"Go to DEWSL-L", 
+      "action":"Go to URL", 
+      "locateElement":{},
+      "element_id":{},
+      "op_special_1":{
+          "label":"Full URL",
+          "show":true,
+          "value":"http://www.dewslandslide.com"
+      },
+      "op_special_2":{},
+      "assert_options":{}
+    }
+  ]
+}

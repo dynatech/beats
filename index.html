@@ -114,11 +114,12 @@ function caseStep() {
     return component;
 }
 
-testCaseController.$inject = ['$log', '$scope'];
+testCaseController.$inject = ['$log', '$scope', '$http'];
 
-function testCaseController ($log, $scope) {
+function testCaseController ($log, $scope, $http) {
     $log.log("testCaseController: start");
     var vm = this;
+    vm.case_steps = null;
     // vm.case_steps = [
     //     {name:'my first step', 
     //     action:'Choose action', 
@@ -129,91 +130,113 @@ function testCaseController ($log, $scope) {
     //     assert_options:{}},
     // ];
 
-    vm.case_steps = [
-        {
-            name:'Go to DEWSL-L', 
-            action:'Go to URL', 
-            locateElement:{},
-            element_id:{},
-            op_special_1:{
-                label:'Full URL',
-                show:true,
-                value:'http://www.dewslandslide.com'
-            },
-            op_special_2:{},
-            assert_options:{}
-        },
-        {
-            name:'Add Username', 
-            action:'Write Text', 
-            locateElement:{
-                by:'Name',
-                show:true
-            },
-            element_id:{
-                show:true,
-                value:'username'
-            },
-            op_special_1:{
-                label:'Text to write',
-                show:true,
-                value:'prado'
-            },
-            op_special_2:{},
-            assert_options:{}
-        },
-        {
-            name:'Add Password', 
-            action:'Write Text', 
-            locateElement:{
-                by:'Name',
-                show:true
-            },
-            element_id:{
-                show:true,
-                value:'password'
-            },
-            op_special_1:{
-                label:'Text to write',
-                show:true,
-                value:'senslope'
-            },
-            op_special_2:{},
-            assert_options:{}
-        },
-        {
-            name:'Click login button', 
-            action:'Click', 
-            locateElement:{
-                by:'Name',
-                show:true
-            },
-            element_id:{
-                show:true,
-                value:'submit'
-            },
-            op_special_1:{},
-            op_special_2:{},
-            assert_options:{}
-        },
-        {
-            name:'Check if user was able to log in', 
-            action:'Add Assertion', 
-            locateElement:{},
-            element_id:{},
-            op_special_1:{
-                label:'Expected Title',
-                show:true,
-                value:'DEWS-L Monitoring Dashboard'
-            },
-            op_special_2:{},
-            assert_options:{
-                show:true,
-                type:'Title Contains Value',
-                delay:1000
-            }
-        },
-    ];
+    // vm.case_steps = [
+    //     {
+    //         name:'Go to DEWSL-L', 
+    //         action:'Go to URL', 
+    //         locateElement:{},
+    //         element_id:{},
+    //         op_special_1:{
+    //             label:'Full URL',
+    //             show:true,
+    //             value:'http://www.dewslandslide.com'
+    //         },
+    //         op_special_2:{},
+    //         assert_options:{}
+    //     },
+    //     {
+    //         name:'Add Username', 
+    //         action:'Write Text', 
+    //         locateElement:{
+    //             by:'Name',
+    //             show:true
+    //         },
+    //         element_id:{
+    //             show:true,
+    //             value:'username'
+    //         },
+    //         op_special_1:{
+    //             label:'Text to write',
+    //             show:true,
+    //             value:'prado'
+    //         },
+    //         op_special_2:{},
+    //         assert_options:{}
+    //     },
+    //     {
+    //         name:'Add Password', 
+    //         action:'Write Text', 
+    //         locateElement:{
+    //             by:'Name',
+    //             show:true
+    //         },
+    //         element_id:{
+    //             show:true,
+    //             value:'password'
+    //         },
+    //         op_special_1:{
+    //             label:'Text to write',
+    //             show:true,
+    //             value:'senslope'
+    //         },
+    //         op_special_2:{},
+    //         assert_options:{}
+    //     },
+    //     {
+    //         name:'Click login button', 
+    //         action:'Click', 
+    //         locateElement:{
+    //             by:'Name',
+    //             show:true
+    //         },
+    //         element_id:{
+    //             show:true,
+    //             value:'submit'
+    //         },
+    //         op_special_1:{},
+    //         op_special_2:{},
+    //         assert_options:{}
+    //     },
+    //     {
+    //         name:'Check if user was able to log in', 
+    //         action:'Add Assertion', 
+    //         locateElement:{},
+    //         element_id:{},
+    //         op_special_1:{
+    //             label:'Expected Title',
+    //             show:true,
+    //             value:'DEWS-L Monitoring Dashboard'
+    //         },
+    //         op_special_2:{},
+    //         assert_options:{
+    //             show:true,
+    //             type:'Title Contains Value',
+    //             delay:1000
+    //         }
+    //     },
+    // ];
+
+    // $http.get('case_steps.json')
+    //     .then(function(response) {
+    //         vm.case_steps = response.data.case_steps;
+    //         $log.log('successfully loaded file');
+    //     })
+    //     .catch(function(response) {
+    //         $log.error('JSON was not loaded');
+    //     })
+    //     .finally(function() {
+    //         $log.log('finally... but I have no idea what to write here');
+    //     });
+
+    $http.get("temp/casesteps.json").then(function (response) {
+      vm.myData = response.data.records;
+      $log.log('successfully loaded file ', vm.myData);
+    });
+
+    // $http.get("customers.json").then(function (response) {
+    //   vm.myData = response.data.records;
+    //   $log.log('successfully loaded file ', vm.myData);
+    // });
 
     vm.showData = function() {
         $log.log("showData: ", vm.case_steps);
