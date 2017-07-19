@@ -80,9 +80,6 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<!-- Plugin JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-
 <script type="text/javascript">
 angular.module("beatsApp", [])
     .component("testCase", testCase())
@@ -327,6 +324,9 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Write Text":
                 actionSe = actionWriteText(param);
                 break;
+            case "Click":
+                actionSe = actionClick(param);
+                break;
             default:
                 $log.log("To do test script for ", param.action);
                 break;
@@ -335,20 +335,7 @@ function testCaseController ($log, $scope, $http, $window) {
         return actionSe;
     }
 
-    function actionGoToURL(param) {
-        var stepName = param.name;
-        var targetURL = param.op_special_1.value;
-        var actionSe = [
-            "driver.get('", targetURL,"') \n",
-            "   .then(function() {logger.info('Done: ", stepName,"');}); \n"
-        ].join("");
-
-        $log.log(actionSe);
-        return actionSe;
-    }
-
-    function actionWriteText(param) {
-        var stepName = param.name;
+    function getElementLocator(param) {
         var locateElementBy;
 
         switch(param.locateElement.by) {
@@ -378,8 +365,39 @@ function testCaseController ($log, $scope, $http, $window) {
                 break;
         }
 
+        return locateElementBy;
+    }
+
+    function actionGoToURL(param) {
+        var stepName = param.name;
+        var targetURL = param.op_special_1.value;
+        var actionSe = [
+            "driver.get('", targetURL,"') \n",
+            "   .then(function() {logger.info('Done: ", stepName,"');}); \n"
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionWriteText(param) {
+        var stepName = param.name;
+        var locateElementBy = getElementLocator(param);
+
         var actionSe = [
             "driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys('", param.op_special_1.value, "'); \n"
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionClick(param) {
+        var stepName = param.name;
+        var locateElementBy = getElementLocator(param);
+
+        var actionSe = [
+            "driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).click(); \n"
         ].join("");
 
         $log.log(actionSe);
