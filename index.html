@@ -289,7 +289,6 @@ function testCaseController ($log, $scope, $http, $window) {
             "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n",
             "var logger = log4js.getLogger('sampleTestCase'); \n",
         ].join("");
-
         
         angular.forEach(vm.case_steps, function(data) {
             //$log.log(data.action);
@@ -326,6 +325,9 @@ function testCaseController ($log, $scope, $http, $window) {
                 break;
             case "Click":
                 actionSe = actionClick(param);
+                break;
+            case "Add Assertion":
+                actionSe = actionAssert(param);
                 break;
             default:
                 $log.log("To do test script for ", param.action);
@@ -403,6 +405,65 @@ function testCaseController ($log, $scope, $http, $window) {
         $log.log(actionSe);
         return actionSe;
     }
+
+    function actionAssert(param) {
+        var stepName = param.name;
+        
+        // TODO: Determine assertion type to generate Selenium Action
+        var actionSe = getAssertionType(param);
+
+        return actionSe;
+    }
+
+    function getAssertionType(param) {
+        var assertType = param.assert_options.type;
+        var actionSe;
+
+        switch(assertType) {
+            case "Title Contains Value":
+                actionSe = actionAssertTitleContainsValue(param);
+                break;
+            case "Element is Present":
+            case "Element is Not Present":
+            case "Matches Value":
+            case "Does Not Match Value":
+            case "Contains Value":
+            case "Does Not Contain Value":
+            case "URL Contains Value":
+            default:
+                break;
+        }
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionAssertTitleContainsValue (param) {
+        var assertType = param.assert_options.type;
+        var delay = param.assert_options.delay;
+        var targetTitle = param.op_special_1.value;
+        var assertCmd = "equals";
+
+        var actionSe = [
+            "var targetTitle = '", targetTitle, "'; \n",
+            "var assertType = '", assertType, "'; \n",
+            "driver.wait(until.titleIs(targetTitle), ", delay, ") \n",
+            "   .then(function() { \n",
+            "       driver.getTitle().then(function(title) { \n",
+            "            logger.info('Assert Type: ', assertType); \n",
+            "            logger.info('Title: ', title); \n",
+            "            logger.info('Target Title: ', targetTitle); \n",
+            "            assert(title).", assertCmd, "(targetTitle); \n",
+            "        }); \n",
+            "    }) \n",
+            "    .catch(function() { \n",
+            "        logger.error('Failed...'); \n",
+            "    });"
+        ].join("");
+
+        return actionSe;
+    }
+
 }
 
 caseStepController.$inject = ['$log', '$scope'];
