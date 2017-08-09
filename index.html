@@ -115,7 +115,7 @@ function testCaseController ($log, $scope, $http, $window) {
     var vm = this;
     vm.case_steps = null;
 
-    $http.get('temp/casesteps.json')
+    $http.get('temp/casesteps2.json')
         .then(function(response) {
             vm.case_steps = response.data.case_steps;
             $log.log('successfully loaded file');
@@ -442,12 +442,12 @@ function testCaseController ($log, $scope, $http, $window) {
         var assertType = param.assert_options.type;
         var delay = param.assert_options.delay;
         var targetTitle = param.op_special_1.value;
-        var assertCmd = "equals";
+        var assertCmd = "contains";
 
         var actionSe = [
             "var targetTitle = '", targetTitle, "'; \n",
             "var assertType = '", assertType, "'; \n",
-            "driver.wait(until.titleIs(targetTitle), ", delay, ") \n",
+            "driver.wait(until.titleContains(targetTitle), ", delay, ") \n",
             "   .then(function() { \n",
             "       driver.getTitle().then(function(title) { \n",
             "            logger.info('Assert Type: ', assertType); \n",
