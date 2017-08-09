@@ -285,37 +285,61 @@ function testCaseController ($log, $scope, $http, $window) {
             "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
             "var assert = require('selenium-webdriver/testing/assert'); \n",
             "var log4js = require('log4js'); \n",
+            "var actions = require('selenium-webdriver/lib/actions'); \n\n",
             "log4js.loadAppender('file'); \n",
-            "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n",
+            "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
             "var logger = log4js.getLogger('sampleTestCase'); \n",
+            "var globalDelay = 2000; \n\n",
         ].join("");
         
+        var footer_script = [
+            ".then( function() {logger.info('Test Case Passed!');}) \n",
+            ".catch( function() {logger.error('Test Case Failed...');}) \n"
+        ].join("");
+
+        var isFirst = true;
         angular.forEach(vm.case_steps, function(data) {
             //$log.log(data.action);
             var SeAction = generateSeAction(data);
             if (SeAction) {
-                base_script = base_script + SeAction;
+                if(isFirst) {
+                    base_script = base_script + SeAction;
+                    isFirst = !isFirst;
+                }
+                else {
+                    var wrappedAction = [
+                        ".then( function() { \n",
+                        SeAction,
+                        "}) \n"
+                    ].join("");
+
+                    base_script = base_script + wrappedAction;
+                }
             }
         })
+
+        base_script = base_script + footer_script;
 
         $log.log(base_script);
         $log.log("downloadTestCase: end");
 
-        var blob = new Blob([base_script], { type: 'text/javascript' }),
-            url = $window.URL || $window.webkitURL,
-            fileUrl = url.createObjectURL(blob);
+        // var blob = new Blob([base_script], { type: 'text/javascript' }),
+        //     url = $window.URL || $window.webkitURL,
+        //     fileUrl = url.createObjectURL(blob);
 
-        var hiddenElement = document.createElement('a');
+        // var hiddenElement = document.createElement('a');
 
-        hiddenElement.href = fileUrl;
-        hiddenElement.target = '_blank';
-        hiddenElement.download = 'seleniumScript.js';
-        hiddenElement.click();
+        // hiddenElement.href = fileUrl;
+        // hiddenElement.target = '_blank';
+        // hiddenElement.download = 'seleniumScript.js';
+        // hiddenElement.click();
     }
 
     //Generate Selenium Action Test line
     function generateSeAction(param) {
         var actionSe = null;
+        var stepName = param.name;
+
         switch(param.action) {
             case "Go to URL":
                 actionSe = actionGoToURL(param);
@@ -333,6 +357,8 @@ function testCaseController ($log, $scope, $http, $window) {
                 $log.log("To do test script for ", param.action);
                 break;
         }
+        var loggerInfo = " logger.info('" + stepName + "') \n";
+        actionSe = loggerInfo + actionSe;
 
         return actionSe;
     }
@@ -374,8 +400,7 @@ function testCaseController ($log, $scope, $http, $window) {
         var stepName = param.name;
         var targetURL = param.op_special_1.value;
         var actionSe = [
-            "driver.get('", targetURL,"') \n",
-            "   .then(function() {logger.info('Done: ", stepName,"');}); \n"
+            " driver.get('", targetURL,"') \n"
         ].join("");
 
         $log.log(actionSe);
@@ -387,7 +412,10 @@ function testCaseController ($log, $scope, $http, $window) {
         var locateElementBy = getElementLocator(param);
 
         var actionSe = [
-            "driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys('", param.op_special_1.value, "'); \n"
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys('", param.op_special_1.value, "'); \n",
+            " }) \n"
         ].join("");
 
         $log.log(actionSe);
@@ -395,11 +423,13 @@ function testCaseController ($log, $scope, $http, $window) {
     }
 
     function actionClick(param) {
-        var stepName = param.name;
         var locateElementBy = getElementLocator(param);
 
         var actionSe = [
-            "driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).click(); \n"
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).click();  \n",
+            " }) \n",
         ].join("");
 
         $log.log(actionSe);
@@ -423,13 +453,15 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Title Contains Value":
                 actionSe = actionAssertTitleContainsValue(param);
                 break;
+            case "URL Contains Value":
+                actionSe = actionAssertURLContainsValue(param);
+                break;
             case "Element is Present":
             case "Element is Not Present":
             case "Matches Value":
             case "Does Not Match Value":
             case "Contains Value":
             case "Does Not Contain Value":
-            case "URL Contains Value":
             default:
                 break;
         }
@@ -439,26 +471,40 @@ function testCaseController ($log, $scope, $http, $window) {
     }
 
     function actionAssertTitleContainsValue (param) {
+        var targetTitle = param.op_special_1.value;
+
+        var actionSe = [
+            " var targetTitle = '", targetTitle, "'; \n",
+            " driver.getTitle() \n",
+            " .then(function(title) { \n",
+            "   assert(title).contains(targetTitle, 'Assert Failed'); \n",
+            " }); \n",
+        ].join("");
+
+        return actionSe;
+    }
+
+    function actionAssertURLContainsValue (param) {
         var assertType = param.assert_options.type;
         var delay = param.assert_options.delay;
-        var targetTitle = param.op_special_1.value;
+        var targetURL = param.op_special_1.value;
         var assertCmd = "contains";
 
         var actionSe = [
-            "var targetTitle = '", targetTitle, "'; \n",
+            "var targetURL = '", targetURL, "'; \n",
             "var assertType = '", assertType, "'; \n",
-            "driver.wait(until.titleContains(targetTitle), ", delay, ") \n",
+            "driver.wait(until.urlContains(targetURL), ", delay, ") \n",
             "   .then(function() { \n",
-            "       driver.getTitle().then(function(title) { \n",
+            "       driver.getCurrentUrl().then(function(url) { \n",
             "            logger.info('Assert Type: ', assertType); \n",
-            "            logger.info('Title: ', title); \n",
-            "            logger.info('Target Title: ', targetTitle); \n",
-            "            assert(title).", assertCmd, "(targetTitle); \n",
+            "            logger.info('URL: ', url); \n",
+            "            logger.info('Target URL: ', targetURL); \n",
+            "            assert(url).", assertCmd, "(targetURL); \n",
             "        }); \n",
             "    }) \n",
             "    .catch(function() { \n",
             "        logger.error('Failed...'); \n",
-            "    });"
+            "    }); \n"
         ].join("");
 
         return actionSe;
