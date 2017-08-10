@@ -350,6 +350,9 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Click":
                 actionSe = actionClick(param);
                 break;
+            case "Hover":
+                actionSe = actionHover(param);
+                break;
             case "Add Assertion":
                 actionSe = actionAssert(param);
                 break;
@@ -436,6 +439,23 @@ function testCaseController ($log, $scope, $http, $window) {
         return actionSe;
     }
 
+    function actionHover(param) {
+        var locateElementBy = getElementLocator(param);
+        var elemValue = param.element_id.value;
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", elemValue, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.actions() \n",
+            "     .mouseMove(driver.findElement(By.", locateElementBy, "('", elemValue, "'))) \n",
+            "     .perform();  \n",
+            " }) \n",
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
     function actionAssert(param) {
         var stepName = param.name;
         
@@ -485,26 +505,14 @@ function testCaseController ($log, $scope, $http, $window) {
     }
 
     function actionAssertURLContainsValue (param) {
-        var assertType = param.assert_options.type;
-        var delay = param.assert_options.delay;
         var targetURL = param.op_special_1.value;
-        var assertCmd = "contains";
 
         var actionSe = [
-            "var targetURL = '", targetURL, "'; \n",
-            "var assertType = '", assertType, "'; \n",
-            "driver.wait(until.urlContains(targetURL), ", delay, ") \n",
-            "   .then(function() { \n",
-            "       driver.getCurrentUrl().then(function(url) { \n",
-            "            logger.info('Assert Type: ', assertType); \n",
-            "            logger.info('URL: ', url); \n",
-            "            logger.info('Target URL: ', targetURL); \n",
-            "            assert(url).", assertCmd, "(targetURL); \n",
-            "        }); \n",
-            "    }) \n",
-            "    .catch(function() { \n",
-            "        logger.error('Failed...'); \n",
-            "    }); \n"
+            " var targetURL = '", targetURL, "'; \n",
+            " driver.getCurrentUrl() \n",
+            " .then(function(url) { \n",
+            "   assert(url).contains(targetURL, 'Assert Failed'); \n",
+            " }); \n",
         ].join("");
 
         return actionSe;

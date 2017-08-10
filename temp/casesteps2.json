@@ -1,0 +1,132 @@
+{
+  "case_steps": [
+    {
+      "name":"Go to DEWSL-L", 
+      "action":"Go to URL", 
+      "locateElement":{},
+      "element_id":{},
+      "op_special_1":{
+          "label":"Full URL",
+          "show":true,
+          "value":"http://www.dewslandslide.com"
+      },
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Add Username", 
+      "action":"Write Text", 
+      "locateElement":{
+        "by":"Name",
+        "show":true
+      },
+      "element_id":{
+        "show":true,
+        "value":"username"
+      },
+      "op_special_1":{
+        "label":"Text to write",
+        "show":true,
+        "value":"prado"
+      },
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Add Password", 
+      "action":"Write Text", 
+      "locateElement":{
+        "by":"Name",
+        "show":true
+      },
+      "element_id":{
+        "show":true,
+        "value":"password"
+      },
+      "op_special_1":{
+        "label":"Text to write",
+        "show":true,
+        "value":"senslope"
+      },
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Click login button", 
+      "action":"Click", 
+      "locateElement":{
+          "by":"Name",
+          "show":true
+      },
+      "element_id":{
+          "show":true,
+          "value":"submit"
+      },
+      "op_special_1":{},
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Check if user was able to log in", 
+      "action":"Add Assertion", 
+      "locateElement":{},
+      "element_id":{},
+      "op_special_1":{
+        "label":"Expected Title",
+        "show":true,
+        "value":"DEWS-L Monitoring Dashboard"
+      },
+      "op_special_2":{},
+      "assert_options":{
+        "show":true,
+        "type":"Title Contains Value",
+        "delay":1000
+      }
+    },
+    {
+      "name":"Close Issue Modal", 
+      "action":"Click", 
+      "locateElement":{
+          "by":"Id",
+          "show":true
+      },
+      "element_id":{
+          "show":true,
+          "value":"close-issue-modal"
+      },
+      "op_special_1":{},
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Hover over Analysis Nav", 
+      "action":"Hover", 
+      "locateElement":{
+          "by":"Link Text",
+          "show":true
+      },
+      "element_id":{
+          "show":true,
+          "value":"Analysis"
+      },
+      "op_special_1":{},
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Click Site Analysis", 
+      "action":"Click", 
+      "locateElement":{
+          "by":"Partial Link Text",
+          "show":true
+      },
+      "element_id":{
+          "show":true,
+          "value":"Site Analysis"
+      },
+      "op_special_1":{},
+      "op_special_2":{},
+      "assert_options":{}
+    }
+  ]
+}
