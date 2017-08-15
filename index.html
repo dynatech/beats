@@ -323,16 +323,16 @@ function testCaseController ($log, $scope, $http, $window) {
         $log.log(base_script);
         $log.log("downloadTestCase: end");
 
-        // var blob = new Blob([base_script], { type: 'text/javascript' }),
-        //     url = $window.URL || $window.webkitURL,
-        //     fileUrl = url.createObjectURL(blob);
+        var blob = new Blob([base_script], { type: 'text/javascript' }),
+            url = $window.URL || $window.webkitURL,
+            fileUrl = url.createObjectURL(blob);
 
-        // var hiddenElement = document.createElement('a');
+        var hiddenElement = document.createElement('a');
 
-        // hiddenElement.href = fileUrl;
-        // hiddenElement.target = '_blank';
-        // hiddenElement.download = 'seleniumScript.js';
-        // hiddenElement.click();
+        hiddenElement.href = fileUrl;
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'seleniumScript.js';
+        hiddenElement.click();
     }
 
     //Generate Selenium Action Test line
@@ -505,7 +505,7 @@ function testCaseController ($log, $scope, $http, $window) {
     }
 
     function actionAssertURLContainsValue (param) {
-        var targetURL = param.op_special_1.value;
+        var targetURL = param.op_special_2.value;
 
         var actionSe = [
             " var targetURL = '", targetURL, "'; \n",
