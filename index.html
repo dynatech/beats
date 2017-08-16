@@ -163,6 +163,7 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Choose action":
             case "Import Test Case":
             case "Close Alert Box":
+            case "Maximize Browser Window":
                 param.locateElement = {};
                 param.assert_options = {};
                 param.op_special_1 = {};
@@ -176,6 +177,7 @@ function testCaseController ($log, $scope, $http, $window) {
                 param.assert_options = {};
                 break;
             case "Wait":
+                param.locateElement = {};
                 param.op_special_1.label = 'Delay (ms)';
                 param.op_special_1.show = true;
                 param.op_special_1.value = 1000;
@@ -291,8 +293,9 @@ function testCaseController ($log, $scope, $http, $window) {
             "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
             "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
             "var assert = require('selenium-webdriver/testing/assert'); \n",
+            "var actions = require('selenium-webdriver/lib/actions'); \n",
             "var log4js = require('log4js'); \n",
-            "var actions = require('selenium-webdriver/lib/actions'); \n\n",
+            "var windowManager = driver.manage().window(); \n\n",
             "log4js.loadAppender('file'); \n",
             "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
             "var logger = log4js.getLogger('sampleTestCase'); \n",
@@ -366,6 +369,9 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Add Assertion":
                 actionSe = actionAssert(param);
                 break;
+            case "Maximize Browser Window":
+                actionSe = actionMaximizeWindow(param);
+                break;
             default:
                 $log.log("To do test script for ", param.action);
                 break;
@@ -410,7 +416,6 @@ function testCaseController ($log, $scope, $http, $window) {
     }
 
     function actionGoToURL(param) {
-        var stepName = param.name;
         var targetURL = param.op_special_1.value;
         var actionSe = [
             " driver.get('", targetURL,"') \n"
@@ -420,8 +425,14 @@ function testCaseController ($log, $scope, $http, $window) {
         return actionSe;
     }
 
+    function actionMaximizeWindow(param) {
+        var actionSe = " windowManager.maximize() \n";
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
     function actionWriteText(param) {
-        var stepName = param.name;
         var locateElementBy = getElementLocator(param);
 
         var actionSe = [
@@ -479,8 +490,6 @@ function testCaseController ($log, $scope, $http, $window) {
     }
 
     function actionAssert(param) {
-        var stepName = param.name;
-        
         // TODO: Determine assertion type to generate Selenium Action
         var actionSe = getAssertionType(param);
 
