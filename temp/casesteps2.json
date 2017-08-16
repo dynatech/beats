@@ -99,7 +99,7 @@
       "assert_options":{}
     },
     {
-      "name":"Hover over Analysis Nav", 
+      "name":"Hover over Monitoring Nav", 
       "action":"Hover", 
       "locateElement":{
           "by":"Link Text",
@@ -107,14 +107,14 @@
       },
       "element_id":{
           "show":true,
-          "value":"Analysis"
+          "value":"Monitoring"
       },
       "op_special_1":{},
       "op_special_2":{},
       "assert_options":{}
     },
     {
-      "name":"Click Site Analysis", 
+      "name":"Click Early Warning Release Form", 
       "action":"Click", 
       "locateElement":{
           "by":"Partial Link Text",
@@ -122,9 +122,41 @@
       },
       "element_id":{
           "show":true,
-          "value":"Site Analysis"
+          "value":"Early Warning Release Form"
       },
       "op_special_1":{},
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Check if already at EWI Release Form Page", 
+      "action":"Add Assertion", 
+      "locateElement":{},
+      "element_id":{},
+      "op_special_1":{},
+      "op_special_2":{
+        "label":"Value to check for",
+        "show":true,
+        "value":"release_form"
+      },
+      "assert_options":{
+        "show":true,
+        "type":"URL Contains Value",
+        "delay":1000
+      }
+    },
+    {
+      "name":"Delay for a few seconds", 
+      "action":"Wait", 
+      "locateElement":{},
+      "element_id":{
+          "show":false
+      },
+      "op_special_1":{
+        "label":"Delay (ms)",
+        "show":true,
+        "value":"5000"
+      },
       "op_special_2":{},
       "assert_options":{}
     }

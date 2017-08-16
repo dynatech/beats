@@ -175,6 +175,13 @@ function testCaseController ($log, $scope, $http, $window) {
                 param.op_special_2 = {};
                 param.assert_options = {};
                 break;
+            case "Wait":
+                param.op_special_1.label = 'Delay (ms)';
+                param.op_special_1.show = true;
+                param.op_special_1.value = 1000;
+                param.op_special_2 = {};
+                param.assert_options = {};
+                break;
             case "Add Assertion":
                 param.locateElement = {};
                 param.op_special_1 = {};
@@ -323,16 +330,16 @@ function testCaseController ($log, $scope, $http, $window) {
         $log.log(base_script);
         $log.log("downloadTestCase: end");
 
-        var blob = new Blob([base_script], { type: 'text/javascript' }),
-            url = $window.URL || $window.webkitURL,
-            fileUrl = url.createObjectURL(blob);
+        // var blob = new Blob([base_script], { type: 'text/javascript' }),
+        //     url = $window.URL || $window.webkitURL,
+        //     fileUrl = url.createObjectURL(blob);
 
-        var hiddenElement = document.createElement('a');
+        // var hiddenElement = document.createElement('a');
 
-        hiddenElement.href = fileUrl;
-        hiddenElement.target = '_blank';
-        hiddenElement.download = 'seleniumScript.js';
-        hiddenElement.click();
+        // hiddenElement.href = fileUrl;
+        // hiddenElement.target = '_blank';
+        // hiddenElement.download = 'seleniumScript.js';
+        // hiddenElement.click();
     }
 
     //Generate Selenium Action Test line
@@ -352,6 +359,9 @@ function testCaseController ($log, $scope, $http, $window) {
                 break;
             case "Hover":
                 actionSe = actionHover(param);
+                break;
+            case "Wait":
+                actionSe = actionWait(param);
                 break;
             case "Add Assertion":
                 actionSe = actionAssert(param);
@@ -450,6 +460,18 @@ function testCaseController ($log, $scope, $http, $window) {
             "     .mouseMove(driver.findElement(By.", locateElementBy, "('", elemValue, "'))) \n",
             "     .perform();  \n",
             " }) \n",
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionWait(param) {
+        var delay = param.op_special_1.value;
+
+        var actionSe = [
+            " var waitTill = new Date(new Date().getTime() + ", delay, "); \n",
+            " while(waitTill > new Date()) {} \n"
         ].join("");
 
         $log.log(actionSe);
