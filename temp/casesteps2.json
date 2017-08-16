@@ -2,7 +2,7 @@
   "case_steps": [
     {
       "name":"Full Screen", 
-      "action":"Maximize Browser Window", 
+      "action":"Maximize Window", 
       "locateElement":{},
       "element_id":{},
       "op_special_1":{},

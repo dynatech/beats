@@ -158,16 +158,28 @@ function testCaseController ($log, $scope, $http, $window) {
 
     vm.selectedAction = function(param) {
         $log.log("selectedAction: start");
+        var height_dft = 600;
+        var width_dft = 720;
         
         switch(param.action) {
             case "Choose action":
             case "Import Test Case":
             case "Close Alert Box":
-            case "Maximize Browser Window":
+            case "Maximize Window":
                 param.locateElement = {};
                 param.assert_options = {};
                 param.op_special_1 = {};
                 param.op_special_2 = {};
+                break;
+            case "Modify Window Size":
+                param.locateElement = {};
+                param.assert_options = {};
+                param.op_special_1.label = 'Width';
+                param.op_special_1.show = true;
+                param.op_special_1.value = width_dft;
+                param.op_special_2.label = 'Height';
+                param.op_special_2.show = true;
+                param.op_special_2.value = height_dft;
                 break;
             case "Go to URL":
                 param.locateElement = {};
@@ -369,8 +381,11 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Add Assertion":
                 actionSe = actionAssert(param);
                 break;
-            case "Maximize Browser Window":
+            case "Maximize Window":
                 actionSe = actionMaximizeWindow(param);
+                break;
+            case "Modify Window Size":
+                actionSe = actionModifyWindow(param);
                 break;
             default:
                 $log.log("To do test script for ", param.action);
@@ -419,6 +434,17 @@ function testCaseController ($log, $scope, $http, $window) {
         var targetURL = param.op_special_1.value;
         var actionSe = [
             " driver.get('", targetURL,"') \n"
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionModifyWindow(param) {
+        var width = param.op_special_1.value;
+        var height = param.op_special_2.value;
+        var actionSe = [
+            " windowManager.setSize(", width, ", ", height, ") \n"
         ].join("");
 
         $log.log(actionSe);
