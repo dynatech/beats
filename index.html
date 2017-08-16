@@ -114,10 +114,12 @@ function testCaseController ($log, $scope, $http, $window) {
     $log.log("testCaseController: start");
     var vm = this;
     vm.case_steps = null;
+    vm.global_wait = null;
 
     $http.get('temp/casesteps2.json')
         .then(function(response) {
             vm.case_steps = response.data.case_steps;
+            vm.global_wait = response.data.global_wait;
             $log.log('successfully loaded file');
         })
         .catch(function(response) {
@@ -310,8 +312,25 @@ function testCaseController ($log, $scope, $http, $window) {
             "var windowManager = driver.manage().window(); \n\n",
             "log4js.loadAppender('file'); \n",
             "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
-            "var logger = log4js.getLogger('sampleTestCase'); \n",
-            "var globalDelay = 2000; \n\n",
+            "var logger = log4js.getLogger('sampleTestCase'); \n\n",
+            "function selectOptionRandom(selector){\n",
+            "  var selectList, desiredOption;\n",
+            "  selectList = this.findElement(selector);\n",
+            "  selectList.click();\n",
+            "  selectList.findElements(webdriver.By.tagName('option'))\n",
+            "    .then(function(options){\n",
+            "      var randomPos = Math.floor(Math.random() * options.length);\n",
+            "      desiredOption = options[randomPos];\n",
+            "      desiredOption.getText()\n",
+            "        .then(function(text) {\n",
+            "          logger.info('Random Selection: ', text.trim());\n",
+            "        })\n",
+            "      desiredOption.click();\n",
+            "      selectList.sendKeys(webdriver.Key.ESCAPE);\n",
+            "    })\n",
+            "}\n",
+            "driver.selectOptionRandom = selectOptionRandom.bind(driver);\n\n",
+            "var globalDelay = ", vm.global_wait, "; \n\n",
         ].join("");
         
         var footer_script = [
@@ -345,16 +364,16 @@ function testCaseController ($log, $scope, $http, $window) {
         $log.log(base_script);
         $log.log("downloadTestCase: end");
 
-        // var blob = new Blob([base_script], { type: 'text/javascript' }),
-        //     url = $window.URL || $window.webkitURL,
-        //     fileUrl = url.createObjectURL(blob);
+        var blob = new Blob([base_script], { type: 'text/javascript' }),
+            url = $window.URL || $window.webkitURL,
+            fileUrl = url.createObjectURL(blob);
 
-        // var hiddenElement = document.createElement('a');
+        var hiddenElement = document.createElement('a');
 
-        // hiddenElement.href = fileUrl;
-        // hiddenElement.target = '_blank';
-        // hiddenElement.download = 'seleniumScript.js';
-        // hiddenElement.click();
+        hiddenElement.href = fileUrl;
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'seleniumScript.js';
+        hiddenElement.click();
     }
 
     //Generate Selenium Action Test line
@@ -374,6 +393,9 @@ function testCaseController ($log, $scope, $http, $window) {
                 break;
             case "Hover":
                 actionSe = actionHover(param);
+                break;
+            case "Select Random Option":
+                actionSe = actionSelectRandom(param);
                 break;
             case "Wait":
                 actionSe = actionWait(param);
@@ -496,6 +518,21 @@ function testCaseController ($log, $scope, $http, $window) {
             "   driver.actions() \n",
             "     .mouseMove(driver.findElement(By.", locateElementBy, "('", elemValue, "'))) \n",
             "     .perform();  \n",
+            " }) \n",
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionSelectRandom(param) {
+        var locateElementBy = getElementLocator(param);
+        var elemValue = param.element_id.value;
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", elemValue, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.selectOptionRandom(By.", locateElementBy, "('", elemValue, "')) \n",
             " }) \n",
         ].join("");
 

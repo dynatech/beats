@@ -1,4 +1,5 @@
 {
+  "global_wait":3000,
   "case_steps": [
     {
       "name":"Full Screen", 
@@ -164,8 +165,23 @@
       "op_special_1":{
         "label":"Delay (ms)",
         "show":true,
-        "value":"5000"
+        "value":"3000"
       },
+      "op_special_2":{},
+      "assert_options":{}
+    },
+    {
+      "name":"Select a random site", 
+      "action":"Select Random Option", 
+      "locateElement":{
+          "by":"Id",
+          "show":true
+      },
+      "element_id":{
+          "show":true,
+          "value":"site"
+      },
+      "op_special_1":{},
       "op_special_2":{},
       "assert_options":{}
     }

@@ -1,4 +1,16 @@
-<h4>Steps <small>(<a href="#" ng-click="vm.showData()">Show Data</a>)</small></h4>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-10">
+			<h3>Steps <small>(<a href="#" ng-click="vm.showData()">Show Data</a>)</small></h3>
+		</div>
+		<div class="col-sm-2">
+			<div class="form-group">
+				<label>Global Wait (ms):</label>
+				<input type="number" class="form-control" ng-model="vm.global_wait">
+			</div>
+		</div>
+	</div>
+</div>
 <div ng-repeat="indiv_step in vm.case_steps">
 	<div class="case-step">
 	    <div class="step">
@@ -21,6 +33,7 @@
 	                    <option>Write Text</option>
 	                    <option>Go to URL</option>
 	                    <option>Select Option</option>
+	                    <option>Select Random Option</option>
 	                    <option>Wait</option>
 	                    <option>Add Assertion</option>
 	                    <option>Maximize Window</option>
