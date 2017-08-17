@@ -280,6 +280,7 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Select Option":
                 param.op_special_1.label = "Option to pick";
                 param.op_special_1.show = true;
+                param.element_id.value = null;
             default:
                 break;
         }
@@ -287,6 +288,7 @@ function testCaseController ($log, $scope, $http, $window) {
         switch(param.locateElement.by) {
             case "Choose locator":
                 param.element_id.show = false;
+                param.element_id.value = null;
                 param.op_special_1 = {};
                 break;
             default:
@@ -313,6 +315,41 @@ function testCaseController ($log, $scope, $http, $window) {
             "log4js.loadAppender('file'); \n",
             "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
             "var logger = log4js.getLogger('sampleTestCase'); \n\n",
+            "function selectOption(selector, item){ \n",
+            "  var selectList, desiredOption = null; \n",
+            "  var trimmedItem = item.toString().trim(); \n",
+            "  var temp = null; \n",
+            "  selectList = this.findElement(selector); \n",
+            "  selectList.click(); \n",
+            "  selectList.findElements(webdriver.By.tagName('option')) \n",
+            "    .then(function findMatchingOption(options){ \n",
+            "      options.some(function(option){ \n",
+            "        option.getText().then(function doesOptionMatch(text){ \n",
+            "          if (trimmedItem === text.toString().trim()){ \n",
+            "            logger.info(text.trim()); \n",
+            "            logger.info('THERE IS A MATCH!!!'); \n",
+            "            desiredOption = option; \n",
+            "            return true; \n",
+            "          } \n",
+            "        }); \n",
+            "      }); \n",
+            "    }) \n",
+            "    .then(function clickOption(){ \n",
+            "      if (desiredOption){ \n",
+            "        desiredOption.getText() \n",
+            "          .then(function(text) { \n",
+            "            logger.info(text.trim()); \n",
+            "          }) \n",
+            "        desiredOption.click(); \n",
+            "        selectList.sendKeys(webdriver.Key.ESCAPE); \n",
+            "      } \n",
+            "      else { \n",
+            "        logger.error('Failed... Option does NOT exist.'); \n",
+            "        throw new Error(); \n",
+            "      } \n",
+            "    }); \n",
+            "} \n",
+            "driver.selectOption = selectOption.bind(driver); \n\n",
             "function selectOptionRandom(selector){\n",
             "  var selectList, desiredOption;\n",
             "  selectList = this.findElement(selector);\n",
@@ -393,6 +430,9 @@ function testCaseController ($log, $scope, $http, $window) {
                 break;
             case "Hover":
                 actionSe = actionHover(param);
+                break;
+            case "Select Option":
+                actionSe = actionSelect(param);
                 break;
             case "Select Random Option":
                 actionSe = actionSelectRandom(param);
@@ -518,6 +558,22 @@ function testCaseController ($log, $scope, $http, $window) {
             "   driver.actions() \n",
             "     .mouseMove(driver.findElement(By.", locateElementBy, "('", elemValue, "'))) \n",
             "     .perform();  \n",
+            " }) \n",
+        ].join("");
+
+        $log.log(actionSe);
+        return actionSe;
+    }
+
+    function actionSelect(param) {
+        var locateElementBy = getElementLocator(param);
+        var elemValue = param.element_id.value;
+        var selectedOption = param.op_special_1.value;
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", elemValue, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.selectOption(By.", locateElementBy, "('", elemValue, "'), '", selectedOption, "') \n",
             " }) \n",
         ].join("");
 
