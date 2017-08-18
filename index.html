@@ -116,7 +116,7 @@ function testCaseController ($log, $scope, $http, $window) {
     vm.case_steps = null;
     vm.global_wait = null;
 
-    $http.get('temp/casesteps2.json')
+    $http.get('temp/casesteps3.json')
         .then(function(response) {
             vm.case_steps = response.data.case_steps;
             vm.global_wait = response.data.global_wait;
@@ -244,8 +244,8 @@ function testCaseController ($log, $scope, $http, $window) {
                 param.op_special_2.show = true;
                 param.assert_options.delay = delay_dft;
                 break;
-            case "Element is Present":
-            case "Element is Not Present":
+            case "Element is Visible":
+            case "Element is Not Visible":
                 param.op_special_1 = {};
                 param.op_special_2 = {};
                 param.locateElement.show = true;
@@ -626,8 +626,10 @@ function testCaseController ($log, $scope, $http, $window) {
             case "URL Contains Value":
                 actionSe = actionAssertURLContainsValue(param);
                 break;
-            case "Element is Present":
-            case "Element is Not Present":
+            case "Element is Not Visible":
+                actionSe = actionAssertElementNOTVisible(param);
+                break;
+            case "Element is Visible":
             case "Matches Value":
             case "Does Not Match Value":
             case "Contains Value":
@@ -668,6 +670,21 @@ function testCaseController ($log, $scope, $http, $window) {
         return actionSe;
     }
 
+    function actionAssertElementNOTVisible (param) {
+        var locateElementBy = getElementLocator(param);
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).isDisplayed() \n",
+            "   .then(function(bool) { \n",
+            "     assert(bool).isFalse('Assert Failed'); \n",
+            "   }) \n",
+            " }) \n"
+        ].join("");
+
+        return actionSe;
+    }
 }
 
 caseStepController.$inject = ['$log', '$scope'];
