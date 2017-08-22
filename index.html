@@ -627,9 +627,11 @@ function testCaseController ($log, $scope, $http, $window) {
                 actionSe = actionAssertURLContainsValue(param);
                 break;
             case "Element is Not Visible":
-                actionSe = actionAssertElementNOTVisible(param);
+                actionSe = actionAssertElementNotVisible(param);
                 break;
             case "Element is Visible":
+                actionSe = actionAssertElementIsVisible(param);
+                break;
             case "Matches Value":
             case "Does Not Match Value":
             case "Contains Value":
@@ -670,7 +672,7 @@ function testCaseController ($log, $scope, $http, $window) {
         return actionSe;
     }
 
-    function actionAssertElementNOTVisible (param) {
+    function actionAssertElementNotVisible (param) {
         var locateElementBy = getElementLocator(param);
 
         var actionSe = [
@@ -679,6 +681,22 @@ function testCaseController ($log, $scope, $http, $window) {
             "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).isDisplayed() \n",
             "   .then(function(bool) { \n",
             "     assert(bool).isFalse('Assert Failed'); \n",
+            "   }) \n",
+            " }) \n"
+        ].join("");
+
+        return actionSe;
+    }
+
+    function actionAssertElementIsVisible (param) {
+        var locateElementBy = getElementLocator(param);
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).isDisplayed() \n",
+            "   .then(function(bool) { \n",
+            "     assert(bool).isTrue('Assert Failed'); \n",
             "   }) \n",
             " }) \n"
         ].join("");
