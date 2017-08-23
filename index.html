@@ -635,9 +635,11 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Contains Value":
                 actionSe = actionAssertContainsValue(param);
                 break;
+            case "Does Not Contain Value":
+                actionSe = actionAssertDoesNotContainValue(param);
+                break;
             case "Matches Value":
             case "Does Not Match Value":
-            case "Does Not Contain Value":
             default:
                 break;
         }
@@ -715,6 +717,23 @@ function testCaseController ($log, $scope, $http, $window) {
             "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
             "   .getText().then(function(text) { \n",
             "     assert(text).contains('", param.op_special_2.value, "'); \n",
+            "   }) \n",
+            " }) \n"
+        ].join("");
+
+        return actionSe;
+    }
+
+    function actionAssertDoesNotContainValue (param) {
+        var locateElementBy = getElementLocator(param);
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+            "   .getText().then(function(text) { \n",
+            "     var bool = text.includes('", param.op_special_2.value, "') \n",
+            "     assert(bool).isFalse('Assert Failed'); \n",
             "   }) \n",
             " }) \n"
         ].join("");
