@@ -1,4 +1,5 @@
 {
+  "test_case":"Login to Dewsl and close modal",
   "global_wait":3000,
   "case_steps": [
     {

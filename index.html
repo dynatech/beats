@@ -66,7 +66,7 @@
     <section id="main-content-bg">
         <div class="container">
             <div class="row">
-                <h4><a href="#">Test Suite</a> > <a href="#">Test Case Name</a></h4>
+                <h4><a href="#">Test Suite</a></h4>
                 <test-case></test-case>
             </div>
         </div>
@@ -114,12 +114,14 @@ testCaseController.$inject = ['$log', '$scope', '$http', '$window'];
 function testCaseController ($log, $scope, $http, $window) {
     $log.log("testCaseController: start");
     var vm = this;
+    vm.test_case = null;
     vm.case_steps = null;
     vm.global_wait = null;
     vm.selected = null;
 
     $http.get('temp/casesteps3.json')
         .then(function(response) {
+            vm.test_case = response.data.test_case;
             vm.case_steps = response.data.case_steps;
             vm.global_wait = response.data.global_wait;
             $log.log('successfully loaded file');
