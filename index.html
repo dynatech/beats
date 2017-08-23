@@ -638,8 +638,12 @@ function testCaseController ($log, $scope, $http, $window) {
             case "Does Not Contain Value":
                 actionSe = actionAssertDoesNotContainValue(param);
                 break;
-            case "Matches Value":
-            case "Does Not Match Value":
+            case "Matches Value / RegEx":
+                actionSe = actionAssertMatchValue(param);
+                break;
+            case "Does Not Match Value / RegEx":
+                actionSe = actionAssertDoesNotMatchValue(param);
+                break;
             default:
                 break;
         }
@@ -733,6 +737,40 @@ function testCaseController ($log, $scope, $http, $window) {
             "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
             "   .getText().then(function(text) { \n",
             "     var bool = text.includes('", param.op_special_2.value, "') \n",
+            "     assert(bool).isFalse('Assert Failed'); \n",
+            "   }) \n",
+            " }) \n"
+        ].join("");
+
+        return actionSe;
+    }
+
+    function actionAssertMatchValue (param) {
+        var locateElementBy = getElementLocator(param);
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+            "   .getText().then(function(text) { \n",
+            "     var bool = new RegExp('", param.op_special_2.value, "').test(text) \n",
+            "     assert(bool).isTrue('Assert Failed'); \n",
+            "   }) \n",
+            " }) \n"
+        ].join("");
+
+        return actionSe;
+    }
+
+    function actionAssertDoesNotMatchValue (param) {
+        var locateElementBy = getElementLocator(param);
+
+        var actionSe = [
+            " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+            " .then(function() { \n",
+            "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+            "   .getText().then(function(text) { \n",
+            "     var bool = new RegExp('", param.op_special_2.value, "').test(text) \n",
             "     assert(bool).isFalse('Assert Failed'); \n",
             "   }) \n",
             " }) \n"
