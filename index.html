@@ -27,6 +27,7 @@
     <![endif]-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="vendor/angular/angular-drag-and-drop-lists.min.js"></script>
 </head>
 
 <body id="page-top" class="index">
@@ -81,7 +82,7 @@
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-angular.module("beatsApp", [])
+angular.module("beatsApp", ['dndLists'])
     .component("testCase", testCase())
     .component("caseStep", caseStep());
 
@@ -115,6 +116,7 @@ function testCaseController ($log, $scope, $http, $window) {
     var vm = this;
     vm.case_steps = null;
     vm.global_wait = null;
+    vm.selected = null;
 
     $http.get('temp/casesteps3.json')
         .then(function(response) {
