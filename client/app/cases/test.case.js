@@ -8,7 +8,7 @@
     function testCase() {
         var component = {
             transclude: true,
-            templateUrl: "templates/testCase.html",
+            templateUrl: "client/app/cases/testCase.html",
             controller: testCaseController,
             controllerAs: 'vm'
         }

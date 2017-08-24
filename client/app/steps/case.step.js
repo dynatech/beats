@@ -11,7 +11,7 @@
             require: {
                 parent: '^testCase'
             },
-            templateUrl: "templates/caseStep.html",
+            templateUrl: "client/app/steps/caseStep.html",
             controller: caseStepController,
             controllerAs: 'vm',
         }
