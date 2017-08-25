@@ -9,7 +9,7 @@
          * its components are available.
          */
 
-        'dndLists'
+        'dndLists',
 
         /*
          * Everybody has access to these.
@@ -22,6 +22,7 @@
         /*
          * Feature areas
          */
+         'app.cases'
         // 'app.avengers',
         // 'app.dashboard',
         // 'app.layout'
