@@ -72,4 +72,29 @@ class Testsuite {
 		$this->name = $ts_name;
 		$this->desc = $ts_desc;
 	}
+
+	public function update() {
+		// update query
+		$query = "UPDATE " . $this->table_name . " SET ts_name=?, ts_desc=? WHERE ts_id=? LIMIT 1";
+
+		// prepare query
+		$stmt = $this->conn->stmt_init();
+		$stmt = $this->conn->prepare($query);
+
+		// sanitize
+		$this->id = htmlspecialchars(strip_tags($this->id));
+		$this->name = htmlspecialchars(strip_tags($this->name));
+		$this->desc = htmlspecialchars(strip_tags($this->desc));
+
+		// bind values
+		$stmt->bind_param('ssi', $this->name, $this->desc, $this->id);
+
+    // execute query
+    if($stmt->execute()){
+      return true;
+    }
+    else{
+      return false;
+    }
+	}
 }
