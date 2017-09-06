@@ -1,4 +1,10 @@
 <?php
+/*
+Created by: Prado Arturo Bognot
+Position: SWAT Supervising SRS
+Date: Sept 6, 2017
+*/
+
 $servername = "localhost";
 $username = "root";
 $password = "senslope";
