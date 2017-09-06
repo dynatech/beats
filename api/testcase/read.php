@@ -31,7 +31,7 @@ if ($num > 0) {
 			"tc_name" => $tc_name,
 			"tc_desc" => $tc_desc,
 			"global_wait" => $global_wait,
-			"steps" => $steps
+			"steps" => json_decode($steps)
 		);
 
 		array_push($test_cases_arr["records"], $test_case_item);

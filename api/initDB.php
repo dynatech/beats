@@ -33,7 +33,7 @@ $sqlCases = "CREATE TABLE `test_cases` (
 						  `tc_name` VARCHAR(64) NOT NULL,
 						  `tc_desc` VARCHAR(256) NULL,
 						  `global_wait` INT NULL DEFAULT 2000,
-						  `steps` BLOB NULL,
+						  `steps` TEXT NULL,
 						  PRIMARY KEY (`tc_id`));";
 executeQuery($conn, $sqlCases, "Table: Test Cases created successfully!", "Failed table creation");
 

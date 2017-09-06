@@ -9,7 +9,7 @@ class Testcase {
 	public $id;
 	public $name;
 	public $desc;
-	public $globalWait;
+	public $global_wait;
 	public $steps;
 
 	// constructor with $db as database connection
@@ -18,36 +18,37 @@ class Testcase {
 	}
 
 	public function readAll() {
-		// echo "Read Test Suites table \n";
+		// echo "Read Test Cases table \n";
 		$query = "SELECT * FROM " . $this->table_name;
 		$result = $this->conn->query($query);
 
 		return $result;
 	}
 
-	// public function create() {
-	// 	// echo "Create a Test Suite entry \n";
-	// 	$query = "INSERT INTO " . $this->table_name . " SET ts_name=?, ts_desc=?";
+	public function create() {
+		$query = "INSERT INTO " . $this->table_name . " SET tc_name=?, tc_desc=?, global_wait=?, steps=?";
 
-	// 	// prepare query
-	// 	$stmt = $this->conn->stmt_init();
-	// 	$stmt = $this->conn->prepare($query);
+		// prepare query
+		$stmt = $this->conn->stmt_init();
+		$stmt = $this->conn->prepare($query);
 
-	// 	// sanitize
-	// 	$this->name = htmlspecialchars(strip_tags($this->name));
-	// 	$this->desc = htmlspecialchars(strip_tags($this->desc));
+		// sanitize
+		$this->name = htmlspecialchars(strip_tags($this->name));
+		$this->desc = htmlspecialchars(strip_tags($this->desc));
+		$this->global_wait = htmlspecialchars(strip_tags($this->global_wait));
+		$this->steps = json_encode($this->steps);
 
-	// 	// bind values
-	// 	$stmt->bind_param('ss', $this->name, $this->desc);
+		// bind values
+		$stmt->bind_param('ssis', $this->name, $this->desc, $this->global_wait, $this->steps);
 
-	// 	// execute query
-	// 	if($stmt->execute()){
-	// 		return true;
-	// 	}
-	// 	else{
-	// 		return false;
-	// 	}
-	// }
+		// execute query
+		if($stmt->execute()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 
 	// // Used when viewing only one test suite or for updating
 	// public function readOne() {
