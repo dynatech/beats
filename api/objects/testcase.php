@@ -43,7 +43,7 @@ class Testcase {
 
 		// execute query
 		if($stmt->execute()){
-			return true;
+			return $stmt->insert_id;
 		}
 		else{
 			return false;

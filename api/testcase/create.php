@@ -29,9 +29,11 @@ $testcase->steps = $data->steps;
 // $testcase->create();
 
 // create the test Case
-if ($testcase->create()) {
+if ($last_id = $testcase->create()) {
+	$message = "Test Case was created. Insert ID = " . $last_id;
+
   echo json_encode(
-    array("message" => "Test Case was created.")
+    array("message" => $message)
   );
 } 
 else {
