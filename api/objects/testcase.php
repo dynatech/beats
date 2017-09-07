@@ -20,7 +20,7 @@ class Testcase {
 
 	public function readAll() {
 		// echo "Read Test Cases table \n";
-		$query = "SELECT * FROM " . $this->table_name;
+		$query = "SELECT tc_id, tc_name FROM " . $this->table_name;
 		$result = $this->conn->query($query);
 
 		return $result;
@@ -29,12 +29,20 @@ class Testcase {
 	// Used when viewing only one test suite or for updating
 	public function readFromOneTestsuite() {
 		// read records from one test suite
-		$query = "SELECT tc.tc_id, tc.tc_name, tc.tc_desc, tc.global_wait, tc.steps" .
+		$query = "SELECT tc.tc_id, tc.tc_name" .
 						" FROM tstc_transactions as tx" . 
 						" INNER JOIN test_cases as tc" . 
 						" ON tx.tc_id = tc.tc_id" . 
 						" WHERE tx.ts_id=" . $this->ts_id . 
 						" ORDER BY tc.tc_id";
+		$result = $this->conn->query($query);
+
+		return $result;
+	}
+
+	// Used when viewing the details of one test case
+	public function readOne() {
+		$query = "SELECT * FROM " . $this->table_name . " WHERE tc_id=" . $this->id;
 		$result = $this->conn->query($query);
 
 		return $result;
