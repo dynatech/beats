@@ -6,6 +6,7 @@ class Testcase {
 	private $table_name = "test_cases";
 
 	// object properties
+	public $ts_id;
 	public $id;
 	public $name;
 	public $desc;
@@ -20,6 +21,20 @@ class Testcase {
 	public function readAll() {
 		// echo "Read Test Cases table \n";
 		$query = "SELECT * FROM " . $this->table_name;
+		$result = $this->conn->query($query);
+
+		return $result;
+	}
+
+	// Used when viewing only one test suite or for updating
+	public function readFromOneTestsuite() {
+		// read records from one test suite
+		$query = "SELECT tc.tc_id, tc.tc_name, tc.tc_desc, tc.global_wait, tc.steps" .
+						" FROM tstc_transactions as tx" . 
+						" INNER JOIN test_cases as tc" . 
+						" ON tx.tc_id = tc.tc_id" . 
+						" WHERE tx.ts_id=" . $this->ts_id . 
+						" ORDER BY tc.tc_id";
 		$result = $this->conn->query($query);
 
 		return $result;
@@ -49,32 +64,6 @@ class Testcase {
 			return false;
 		}
 	}
-
-	// // Used when viewing only one test suite or for updating
-	// public function readOne() {
-	// 	// read single record
-	// 	$query = "SELECT ts_id, ts_name, ts_desc FROM " . $this->table_name . " WHERE ts_id=? LIMIT 1";
-	// 	// echo "$query";
-
-	// 	// prepare query
-	// 	$stmt = $this->conn->stmt_init();
-	// 	$stmt = $this->conn->prepare($query);
-
-	// 	//bind id of test suite to be updated
-	// 	$stmt->bind_param("i", $this->id);
-
-	// 	// execute query
-	// 	$stmt->execute();
-	// 	// bind result variables
-	// 	$stmt->bind_result($ts_id, $ts_name, $ts_desc);
-	// 	// fetch row
-	// 	$stmt->fetch();
-
-	// 	// set values to object properties
-	// 	$this->id = $ts_id;
-	// 	$this->name = $ts_name;
-	// 	$this->desc = $ts_desc;
-	// }
 
 	// public function update() {
 	// 	// update query

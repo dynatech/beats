@@ -14,8 +14,25 @@ $db = $database->getConnection();
 // initialize object
 $testcase = new testcase($db);
 
+// get posted data
+$data = json_decode(file_get_contents("php://input"));
+
+try {
+	$testcase->ts_id = (isset($data->ts_id) ? $data->ts_id : null);
+	if ($testcase->ts_id) {
+		// echo "with test suite id: " . $testcase->ts_id;
+		$results = $testcase->readFromOneTestsuite();
+	} 
+	else {
+		// echo "No test suite id";
+		$results = $testcase->readAll();
+	}
+}
+catch (Exception $e) {
+	echo "an exception has occurred";
+}
+
 // query test_cases
-$results = $testcase->readAll();
 $num = $results->num_rows;
 
 // check if more than 0 record found

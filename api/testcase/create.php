@@ -23,10 +23,10 @@ $tstc_transaction = new Tstc_transaction($db);
 $data = json_decode(file_get_contents("php://input"));
 
 // set test suite id value
-if ($data->ts_id != null) {
+try {
 	$tstc_transaction->ts_id = $data->ts_id;
 }
-else {
+catch (Exception $e) {
 	die("Failed: No Test Suite ID");
 }
 
@@ -35,8 +35,6 @@ $testcase->name = $data->name;
 $testcase->desc = $data->desc;
 $testcase->global_wait = $data->global_wait;
 $testcase->steps = $data->steps;
-
-// $testcase->create();
 
 // create the test Case
 if ($last_id = $testcase->create()) {
