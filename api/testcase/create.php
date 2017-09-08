@@ -31,10 +31,10 @@ catch (Exception $e) {
 }
 
 // set test case property values
-$testcase->name = $data->name;
-$testcase->desc = $data->desc;
-$testcase->global_wait = $data->global_wait;
-$testcase->steps = $data->steps;
+$testcase->name = (isset($data->name) ? $data->name : null);
+$testcase->desc = (isset($data->desc) ? $data->desc : null);
+$testcase->global_wait = (isset($data->global_wait) ? $data->global_wait : null);
+$testcase->steps = (isset($data->steps) ? $data->steps : null);
 
 // create the test Case
 if ($last_id = $testcase->create()) {

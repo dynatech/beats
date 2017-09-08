@@ -132,26 +132,26 @@ class Testcase {
 		return $this->conn->affected_rows;
 	}
 
-	// public function delete() {
-	// 	// delete query
-	// 	$query = "DELETE FROM " . $this->table_name . " WHERE ts_id=?";
+	public function delete() {
+		// delete query
+		$query = "DELETE FROM " . $this->table_name . " WHERE tc_id=?";
 
-	// 	// prepare query
-	// 	$stmt = $this->conn->stmt_init();
-	// 	$stmt = $this->conn->prepare($query);
+		// prepare query
+		$stmt = $this->conn->stmt_init();
+		$stmt = $this->conn->prepare($query);
 
-	// 	// sanitize
-	// 	$this->id = htmlspecialchars(strip_tags($this->id));
+		// sanitize
+		$this->id = htmlspecialchars(strip_tags($this->id));
 
-	// 	// bind values
-	// 	$stmt->bind_param('i', $this->id);
+		// bind values
+		$stmt->bind_param('i', $this->id);
 
-	// 	// execute query
- //    if($stmt->execute()){
- //      return true;
- //    }
- //    else{
- //      return false;
- //    }
-	// }
+		// execute query
+    if($stmt->execute()){
+      return true;
+    }
+    else{
+      return false;
+    }
+	}
 }
