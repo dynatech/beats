@@ -23,18 +23,18 @@ try {
 
 	if ($testsuite->id) {
 		$results = $testsuite->readOne();
-		detailedView($results);
+		listView($results);
 	}
 	else {
 		$results = $testsuite->read();
-		detailedView($results);
+		listView($results);
 	}
 }
 catch (Exception $e) {
 	die("an exception has occurred");
 }
 
-function detailedView($results) {
+function listView($results) {
 	$num = $results->num_rows;
 
 	// check if more than 0 record found

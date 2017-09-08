@@ -45,7 +45,7 @@ function listView($results) {
 	if ($num > 0) {
 		// test_cases array
 		$test_cases_arr = array();
-		$test_cases_arr["records"] = array();
+		$test_cases_arr["testcases"] = array();
 
 	  while ($row = $results->fetch_assoc()) {
 	  	extract($row);
@@ -54,7 +54,7 @@ function listView($results) {
 				"tc_name" => $tc_name
 			);
 
-			array_push($test_cases_arr["records"], $test_case_item);
+			array_push($test_cases_arr["testcases"], $test_case_item);
 	  }
 
 	  echo json_encode($test_cases_arr);
@@ -73,7 +73,7 @@ function detailedView($results) {
 	if ($num > 0) {
 		// test_cases array
 		$test_cases_arr = array();
-		$test_cases_arr["records"] = array();
+		$test_cases_arr["testcases"] = array();
 
 	  while ($row = $results->fetch_assoc()) {
 	  	extract($row);
@@ -85,7 +85,7 @@ function detailedView($results) {
 				"steps" => json_decode($steps)
 			);
 
-			array_push($test_cases_arr["records"], $test_case_item);
+			array_push($test_cases_arr["testcases"], $test_case_item);
 	  }
 
 	  echo json_encode($test_cases_arr);
