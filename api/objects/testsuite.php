@@ -99,25 +99,38 @@ class Testsuite {
 	}
 
 	public function delete() {
-		// delete query
-		$query = "DELETE FROM " . $this->table_name . " WHERE ts_id=?";
+		if ($this->deleteTestcasesUnderTestsuite()) {
+			// delete query
+			$query = "DELETE FROM " . $this->table_name . " WHERE ts_id=" . $this->id;
+			$this->conn->query($query);
 
-		// prepare query
-		$stmt = $this->conn->stmt_init();
-		$stmt = $this->conn->prepare($query);
+			if ($this->conn->affected_rows > 0) {
+				return true;
+			} 
+			else {
+				return false;
+			}
+		} 
+		else {
+			return false;
+		}
+	}
 
-		// sanitize
-		$this->id = htmlspecialchars(strip_tags($this->id));
+	private function deleteTestcasesUnderTestsuite() {
+		$query = "DELETE tstc_transactions, test_cases";
+		$query = $query . " FROM tstc_transactions";
+		$query = $query . " INNER JOIN test_cases";
+		$query = $query . " ON tstc_transactions.tc_id = test_cases.tc_id";
+		$query = $query . " WHERE tstc_transactions.ts_id=" . $this->id;
 
-		// bind values
-		$stmt->bind_param('i', $this->id);
+		$this->conn->query($query);
 
-		// execute query
-    if($stmt->execute()){
-      return true;
-    }
-    else{
-      return false;
-    }
+		if ($this->conn->affected_rows >= 0) {
+			return true;
+		} 
+		else {
+			return false;
+		}
+		
 	}
 }

@@ -31,7 +31,7 @@ if ($testsuite->delete()) {
 } 
 else {
   echo json_encode(
-    array("message" => "Unable to delete Test Suite.")
+    array("message" => "Unable to delete Test Suite or Test Suite does not exist.")
   );
 }
 
