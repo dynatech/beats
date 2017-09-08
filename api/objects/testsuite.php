@@ -50,27 +50,10 @@ class Testsuite {
 	// Used when viewing only one test suite or for updating
 	public function readOne() {
 		// read single record
-		$query = "SELECT ts_id, ts_name, ts_desc FROM " . $this->table_name . " WHERE ts_id=? LIMIT 1";
-		// echo "$query";
+		$query = "SELECT ts_id, ts_name, ts_desc FROM " . $this->table_name . " WHERE ts_id=" . $this->id;
+		$result = $this->conn->query($query);
 
-		// prepare query
-		$stmt = $this->conn->stmt_init();
-		$stmt = $this->conn->prepare($query);
-
-		//bind id of test suite to be updated
-		$stmt->bind_param("i", $this->id);
-
-		// execute query
-		$stmt->execute();
-		// bind result variables
-		$stmt->bind_result($ts_id, $ts_name, $ts_desc);
-		// fetch row
-		$stmt->fetch();
-
-		// set values to object properties
-		$this->id = $ts_id;
-		$this->name = $ts_name;
-		$this->desc = $ts_desc;
+		return $result;
 	}
 
 	public function update() {

@@ -14,33 +14,53 @@ $db = $database->getConnection();
 // initialize object
 $testsuite = new Testsuite($db);
 
-// query test_suites
-$results = $testsuite->read();
-$num = $results->num_rows;
+// get posted data ONLY
+$data = json_decode(file_get_contents("php://input"));
 
-// check if more than 0 record found
-if ($num > 0) {
-	// test_suites array
-	$test_suites_arr = array();
-	$test_suites_arr["records"] = array();
+$results = null;
+try {
+	$testsuite->id = (isset($data->id) ? $data->id : null);
 
-  while ($row = $results->fetch_assoc()) {
-  	extract($row);
-		$test_suite_item = array(
-			"ts_id" => $ts_id,
-			"ts_name" => $ts_name,
-			"ts_desc" => $ts_desc
-		);
+	if ($testsuite->id) {
+		$results = $testsuite->readOne();
+		detailedView($results);
+	}
+	else {
+		$results = $testsuite->read();
+		detailedView($results);
+	}
+}
+catch (Exception $e) {
+	die("an exception has occurred");
+}
 
-		array_push($test_suites_arr["records"], $test_suite_item);
-  }
+function detailedView($results) {
+	$num = $results->num_rows;
 
-  echo json_encode($test_suites_arr);
-} 
-else {
-  echo json_encode(
-    array("message" => "No products found.")
-  );
+	// check if more than 0 record found
+	if ($num > 0) {
+		// test_suites array
+		$test_suites_arr = array();
+		$test_suites_arr["testsuites"] = array();
+
+	  while ($row = $results->fetch_assoc()) {
+	  	extract($row);
+			$test_suite_item = array(
+				"ts_id" => $ts_id,
+				"ts_name" => $ts_name,
+				"ts_desc" => $ts_desc
+			);
+
+			array_push($test_suites_arr["testsuites"], $test_suite_item);
+	  }
+
+	  echo json_encode($test_suites_arr);
+	} 
+	else {
+	  echo json_encode(
+	    array("message" => "No testsuites found.")
+	  );
+	}
 }
 
 

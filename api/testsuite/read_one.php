@@ -25,9 +25,9 @@ $testsuite->readOne();
 
 // create array
 $testsuite_arr = array(
-	"id" => $testsuite->id,
-	"name" => $testsuite->name,
-	"desc" => $testsuite->desc
+	"ts_id" => $testsuite->id,
+	"ts_name" => $testsuite->name,
+	"ts_desc" => $testsuite->desc
 );
 
 // make it json format
