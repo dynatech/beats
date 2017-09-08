@@ -18,6 +18,34 @@ class Testcase {
 		$this->conn = $db;
 	}
 
+	// count number of valid variables (aside from the ids)
+	private function getNumValidVariables() {
+		$validVars = 0;
+
+		if ($this->name)
+			$validVars++;
+		if ($this->desc)
+			$validVars++;
+		if ($this->global_wait)
+			$validVars++;
+		if ($this->steps)
+			$validVars++;
+
+		return $validVars;
+	}
+
+	// returns a ',' if $count is less than valid variables count
+	private function compareVarCount($count) {
+		$validVars = $this->getNumValidVariables();
+		// echo "Valids: $validVars, Count: $count \n";
+		if ($count < $validVars) {
+			return ",";
+		} else {
+			return "";
+		}
+		
+	}
+
 	public function readAll() {
 		// echo "Read Test Cases table \n";
 		$query = "SELECT tc_id, tc_name FROM " . $this->table_name;
@@ -73,30 +101,36 @@ class Testcase {
 		}
 	}
 
-	// public function update() {
-	// 	// update query
-	// 	$query = "UPDATE " . $this->table_name . " SET ts_name=?, ts_desc=? WHERE ts_id=? LIMIT 1";
+	public function update() {
+		// variable counter
+		$countVar = 0;
 
-	// 	// prepare query
-	// 	$stmt = $this->conn->stmt_init();
-	// 	$stmt = $this->conn->prepare($query);
+		// construct update query
+		$query = "UPDATE " . $this->table_name . " SET";
 
-	// 	// sanitize
-	// 	$this->id = htmlspecialchars(strip_tags($this->id));
-	// 	$this->name = htmlspecialchars(strip_tags($this->name));
-	// 	$this->desc = htmlspecialchars(strip_tags($this->desc));
+		if ($this->name) {
+			$this->name = htmlspecialchars(strip_tags($this->name));
+			$query = $query . " tc_name='" . $this->name . "'" . $this->compareVarCount(++$countVar);
+		}
+		if ($this->desc) {
+			$this->desc = htmlspecialchars(strip_tags($this->desc));
+			$query = $query . " tc_desc='" . $this->desc . "'" . $this->compareVarCount(++$countVar);
+		}
+		if ($this->global_wait) {
+			$this->global_wait = htmlspecialchars(strip_tags($this->global_wait));
+			$query = $query . " global_wait=" . $this->global_wait . $this->compareVarCount(++$countVar);
+		}
+		if ($this->steps) {
+			$this->steps = json_encode($this->steps);
+			$query = $query . " steps=" . $this->steps . $this->compareVarCount(++$countVar);
+		}
 
-	// 	// bind values
-	// 	$stmt->bind_param('ssi', $this->name, $this->desc, $this->id);
+		$this->id = htmlspecialchars(strip_tags($this->id));
+		$query = $query . " WHERE tc_id=" . $this->id;
 
- //    // execute query
- //    if($stmt->execute()){
- //      return true;
- //    }
- //    else{
- //      return false;
- //    }
-	// }
+		$this->conn->query($query);
+		return $this->conn->affected_rows;
+	}
 
 	// public function delete() {
 	// 	// delete query
