@@ -63,4 +63,13 @@ class Tstc_transaction {
 			return false;
 		}
 	}
+
+	public function update() {
+		// update query
+		$query = "UPDATE " . $this->table_name . " SET ts_id=" . $this->ts_id . 
+							", tc_id=" . $this->tc_id . " WHERE id=" . $this->id;
+
+		$this->conn->query($query);
+		return $this->conn->affected_rows;
+	}
 }
