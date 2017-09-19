@@ -72,4 +72,15 @@ class Tstc_transaction {
 		$this->conn->query($query);
 		return $this->conn->affected_rows;
 	}
+
+	public function delete() {
+		// sanitize
+		$this->id = htmlspecialchars(strip_tags($this->id));
+
+		// delete query
+		$query = "DELETE FROM " . $this->table_name . " WHERE id=" . $this->id;
+
+		$this->conn->query($query);
+		return $this->conn->affected_rows;
+	}
 }
