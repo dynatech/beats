@@ -16,7 +16,7 @@ class Tstc_transaction {
 	}
 
 	public function readAll() {
-		echo "Read TSTC Transaction table \n";
+		// echo "Read TSTC Transaction table \n";
 		$query = "SELECT * FROM " . $this->table_name;
 		$result = $this->conn->query($query);
 
@@ -26,27 +26,19 @@ class Tstc_transaction {
 	// Used when viewing only one test suite or for updating
 	public function readOne() {
 		// read single record
-		$query = "SELECT id, ts_id, tc_id FROM " . $this->table_name . " WHERE id=? LIMIT 1";
-		// echo "$query";
+		$query = "SELECT id, ts_id, tc_id FROM " . $this->table_name . " WHERE id=" . $this->id . " LIMIT 1";
+		$result = $this->conn->query($query);
 
-		// prepare query
-		$stmt = $this->conn->stmt_init();
-		$stmt = $this->conn->prepare($query);
+		return $result;
+	}
 
-		//bind id of test suite to be updated
-		$stmt->bind_param("i", $this->id);
+	// Used when viewing only one test suite or for updating
+	public function readFromOneTestsuite() {
+		// read records from one test suite
+		$query = "SELECT id, ts_id, tc_id FROM " . $this->table_name . " WHERE ts_id=" . $this->ts_id;
+		$result = $this->conn->query($query);
 
-		// execute query
-		$stmt->execute();
-		// bind result variables
-		$stmt->bind_result($id, $ts_id, $tc_id);
-		// fetch row
-		$stmt->fetch();
-
-		// set values to object properties
-		$this->id = $id;
-		$this->ts_id = $ts_id;
-		$this->tc_id = $tc_id;
+		return $result;
 	}
 
 	public function create() {
