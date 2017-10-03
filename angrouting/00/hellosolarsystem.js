@@ -52,8 +52,8 @@ myApp.run(function($http) {
 });
 
 // Show state tree
-myApp.run(function($uiRouter) {
-  var StateTree = window['ui-router-visualizer'].StateTree;
-  var el = StateTree.create($uiRouter, null, { height: 100, width: 300 });
-  el.className = 'statevis';
-});
+// myApp.run(function($uiRouter) {
+//   var StateTree = window['ui-router-visualizer'].StateTree;
+//   var el = StateTree.create($uiRouter, null, { height: 100, width: 300 });
+//   el.className = 'statevis';
+// });
