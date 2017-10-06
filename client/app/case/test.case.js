@@ -2,13 +2,13 @@
     'use strict';
 
     angular
-        .module('app.cases')
+        .module('app.case')
         .component('testCase', testCase());
 
     function testCase() {
         var component = {
             transclude: true,
-            templateUrl: "client/app/cases/testCase.html",
+            templateUrl: "client/app/case/testCase.html",
             controller: testCaseController,
             controllerAs: 'vm'
         }

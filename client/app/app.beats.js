@@ -28,7 +28,7 @@ Date: Sept 6, 2017
         /*
          * Feature areas
          */
-         'app.cases'
+         'app.case'
         // 'app.avengers',
         // 'app.dashboard',
         // 'app.layout'

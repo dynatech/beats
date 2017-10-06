@@ -33,6 +33,7 @@ Date: Sept 6, 2017
     <![endif]-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="//npmcdn.com/@uirouter/angularjs@1.0.5/release/angular-ui-router.js"></script>
     <script src="vendor/angular/angular-drag-and-drop-lists.min.js"></script>
 </head>
 
@@ -51,7 +52,7 @@ Date: Sept 6, 2017
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="#page-top"><i>BEATS</i></a>
-                <a class="navbar-brand" href="#"><small>Alpha</small></a>
+                <a class="navbar-brand" href="#"><small>Gold</small></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -72,8 +73,10 @@ Date: Sept 6, 2017
     <section id="main-content-bg">
         <div class="container">
             <div class="row">
-                <h4><a href="#">Test Suite</a></h4>
+                <h3><u>Home Page</u></h3>
                 <test-case></test-case>
+
+                <ui-view></ui-view>
             </div>
         </div>
     </section>
@@ -92,12 +95,12 @@ Date: Sept 6, 2017
 <script src="client/app/app.beats.js"></script>
 
 <!-- Test Cases -->
-<script src="client/app/cases/cases.module.js"></script>
-<script src="client/app/cases/test.case.js"></script>
-<script src="client/app/cases/generate.action.js"></script>
+<script src="client/app/case/case.module.js"></script>
+<script src="client/app/case/test.case.js"></script>
+<script src="client/app/case/generate.action.js"></script>
 
 <!-- Case Steps -->
-<script src="client/app/steps/case.step.js"></script>
+<script src="client/app/step/case.step.js"></script>
 
 </body>
 </html>

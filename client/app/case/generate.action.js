@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.cases')
+        .module('app.case')
         .service('generateTestActions', generateTestActions);
 
     generateTestActions.$inject = ['$log'];
