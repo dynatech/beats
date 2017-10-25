@@ -11,5 +11,5 @@ myApp.config(function($stateProvider) {
 });
 
 myApp.run(function($http) {
-  $http.get('data/people.json', { cache: true });
+  $http.get('client/app2/data/people.json', { cache: true });
 });

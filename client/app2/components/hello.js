@@ -1,5 +1,5 @@
 angular.module('beatsApp').component('hello', {
-	templateUrl: 'components/hello.htm',
+	templateUrl: 'client/app2/components/hello.htm',
 
 	controller: function() {
 		this.greeting = 'Hora!';
