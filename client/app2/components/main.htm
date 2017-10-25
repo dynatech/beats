@@ -1,6 +1,16 @@
-<h3>Test Suites:</h3>
-<ul>
-	<li ng-repeat="testsuite in $ctrl.main.testsuites">
-		{{ testsuite.ts_name }}
-	</li>
-</ul>
+<div class="row">
+	<div class="test-case-bottom-buttons">
+		<h2>Test Suites Selection Page</h2>
+		<button class="btn btn-success btn-lg" ng-click="">+ Create New Test Suite</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<ul>
+			<li ng-repeat="testsuite in $ctrl.main.testsuites">
+				{{ testsuite.ts_name }}
+			</li>
+		</ul>
+	</div>
+</div>
