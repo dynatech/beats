@@ -9,6 +9,7 @@ class Testsuite {
 	public $id;
 	public $name;
 	public $desc;
+	public $numTestCases;
 
 	// constructor with $db as database connection
 	public function __construct($db) {
@@ -17,7 +18,14 @@ class Testsuite {
 
 	public function read() {
 		// echo "Read Test Suites table \n";
-		$query = "SELECT * FROM " . $this->table_name;
+		$query = "SELECT " . $this->table_name . ".ts_id, " . $this->table_name . ".ts_name, " 
+					. $this->table_name . ".ts_desc, count(tstc_transactions.id) "
+					.	"AS numTestCases "
+					. "FROM " . $this->table_name . " "
+					. "LEFT JOIN tstc_transactions "
+					.	"ON " . $this->table_name . ".ts_id = tstc_transactions.ts_id "
+					. "GROUP BY " . $this->table_name . ".ts_id ";
+
 		$result = $this->conn->query($query);
 
 		return $result;

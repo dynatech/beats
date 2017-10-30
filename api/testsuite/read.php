@@ -49,7 +49,8 @@ function listView($results) {
 			$test_suite_item = array(
 				"ts_id" => $ts_id,
 				"ts_name" => $ts_name,
-				"ts_desc" => $ts_desc
+				"ts_desc" => $ts_desc,
+				"numTestCases" => $numTestCases
 			);
 
 			array_push($test_suites_arr["testsuites"], $test_suite_item);
