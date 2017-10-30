@@ -19,9 +19,17 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 		}
 	}
 
+	// This will display details of a test suite
+	var testsuiteState = {
+		name: 'testsuite',
+		url: '/testsuite',
+		component: 'testsuite'
+	}
+
 	// Declare states to make it available for "ui-sref" calls
 	$stateProvider.state(helloState);
 	$stateProvider.state(mainState);
+	$stateProvider.state(testsuiteState);
 
 	// Use the Main Testsuite List Page as the default page
 	$urlRouterProvider.otherwise('/');
