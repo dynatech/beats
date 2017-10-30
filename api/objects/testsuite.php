@@ -19,12 +19,12 @@ class Testsuite {
 	public function read() {
 		// echo "Read Test Suites table \n";
 		$query = "SELECT " . $this->table_name . ".ts_id, " . $this->table_name . ".ts_name, " 
-					. $this->table_name . ".ts_desc, count(tstc_transactions.id) "
-					.	"AS numTestCases "
-					. "FROM " . $this->table_name . " "
-					. "LEFT JOIN tstc_transactions "
-					.	"ON " . $this->table_name . ".ts_id = tstc_transactions.ts_id "
-					. "GROUP BY " . $this->table_name . ".ts_id ";
+					. $this->table_name . ".ts_desc, count(tstc_transactions.id)"
+					.	" AS numTestCases"
+					. " FROM " . $this->table_name . " "
+					. " LEFT JOIN tstc_transactions"
+					.	" ON " . $this->table_name . ".ts_id = tstc_transactions.ts_id"
+					. " GROUP BY " . $this->table_name . ".ts_id ";
 
 		$result = $this->conn->query($query);
 
@@ -125,11 +125,11 @@ class Testsuite {
 	}
 
 	private function deleteTestcasesUnderTestsuite() {
-		$query = "DELETE tstc_transactions, test_cases";
-		$query = $query . " FROM tstc_transactions";
-		$query = $query . " INNER JOIN test_cases";
-		$query = $query . " ON tstc_transactions.tc_id = test_cases.tc_id";
-		$query = $query . " WHERE tstc_transactions.ts_id=" . $this->id;
+		$query = "DELETE tstc_transactions, test_cases"
+					. " FROM tstc_transactions"
+					. " INNER JOIN test_cases"
+					. " ON tstc_transactions.tc_id = test_cases.tc_id"
+					. " WHERE tstc_transactions.ts_id=" . $this->id;
 
 		$this->conn->query($query);
 
