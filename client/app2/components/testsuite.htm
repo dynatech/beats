@@ -41,3 +41,208 @@
 		<input type="text" class="form-control" ng-model="$ctrl.tsdata.testsuites[0].ts_desc">
 	</div>
 </div>
+
+<Br>
+
+<h4>Test Cases List:</h4>
+<div ng-repeat="testcase in $ctrl.tsdata.testsuites[0].testcases">
+	<div class="case-step">
+		<div class="step">
+			<div class="item">
+				{{ $index + 1 }}.
+			</div>
+			<div class="item">
+				<h4><a href="">{{ testcase.tc_name }}</a></h4>
+			</div>
+		</div>
+		<div class="beats-action">
+			<div class="item">
+				<a href="" data-toggle="modal" data-target="#modalDownload">
+					<i class="fa fa-download" aria-hidden="true"></i>
+					Download
+				</a>
+			</div>
+			<div class="item">
+				<a href="" data-toggle="modal" data-target="#modalClone">
+					<i class="fa fa-files-o" aria-hidden="true"></i>
+					Clone
+				</a>
+			</div>
+			<div class="item">
+				<a href="" data-toggle="modal" data-target="#modalDelete">
+					<i class="fa fa-trash" aria-hidden="true"></i>
+					Delete
+				</a>
+			</div>
+		</div>
+	</div>
+	<hr>
+</div>
+
+<Br>
+
+<div class="row">
+	<div class="col-md-12 text-right">
+		<button class="btn btn-primary" ng-click="" data-toggle="modal" data-target="#modalDownloadTestsuite">
+			<i class="fa fa-download" aria-hidden="true"></i>
+			Download Test Suite
+		</button>
+		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
+			<i class="fa fa-plus" aria-hidden="true"></i>
+			Create New Test Case
+		</button>
+	</div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="modalCreate" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-plus" aria-hidden="true"></i>
+        	Create a Test Case
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>What would you like to name your *NEW* Test Case?</p>
+				<input type="text" class="form-control" id="newTestCaseName" 
+					placeholder="Enter name of your test case here...">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">
+        	<i class="fa fa-floppy-o" aria-hidden="true"></i>
+        	Save New Test Case
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Download Test Suite Modal -->
+<div class="modal fade" id="modalDownloadTestsuite" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Test Suite Download
+        </h4>
+      </div>
+      <div class="modal-body">
+      	<p>Download <b><u>[Name of Test Suite]</u></b>...</p>
+        <p>What format would you like to download?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	JSON
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Selenium Script
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Download Modal -->
+<div class="modal fade" id="modalDownload" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Test Case Download
+        </h4>
+      </div>
+      <div class="modal-body">
+      	<p>Download <b><u>[Name of Test Case]</u></b>...</p>
+        <p>What format would you like to download?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	JSON
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Selenium Script
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Clone Modal -->
+<div class="modal fade" id="modalClone" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-files-o" aria-hidden="true"></i>
+        	Test Case Clone
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>Cloning <b><u>[Name of Test Case]</u></b>... Name of clone will be <b><u>[Name of Test Case] (copy)</u></b></p>
+        <p>Proceed with the Test Case Cloning?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+        	<i class="fa fa-files-o" aria-hidden="true"></i>
+        	Yes, Clone Test Case
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modalDelete" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-trash" aria-hidden="true"></i>
+        	Test Case Delete
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to <b><span class="text-danger">DELETE</span></b> <b><u>[Name of Test Case]</u></b>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        	<i class="fa fa-trash" aria-hidden="true"></i>
+        	Yes
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
