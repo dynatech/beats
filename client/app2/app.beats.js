@@ -1,6 +1,6 @@
 var myApp = angular.module('beatsApp', ['ui.router']);
 
-myApp.config(function($stateProvider) {
+myApp.config(function($stateProvider, $urlRouterProvider) {
 	var helloState = {
 		name: 'hello',
 		url: '/hello',
@@ -10,7 +10,7 @@ myApp.config(function($stateProvider) {
 	// This will display a list of test suites
 	var mainState = {
 		name: 'main',
-		url: '/main',
+		url: '/',
 		component: 'main',
 		resolve: {
 			main: function(TestsuitesService) {
@@ -19,10 +19,10 @@ myApp.config(function($stateProvider) {
 		}
 	}
 
+	// Declare states to make it available for "ui-sref" calls
 	$stateProvider.state(helloState);
 	$stateProvider.state(mainState);
-});
 
-myApp.run(function($http) {
-  $http.get('client/app2/data/people.json', { cache: true });
+	// Use the Main Testsuite List Page as the default page
+	$urlRouterProvider.otherwise('/');
 });
