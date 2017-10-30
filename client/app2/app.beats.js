@@ -22,8 +22,13 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 	// This will display details of a test suite
 	var testsuiteState = {
 		name: 'testsuite',
-		url: '/testsuite',
-		component: 'testsuite'
+		url: '/testsuite/{tsId}',
+		component: 'testsuite',
+		resolve: {
+			tsdata: function(TestsuitesService, $transition$) {
+				return TestsuitesService.getTestsuiteDetail($transition$.params().tsId)
+			}
+		}
 	}
 
 	// Declare states to make it available for "ui-sref" calls
