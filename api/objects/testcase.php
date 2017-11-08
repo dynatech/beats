@@ -70,7 +70,13 @@ class Testcase {
 
 	// Used when viewing the details of one test case
 	public function readOne() {
-		$query = "SELECT * FROM " . $this->table_name . " WHERE tc_id=" . $this->id;
+		$query = "SELECT tx.ts_id, tc.tc_id, tc.tc_name, " .
+						"	tc.tc_desc, tc.global_wait, tc.steps" .
+						" FROM test_cases as tc" .
+						" LEFT JOIN tstc_transactions as tx" .
+						" ON tc.tc_id = tx.tc_id" .
+						" WHERE tc.tc_id = " . $this->id . 
+						" ORDER BY tx.ts_id";
 		$result = $this->conn->query($query);
 
 		return $result;

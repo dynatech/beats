@@ -31,10 +31,23 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 		}
 	}
 
+	// This will display details of a test case
+	var testcaseState = {
+		name: 'testcase',
+		url: '/testcase/{tcId}',
+		component: 'testcase',
+		resolve: {
+			tcasedata: function(TestcasesService, $transition$) {
+				return TestcasesService.getTestcaseDetail($transition$.params().tcId)
+			}
+		}
+	}
+
 	// Declare states to make it available for "ui-sref" calls
 	$stateProvider.state(helloState);
 	$stateProvider.state(mainState);
 	$stateProvider.state(testsuiteState);
+	$stateProvider.state(testcaseState);
 
 	// Use the Main Testsuite List Page as the default page
 	$urlRouterProvider.otherwise('/');

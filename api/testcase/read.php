@@ -78,6 +78,7 @@ function detailedView($results) {
 	  while ($row = $results->fetch_assoc()) {
 	  	extract($row);
 			$test_case_item = array(
+				"ts_id" => $ts_id,
 				"tc_id" => $tc_id,
 				"tc_name" => $tc_name,
 				"tc_desc" => $tc_desc,
