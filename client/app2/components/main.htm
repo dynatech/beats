@@ -5,7 +5,9 @@
 </div>
 <div class="row">
 	<div class="col-md-12 text-right">
-		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
+		<button class="btn btn-success" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			Create New Test Suite
 		</button>
@@ -67,7 +69,9 @@
 
 <div class="row">
 	<div class="col-md-12 text-right">
-		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
+		<button class="btn btn-success" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			Create New Test Suite
 		</button>
@@ -88,13 +92,20 @@
         </h4>
       </div>
       <div class="modal-body">
-        <p>What would you like to name your *NEW* Test Suite?</p>
+        <label>Test Suite Name:</label>
 				<input type="text" class="form-control" id="newTestSuiteName" 
-					placeholder="Enter name of your test suite here...">
+					placeholder="Enter name of your test suite here..."
+          ng-model="vm.params.name"><Br>
+        <label>Description <small>(Optional)</small>:</label>
+        <textarea class="form-control" id="newTestSuiteDesc" 
+          placeholder="Enter description of your test suite here..."
+          ng-model="vm.params.desc">    
+        </textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal">
+        <button type="button" class="btn btn-success" 
+          ng-click="vm.createTestsuite()">
         	<i class="fa fa-floppy-o" aria-hidden="true"></i>
         	Save New Test Suite
         </button>
