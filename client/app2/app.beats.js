@@ -37,7 +37,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 		url: '/testcase/{tcId}',
 		component: 'testcase',
 		resolve: {
-			tcasedata: function(TestcasesService, $transition$) {
+			tcdata: function(TestcasesService, $transition$) {
 				return TestcasesService.getTestcaseDetail($transition$.params().tcId)
 			}
 		}

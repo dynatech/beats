@@ -15,6 +15,8 @@ angular.module('beatsApp').service('TestcasesService', function($http, $log) {
 
 	function getTestcaseDetail(tc_id) {
 		return $http.post('api/testcase/read.php', { id: tc_id }).then(function(resp) {
+			// Change format of "global_wait" to int for "number" display on frontend
+			resp.data.testcases[0].global_wait = parseInt(resp.data.testcases[0].global_wait);
 			$log.debug("getTestcaseDetail", resp.data);
 			return resp.data;
 		});
