@@ -25,9 +25,14 @@ $testsuite->name = $data->name;
 $testsuite->desc = $data->desc;
 
 // create the test suite
-if ($testsuite->create()) {
+$latest_id = $testsuite->create();
+
+if ($latest_id > 0) {
   echo json_encode(
-    array("message" => "Test Suite was created.")
+    array(
+    	"ts_id" => $latest_id,
+    	"message" => "Test Suite was created."
+    )
   );
 } 
 else {

@@ -8,22 +8,22 @@ angular.module('beatsApp').service('TestsuitesService', function($http, $log) {
 	return service;
 
 	function getAllTestsuites() {
-		return $http.get('api/testsuite/read.php', { cache: true }).then(function(resp) {
+		return $http.get('api/testsuite/read.php').then(function(resp) {
+			$log.debug("TestsuitesService getAllTestsuites", resp.data);
 			return resp.data;
 		});
 	}
 
 	function getTestsuiteDetail(ts_id) {
 		return $http.post('api/testsuite/read.php', { id: ts_id }).then(function(resp) {
-			$log.debug("getTestsuiteDetail", resp.data);
+			$log.debug("TestsuitesService getTestsuiteDetail", resp.data);
 			return resp.data;
 		});
 	}
 
 	function createTestsuite(params) {
-		// $log.debug("createTestsuite params", params);
-		return $http.post('api/testsuite/create.php', { name: params.name, desc: params.desc }).then(function(resp) {
-			$log.debug("createTestsuite", resp.data);
+		return $http.post('api/testsuite/create.php', { name: params.ts_name, desc: params.ts_desc }).then(function(resp) {
+			$log.debug("TestsuitesService createTestsuite", resp.data);
 			return resp.data;
 		});
 	}

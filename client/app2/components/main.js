@@ -21,6 +21,7 @@
 		$log.debug("mainController start");
 		var vm = this;
 		vm.params = null;
+		vm.crud_status = null;
 
 		// Functions for Main Page
 		vm.testCall = testCall;
@@ -36,15 +37,33 @@
 		function clearParams() {
 			$log.debug("clearParams");
 			vm.params = null;
+			vm.crud_status = null;
 		}
 
 		// Create Test Suite
 		function createTestsuite() {
-			$log.debug("createTestsuite");
-			$log.debug("New Test Suite", vm.params);
-			TestsuitesService.createTestsuite(vm.params);
-		}
+			TestsuitesService.createTestsuite(vm.params).then(function(response) {
+				$log.debug("createTestsuite", response);
+				vm.crud_status = response.message;
+				vm.params.ts_id = response.ts_id;
+				vm.params.numTestCases = 0;
 
+				//Hide the create testsuite modal
+				jQuery(".modal.in").modal("hide");
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+
+				//Add the newly created data to the testsuites list
+				vm.maindata.testsuites.push(vm.params);
+				$log.debug("All Test Suites", vm.maindata);
+			}, function(response) {
+				$log.debug("createTestsuite", response);
+				vm.crud_status = response.message;
+
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+			});
+		}
 
 	}
 
