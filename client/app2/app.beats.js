@@ -13,7 +13,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
 		url: '/',
 		component: 'main',
 		resolve: {
-			main: function(TestsuitesService) {
+			maindata: function(TestsuitesService) {
 				return TestsuitesService.getAllTestsuites();
 			}
 		}
