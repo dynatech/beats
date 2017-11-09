@@ -57,7 +57,7 @@
 			TestcasesService.createTestcase(vm.params).then(function(response) {
 				$log.debug("createTestcase", response);
 				vm.crud_status = response.message;
-				vm.params.ts_id = response.ts_id;
+				vm.params.tc_id = response.tc_id;
 				vm.params.numTestCases = 0;
 
 				//Hide the create testsuite modal

@@ -50,7 +50,10 @@ if ($last_id = $testcase->create()) {
 	// create TSTC transaction table
 	if ($tstc_transaction->create()) {
 	  echo json_encode(
-	    array("message" => $message)
+	    array(
+	    	"tc_id" => $last_id,
+	    	"message" => $message
+	  	)
 	  );
 	}
 	else {
