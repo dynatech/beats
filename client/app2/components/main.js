@@ -42,7 +42,7 @@
 				$scope.createTestsuiteForm.$setPristine();
 		}
 
-		// Click Delete Test Suite
+		// Click a beats action
 		function clickBeatsAction(params) {
 			$log.debug("clickBeatsAction", params);
 			vm.params = params;

@@ -13,7 +13,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<h4>
-			<span>{{ $ctrl.tsdata.testsuites[0].ts_name }}</span> &nbsp;
+			<span>{{ vm.tsdata.testsuites[0].ts_name }}</span> &nbsp;
 			<a href="">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i>
 			</a> &nbsp;
@@ -38,14 +38,14 @@
 <div class="row">
 	<div class="col-xs-12">
 		<label><small>Description:</small></label>
-		<input type="text" class="form-control" ng-model="$ctrl.tsdata.testsuites[0].ts_desc">
+		<input type="text" class="form-control" ng-model="vm.tsdata.testsuites[0].ts_desc">
 	</div>
 </div>
 
 <Br>
 
 <h4>Test Cases List:</h4>
-<div ng-repeat="testcase in $ctrl.tsdata.testsuites[0].testcases">
+<div ng-repeat="testcase in vm.tsdata.testsuites[0].testcases">
 	<div class="case-step">
 		<div class="step">
 			<div class="item">
@@ -57,19 +57,22 @@
 		</div>
 		<div class="beats-action">
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalDownload">
+				<a href="" data-toggle="modal" data-target="#modalDownload"
+          ng-click="vm.clickBeatsAction(testcase)">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Download
 				</a>
 			</div>
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalClone">
+				<a href="" data-toggle="modal" data-target="#modalClone"
+          ng-click="vm.clickBeatsAction(testcase)">
 					<i class="fa fa-files-o" aria-hidden="true"></i>
 					Clone
 				</a>
 			</div>
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalDelete">
+				<a href="" data-toggle="modal" data-target="#modalDelete"
+          ng-click="vm.clickBeatsAction(testcase)">
 					<i class="fa fa-trash" aria-hidden="true"></i>
 					Delete
 				</a>
@@ -107,18 +110,40 @@
         	Create a Test Case
         </h4>
       </div>
-      <div class="modal-body">
-        <p>What would you like to name your *NEW* Test Case?</p>
-				<input type="text" class="form-control" id="newTestCaseName" 
-					placeholder="Enter name of your test case here...">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal">
-        	<i class="fa fa-floppy-o" aria-hidden="true"></i>
-        	Save New Test Case
-        </button>
-      </div>
+
+      <form name="createTestcaseForm">
+        <div class="modal-body">
+          <label>
+            Test Case Name:
+            <span class="text-danger" 
+              ng-show="createTestcaseForm.newTestCaseName.$invalid && createTestcaseForm.newTestCaseName.$dirty">
+              (Empty or invalid input)
+            </span>
+          </label>
+          <input type="text" class="form-control" id="newTestCaseName" 
+            name="newTestCaseName" 
+            placeholder="Enter name of your test case here..."><Br>
+          <label>
+            Description:
+            <span class="text-danger" 
+              ng-show="createTestcaseForm.newTestCaseDesc.$invalid && createTestcaseForm.newTestCaseDesc.$dirty">
+              (Empty or invalid input)
+            </span>
+          </label>
+          <input type="text" class="form-control" id="newTestCaseDesc" 
+            name="newTestCaseDesc" 
+            placeholder="Enter description of your test case here..."><Br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" 
+            ng-click="vm.createTestsuite()" 
+            ng-disabled="(createTestcaseForm.newTestCaseName.$dirty && createTestcaseForm.newTestCaseName.$invalid) || (createTestcaseForm.newTestCaseDesc.$dirty && createTestcaseForm.newTestCaseDesc.$invalid) || createTestcaseForm.newTestCaseName.$pristine || createTestcaseForm.newTestCaseDesc.$pristine">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            Save New Test Case
+          </button>
+        </div>
+      </form>
     </div>
     
   </div>
