@@ -35,9 +35,11 @@
 		function clearParams() {
 			$log.debug("clearParams");
 			vm.params = null;
-			// vm.params.ts_name = null;
-			// vm.params.ts_desc = null;
 			vm.crud_status = null;
+
+			// Make forms pristine
+			if ($scope.createTestsuiteForm)
+				$scope.createTestsuiteForm.$setPristine();
 		}
 
 		// Click Delete Test Suite
