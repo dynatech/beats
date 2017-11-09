@@ -43,19 +43,22 @@
 		</div>
 		<div class="beats-action">
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalDownload">
+				<a href="" data-toggle="modal" data-target="#modalDownload" 
+          ng-click="vm.clickBeatsAction(testsuite)">
 					<i class="fa fa-download" aria-hidden="true"></i>
 					Download
 				</a>
 			</div>
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalClone">
+				<a href="" data-toggle="modal" data-target="#modalClone" 
+          ng-click="vm.clickBeatsAction(testsuite)">
 					<i class="fa fa-files-o" aria-hidden="true"></i>
 					Clone
 				</a>
 			</div>
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalDelete">
+				<a href="" data-toggle="modal" data-target="#modalDelete" 
+          ng-click="vm.clickBeatsAction(testsuite)">
 					<i class="fa fa-trash" aria-hidden="true"></i>
 					Delete
 				</a>
@@ -91,25 +94,42 @@
         	Create a Test Suite
         </h4>
       </div>
-      <div class="modal-body">
-        <label>Test Suite Name:</label>
-				<input type="text" class="form-control" id="newTestSuiteName" 
-					placeholder="Enter name of your test suite here..."
-          ng-model="vm.params.ts_name"><Br>
-        <label>Description <small>(Optional)</small>:</label>
-        <textarea class="form-control" id="newTestSuiteDesc" 
-          placeholder="Enter description of your test suite here..."
-          ng-model="vm.params.ts_desc">    
-        </textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" 
-          ng-click="vm.createTestsuite()">
-        	<i class="fa fa-floppy-o" aria-hidden="true"></i>
-        	Save New Test Suite
-        </button>
-      </div>
+      <form name="createTestsuiteForm">
+        <div class="modal-body">
+          <label>
+            Test Suite Name: 
+            <span class="text-danger" 
+              ng-show="createTestsuiteForm.newTestSuiteName.$invalid && createTestsuiteForm.newTestSuiteName.$dirty">
+              (Empty or invalid input)
+            </span>
+          </label>
+          <input type="text" class="form-control" id="newTestSuiteName" 
+            name="newTestSuiteName"
+            placeholder="Enter name of your test suite here..."
+            ng-model="vm.params.ts_name" required><Br>
+          <label>
+            Description:
+            <span class="text-danger" 
+              ng-show="createTestsuiteForm.newTestSuiteDesc.$invalid && createTestsuiteForm.newTestSuiteDesc.$dirty">
+              (Empty or invalid input)
+            </span>
+          </label>
+          <textarea class="form-control" id="newTestSuiteDesc" 
+            name="newTestSuiteDesc"
+            placeholder="Enter description of your test suite here..."
+            ng-model="vm.params.ts_desc" required>    
+          </textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" 
+            ng-click="vm.createTestsuite()" 
+            ng-disabled="(createTestsuiteForm.newTestSuiteName.$dirty && createTestsuiteForm.newTestSuiteName.$invalid) || (createTestsuiteForm.newTestSuiteDesc.$dirty && createTestsuiteForm.newTestSuiteDesc.$invalid) || createTestsuiteForm.newTestSuiteName.$pristine || createTestsuiteForm.newTestSuiteDesc.$pristine">
+          	<i class="fa fa-floppy-o" aria-hidden="true"></i>
+          	Save New Test Suite
+          </button>
+        </div>
+      </form>
     </div>
     
   </div>
@@ -129,7 +149,7 @@
         </h4>
       </div>
       <div class="modal-body">
-      	<p>Download <b><u>[Name of Test Suite]</u></b>...</p>
+      	<p>Download <b><u>{{ vm.params.ts_name }}</u></b>...</p>
         <p>What format would you like to download?</p>
       </div>
       <div class="modal-footer">
@@ -162,7 +182,11 @@
         </h4>
       </div>
       <div class="modal-body">
-        <p>Cloning <b><u>[Name of Test Suite]</u></b>... Name of clone will be <b><u>[Name of Test Suite] (copy)</u></b></p>
+        <p>
+          Cloning 
+          <b><u>{{ vm.params.ts_name }}</u></b>... Name of clone will be 
+          <b><u>{{ vm.params.ts_name }} (copy)</u></b>
+        </p>
         <p>Proceed with the Test Suite Cloning?</p>
       </div>
       <div class="modal-footer">
@@ -191,7 +215,11 @@
         </h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to <b><span class="text-danger">DELETE</span></b> <b><u>[Name of Test Suite]</u></b>?</p>
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.params.ts_name }}</u></b>?
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -223,7 +251,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
       </div>
     </div>
     

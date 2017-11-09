@@ -24,20 +24,26 @@
 		vm.crud_status = null;
 
 		// Functions for Main Page
-		vm.testCall = testCall;
 		vm.clearParams = clearParams;
+		vm.clickBeatsAction = clickBeatsAction;
 		vm.createTestsuite = createTestsuite;
-
-		// Test Call
-		function testCall() {
-			$log.debug("testCall");
-		}
+		vm.cloneTestsuite = cloneTestsuite;
+		vm.updateTestsuite = updateTestsuite;
+		vm.deleteTestsuite = deleteTestsuite;
 
 		// Clear Parameters
 		function clearParams() {
 			$log.debug("clearParams");
 			vm.params = null;
+			// vm.params.ts_name = null;
+			// vm.params.ts_desc = null;
 			vm.crud_status = null;
+		}
+
+		// Click Delete Test Suite
+		function clickBeatsAction(params) {
+			$log.debug("clickBeatsAction", params);
+			vm.params = params;
 		}
 
 		// Create Test Suite
@@ -63,6 +69,21 @@
 				//Call the CRUD Status Message Modal
 				jQuery("#modalStatus").modal("show");
 			});
+		}
+
+		// Clone Test Suite
+		function cloneTestsuite() {
+			$log.debug("cloneTestsuite");
+		}
+
+		// Update Test Suite
+		function updateTestsuite() {
+			$log.debug("updateTestsuite");
+		}
+
+		// Delete Test Suite
+		function deleteTestsuite() {
+			$log.debug("deleteTestsuite");
 		}
 
 	}
