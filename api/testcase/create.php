@@ -36,8 +36,8 @@ $testcase->desc = (isset($data->desc) ? $data->desc : null);
 $testcase->global_wait = (isset($data->global_wait) ? $data->global_wait : null);
 $testcase->steps = (isset($data->steps) ? $data->steps : null);
 
-if ( ($testcase->name == null) || ($testcase->desc == null) ) {
-	die("Failed: No test case name or description");
+if ($testcase->name == null) {
+	die("Failed: No test case name");
 }
 
 // create the test Case
