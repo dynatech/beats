@@ -29,7 +29,9 @@
 		</h4>
 	</div>
 	<div class="col-md-6 text-right">
-		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
+		<button class="btn btn-success" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			Create New Test Case
 		</button>
@@ -90,7 +92,9 @@
 			<i class="fa fa-download" aria-hidden="true"></i>
 			Download Test Suite
 		</button>
-		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
+		<button class="btn btn-success" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			Create New Test Case
 		</button>
@@ -114,15 +118,16 @@
       <form name="createTestcaseForm">
         <div class="modal-body">
           <label>
-            Test Case Name:
+            Test Suite Name: 
             <span class="text-danger" 
               ng-show="createTestcaseForm.newTestCaseName.$invalid && createTestcaseForm.newTestCaseName.$dirty">
               (Empty or invalid input)
             </span>
           </label>
           <input type="text" class="form-control" id="newTestCaseName" 
-            name="newTestCaseName" 
-            placeholder="Enter name of your test case here..."><Br>
+            name="newTestCaseName"
+            placeholder="Enter name of your test suite here..."
+            ng-model="vm.params.tc_name" required><Br>
           <label>
             Description:
             <span class="text-danger" 
@@ -130,14 +135,16 @@
               (Empty or invalid input)
             </span>
           </label>
-          <input type="text" class="form-control" id="newTestCaseDesc" 
-            name="newTestCaseDesc" 
-            placeholder="Enter description of your test case here..."><Br>
+          <textarea class="form-control" id="newTestCaseDesc" 
+            name="newTestCaseDesc"
+            placeholder="Enter description of your test case here..."
+            ng-model="vm.params.tc_desc" required>    
+          </textarea>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-success" 
-            ng-click="vm.createTestsuite()" 
+            ng-click="vm.createTestcase()" 
             ng-disabled="(createTestcaseForm.newTestCaseName.$dirty && createTestcaseForm.newTestCaseName.$invalid) || (createTestcaseForm.newTestCaseDesc.$dirty && createTestcaseForm.newTestCaseDesc.$invalid) || createTestcaseForm.newTestCaseName.$pristine || createTestcaseForm.newTestCaseDesc.$pristine">
             <i class="fa fa-floppy-o" aria-hidden="true"></i>
             Save New Test Case
@@ -168,11 +175,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info" data-dismiss="modal">
+        <button type="button" class="btn btn-info" ng-click="vm.downloadTestsuite()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	JSON
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">
+        <button type="button" class="btn btn-primary" ng-click="vm.downloadTestsuite()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	Selenium Script
         </button>
@@ -196,16 +203,16 @@
         </h4>
       </div>
       <div class="modal-body">
-      	<p>Download <b><u>[Name of Test Case]</u></b>...</p>
+      	<p>Download <b><u>{{ vm.params.tc_name }}</u></b>...</p>
         <p>What format would you like to download?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info" data-dismiss="modal">
+        <button type="button" class="btn btn-info" ng-click="vm.downloadTestcase()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	JSON
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">
+        <button type="button" class="btn btn-primary" ng-click="vm.downloadTestcase()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	Selenium Script
         </button>
@@ -229,12 +236,16 @@
         </h4>
       </div>
       <div class="modal-body">
-        <p>Cloning <b><u>[Name of Test Case]</u></b>... Name of clone will be <b><u>[Name of Test Case] (copy)</u></b></p>
+        <p>
+          Cloning 
+          <b><u>{{ vm.params.tc_name }}</u></b>... Name of clone will be 
+          <b><u>{{ vm.params.tc_name }} (copy)</u></b>
+        </p>
         <p>Proceed with the Test Case Cloning?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">
+        <button type="button" class="btn btn-primary" ng-click="vm.cloneTestcase()">
         	<i class="fa fa-files-o" aria-hidden="true"></i>
         	Yes, Clone Test Case
         </button>
@@ -258,11 +269,15 @@
         </h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to <b><span class="text-danger">DELETE</span></b> <b><u>[Name of Test Case]</u></b>?</p>
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.params.tc_name }}</u></b>?
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <button type="button" class="btn btn-danger" ng-click="vm.deleteTestcase()">
         	<i class="fa fa-trash" aria-hidden="true"></i>
         	Yes
         </button>

@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService'];
+	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'TestsuitesService'];
 
-	function testsuiteController($log, $scope, $http, $window, TestcasesService) {
+	function testsuiteController($log, $scope, $http, $window, TestcasesService, TestsuitesService) {
 		$log.debug("testsuiteController start");
 		var vm = this;
 		vm.params = null;
@@ -30,6 +30,8 @@
 		vm.cloneTestcase = cloneTestcase;
 		vm.updateTestcase = updateTestcase;
 		vm.deleteTestcase = deleteTestcase;
+		vm.downloadTestcase = downloadTestcase;
+		vm.downloadTestsuite = downloadTestsuite;
 
 		// Clear Parameters
 		function clearParams() {
@@ -66,6 +68,16 @@
 		// Delete Test Case
 		function deleteTestcase() {
 			$log.debug("deleteTestcase");
+		}
+
+		// Download Test Case
+		function downloadTestcase() {
+			$log.debug("downloadTestcase");
+		}
+
+		// Download Test Suite
+		function downloadTestsuite() {
+			$log.debug("downloadTestsuite");
 		}
 
 	}
