@@ -52,7 +52,29 @@
 
 		// Create Test Case
 		function createTestcase() {
-			$log.debug("createTestcase");
+			// $log.debug("createTestcase");
+			vm.params.ts_id = vm.tsdata.testsuites[0].ts_id;
+			TestcasesService.createTestcase(vm.params).then(function(response) {
+				$log.debug("createTestcase", response);
+				vm.crud_status = response.message;
+				vm.params.ts_id = response.ts_id;
+				vm.params.numTestCases = 0;
+
+				//Hide the create testsuite modal
+				jQuery(".modal.in").modal("hide");
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+
+				//Add the newly created data to the testcases list
+				vm.tsdata.testsuites[0].testcases.push(vm.params);
+				$log.debug("All Test Cases", vm.tsdata.testsuites[0]);
+			}, function(response) {
+				$log.debug("createTestcase", response);
+				vm.crud_status = response.message;
+
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+			});
 		}
 
 		// Clone Test Case
@@ -68,6 +90,7 @@
 		// Delete Test Case
 		function deleteTestcase() {
 			$log.debug("deleteTestcase");
+			TestcasesService.deleteTestcase(vm.params);
 		}
 
 		// Download Test Case
