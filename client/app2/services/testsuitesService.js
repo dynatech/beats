@@ -35,7 +35,6 @@
 			}
 
 			function deleteTestsuite(params) {
-				// $log.debug("TestsuitesService deleteTestsuite", params);
 				return $http.post('api/testsuite/delete.php', { id: params.ts_id }).then(function(resp) {
 					$log.debug("TestsuitesService deleteTestsuite", resp.data);
 					return resp.data;

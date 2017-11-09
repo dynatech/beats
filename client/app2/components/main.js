@@ -86,7 +86,7 @@
 		// Delete Test Suite
 		function deleteTestsuite() {
 			TestsuitesService.deleteTestsuite(vm.params).then(function(response) {
-				$log.debug("createTestsuite", response);
+				$log.debug("deleteTestsuite", response);
 				vm.crud_status = response.message;
 
 				//Hide the create testsuite modal

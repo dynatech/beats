@@ -25,9 +25,10 @@ angular.module('beatsApp').service('TestcasesService', function($http, $log) {
 	}
 
 	function createTestcase(params) {
-		// $log.debug("TestcasesService createTestcase", params);
 		return $http.post('api/testcase/create.php', 
-						{ ts_id: params.ts_id, name: params.tc_name, desc: params.tc_desc })
+						{ ts_id: params.ts_id, 
+							name: params.tc_name, 
+							desc: params.tc_desc })
 		.then(function(resp) {
 			$log.debug("TestcasesService createTestcase", resp.data);
 			return resp.data;
@@ -35,6 +36,10 @@ angular.module('beatsApp').service('TestcasesService', function($http, $log) {
 	}
 
 	function deleteTestcase(params) {
-		$log.debug("TestcasesService deleteTestcase", params);
+		// $log.debug("TestcasesService deleteTestcase", params);
+		return $http.post('api/testcase/delete.php', { id: params.tc_id }).then(function(resp) {
+			$log.debug("TestcasesService deleteTestcase", resp.data);
+			return resp.data;
+		});
 	}
 });

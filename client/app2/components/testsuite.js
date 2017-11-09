@@ -52,7 +52,6 @@
 
 		// Create Test Case
 		function createTestcase() {
-			// $log.debug("createTestcase");
 			vm.params.ts_id = vm.tsdata.testsuites[0].ts_id;
 			TestcasesService.createTestcase(vm.params).then(function(response) {
 				$log.debug("createTestcase", response);
@@ -89,8 +88,28 @@
 
 		// Delete Test Case
 		function deleteTestcase() {
-			$log.debug("deleteTestcase");
-			TestcasesService.deleteTestcase(vm.params);
+			TestcasesService.deleteTestcase(vm.params).then(function(response) {
+				$log.debug("deleteTestcase", response);
+				vm.crud_status = response.message;
+
+				//Hide the create testsuite modal
+				jQuery(".modal.in").modal("hide");
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+
+				//Remove deleted testsuite from the list
+				var index = vm.tsdata.testsuites[0].testcases.indexOf(vm.params);
+				if (index !== -1) {
+					vm.tsdata.testsuites[0].testcases.splice(index, 1);
+				$log.debug("All Test Cases", vm.tsdata.testsuites[0]);
+				}
+			}, function(response) {
+				$log.debug("deleteTestcase", response);
+				vm.crud_status = response.message;
+
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+			});
 		}
 
 		// Download Test Case
