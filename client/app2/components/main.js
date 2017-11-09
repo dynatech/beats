@@ -85,7 +85,28 @@
 
 		// Delete Test Suite
 		function deleteTestsuite() {
-			$log.debug("deleteTestsuite");
+			TestsuitesService.deleteTestsuite(vm.params).then(function(response) {
+				$log.debug("createTestsuite", response);
+				vm.crud_status = response.message;
+
+				//Hide the create testsuite modal
+				jQuery(".modal.in").modal("hide");
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+
+				//Remove deleted testsuite from the list
+				var index = vm.maindata.testsuites.indexOf(vm.params);
+				if (index !== -1) {
+					vm.maindata.testsuites.splice(index, 1);
+					$log.debug("All Test Suites", vm.maindata);
+				}
+			}, function(response) {
+				$log.debug("deleteTestsuite", response);
+				vm.crud_status = response.message;
+
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+			});
 		}
 
 	}

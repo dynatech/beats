@@ -3,6 +3,7 @@ angular.module('beatsApp').service('TestsuitesService', function($http, $log) {
 		getAllTestsuites: getAllTestsuites,
 		getTestsuiteDetail: getTestsuiteDetail,
 		createTestsuite: createTestsuite,
+		deleteTestsuite: deleteTestsuite,
 	}
 
 	return service;
@@ -24,6 +25,13 @@ angular.module('beatsApp').service('TestsuitesService', function($http, $log) {
 	function createTestsuite(params) {
 		return $http.post('api/testsuite/create.php', { name: params.ts_name, desc: params.ts_desc }).then(function(resp) {
 			$log.debug("TestsuitesService createTestsuite", resp.data);
+			return resp.data;
+		});
+	}
+
+	function deleteTestsuite(params) {
+		return $http.post('api/testsuite/delete.php', { id: params.ts_id }).then(function(resp) {
+			$log.debug("TestsuitesService deleteTestsuite", resp.data);
 			return resp.data;
 		});
 	}
