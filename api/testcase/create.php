@@ -24,7 +24,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 // set test suite id value
 try {
-	$tstc_transaction->ts_id = $data->ts_id;
+	$tstc_transaction->ts_id = (isset($data->ts_id) ? $data->ts_id : null);
 }
 catch (Exception $e) {
 	die("Failed: No Test Suite ID");
@@ -35,6 +35,10 @@ $testcase->name = (isset($data->name) ? $data->name : null);
 $testcase->desc = (isset($data->desc) ? $data->desc : null);
 $testcase->global_wait = (isset($data->global_wait) ? $data->global_wait : null);
 $testcase->steps = (isset($data->steps) ? $data->steps : null);
+
+if ( ($testcase->name == null) || ($testcase->desc == null) ) {
+	die("Failed: No test case name or description");
+}
 
 // create the test Case
 if ($last_id = $testcase->create()) {
