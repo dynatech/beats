@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3>
-			<a ui-sref="testsuite({ tsId: $ctrl.tcdata.testcases[0].ts_id })" ui-sref-active="active">
+			<a ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
 				Parent Test Suite
 			</a>
 			<i class="fa fa-chevron-right" aria-hidden="true"></i>
@@ -15,7 +15,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<h4>
-			<span>{{ $ctrl.tcdata.testcases[0].tc_name }}</span> &nbsp;
+			<span>{{ vm.tcdata.testcases[0].tc_name }}</span> &nbsp;
 			<a href="">
 				<i class="fa fa-floppy-o" aria-hidden="true"></i>
 			</a> &nbsp;
@@ -36,13 +36,13 @@
 	<div class="col-sm-10">
 		<div class="form-group">
 			<label><small>Description:</small></label>
-			<input type="text" class="form-control" ng-model="$ctrl.tcdata.testcases[0].tc_desc">
+			<input type="text" class="form-control" ng-model="vm.tcdata.testcases[0].tc_desc">
 		</div>
 	</div>
 	<div class="col-sm-2">
 		<div class="form-group">
 			<label>Global Wait (ms):</label>
-			<input type="number" class="form-control" ng-model="$ctrl.tcdata.testcases[0].global_wait">
+			<input type="number" class="form-control" ng-model="vm.tcdata.testcases[0].global_wait">
 		</div>
 	</div>
 </div>
@@ -50,19 +50,19 @@
 <Br>
 
 <div class="row">
-	<div class="col-md-6">
-		<h4>Case Steps:</h4>
-	</div>
-	<div class="col-md-6 text-right">
-		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
-			<i class="fa fa-plus" aria-hidden="true"></i>
-			Create New Step
-		</button>
+	<div class="col-md-12">
+		<h4>
+      Case Steps: &nbsp;
+      <button class="btn btn-default" ng-click="" data-toggle="modal" data-target="#modalCreate">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Create New Step
+      </button>
+    </h4>
 	</div>
 </div>
 
-<div dnd-list="$ctrl.tcdata.testcases[0].steps">
-	<div ng-repeat="indiv_step in $ctrl.tcdata.testcases[0].steps"
+<div dnd-list="vm.tcdata.testcases[0].steps">
+	<div ng-repeat="indiv_step in vm.tcdata.testcases[0].steps"
          dnd-draggable="indiv_step"
          dnd-moved="vm.case_steps.splice($index, 1)"
          dnd-effect-allowed="move"
@@ -168,14 +168,16 @@
 <Br>
 
 <div class="row">
-	<div class="col-md-12 text-right">
+  <div class="col-md-6">
+    <button class="btn btn-default" ng-click="" data-toggle="modal" data-target="#modalCreate">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Create New Step
+    </button>
+  </div>
+	<div class="col-md-6 text-right">
 		<button class="btn btn-primary" ng-click="" data-toggle="modal" data-target="#modalDownloadTestsuite">
 			<i class="fa fa-download" aria-hidden="true"></i>
 			Download Test Case
-		</button>
-		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalCreate">
-			<i class="fa fa-plus" aria-hidden="true"></i>
-			Create New Step
 		</button>
 	</div>
 </div>

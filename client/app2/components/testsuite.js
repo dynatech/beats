@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'TestsuitesService'];
+	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService'];
 
-	function testsuiteController($log, $scope, $http, $window, TestcasesService, TestsuitesService) {
+	function testsuiteController($log, $scope, $http, $window, TestcasesService) {
 		$log.debug("testsuiteController start");
 		var vm = this;
 		vm.params = null;
