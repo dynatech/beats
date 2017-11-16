@@ -3,11 +3,11 @@
 
   angular
     .module('beatsApp')
-    .service('generateTestActions', generateTestActions);
+    .service('genTestActionService', genTestActionService);
 
-  generateTestActions.$inject = ['$log'];
+  genTestActionService.$inject = ['$log'];
 
-  function generateTestActions($log) {
+  function genTestActionService($log) {
     var vm = this;
 
     //Generate Selenium Action Test line

@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'generateTestActions'];
+	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'genTestActionService'];
 
-	function testcaseController($log, $scope, $http, $window, TestcasesService, generateTestActions) {
+	function testcaseController($log, $scope, $http, $window, TestcasesService, genTestActionService) {
 		$log.debug("testcaseController start");
 		var vm = this;
 
@@ -294,7 +294,7 @@
       angular.forEach(vm.tcdata.testcases[0].steps, function(data) {
         $log.debug(data.action);
         // var SeAction = generateSeAction(data);
-        var SeAction = generateTestActions.genAction(data);
+        var SeAction = genTestActionService.genAction(data);
         if (SeAction) {
           if(isFirst) {
             base_script = base_script + SeAction;
