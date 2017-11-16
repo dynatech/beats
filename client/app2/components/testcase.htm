@@ -64,7 +64,7 @@
 <div dnd-list="vm.tcdata.testcases[0].steps">
 	<div ng-repeat="indiv_step in vm.tcdata.testcases[0].steps"
          dnd-draggable="indiv_step"
-         dnd-moved="vm.case_steps.splice($index, 1)"
+         dnd-moved="vm.tcdata.testcases[0].steps.splice($index, 1)"
          dnd-effect-allowed="move"
          dnd-selected="vm.selected = indiv_step"
          ng-class="{'selected': vm.selected === indiv_step}">
@@ -150,11 +150,8 @@
         </div>
 	    </div>
 	    <div class="beats-action">
-<!--         <div class="item">
-          <a href="#" ng-click="vm.removeStep($index)">Delete</a>
-        </div> -->
 				<div class="item">
-					<a href="" data-toggle="modal" data-target="#modalDelete">
+					<a href="" ng-click="vm.removeStep($index)">
 						<i class="fa fa-trash" aria-hidden="true"></i>
 						Delete
 					</a>
@@ -196,11 +193,15 @@
         </h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to <b><span class="text-danger">DELETE</span></b> <b><u>[Name of Step]</u></b>?</p>
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.params.name }}</u></b>?
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.removeStep()">
         	<i class="fa fa-trash" aria-hidden="true"></i>
         	Yes
         </button>
