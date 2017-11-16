@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService'];
+	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'generateTestActions'];
 
-	function testcaseController($log, $scope, $http, $window, TestcasesService) {
+	function testcaseController($log, $scope, $http, $window, TestcasesService, generateTestActions) {
 		$log.debug("testcaseController start");
 		var vm = this;
 
@@ -291,26 +291,26 @@
       ].join("");
 
       var isFirst = true;
-      // angular.forEach(vm.case_steps, function(data) {
-      //   //$log.log(data.action);
-      //   // var SeAction = generateSeAction(data);
-      //   var SeAction = generateTestActions.genAction(data);
-      //   if (SeAction) {
-      //     if(isFirst) {
-      //       base_script = base_script + SeAction;
-      //       isFirst = !isFirst;
-      //     }
-      //     else {
-      //       var wrappedAction = [
-      //         ".then( function() { \n",
-      //         SeAction,
-      //         "}) \n"
-      //       ].join("");
+      angular.forEach(vm.tcdata.testcases[0].steps, function(data) {
+        $log.debug(data.action);
+        // var SeAction = generateSeAction(data);
+        var SeAction = generateTestActions.genAction(data);
+        if (SeAction) {
+          if(isFirst) {
+            base_script = base_script + SeAction;
+            isFirst = !isFirst;
+          }
+          else {
+            var wrappedAction = [
+              ".then( function() { \n",
+              SeAction,
+              "}) \n"
+            ].join("");
 
-      //       base_script = base_script + wrappedAction;
-      //     }
-      //   }
-      // })
+            base_script = base_script + wrappedAction;
+          }
+        }
+      })
 
       base_script = base_script + footer_script;
 
