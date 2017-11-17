@@ -12,11 +12,12 @@
           title="Save your Test Case changes">
         <i class="fa fa-floppy-o" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-download"
+      <a href="" class="icon-download" ng-click="vm.downloadTestCase()"
           title="Download Selenium script for this Test Case">
         <i class="fa fa-download" aria-hidden="true"></i>
       </a> &nbsp;
       <a href="" class="icon-clone"
+          data-toggle="modal" data-target="#modalComingSoon"
           title="Clone this Test Case">
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
@@ -239,6 +240,21 @@
         <p class="text-center">{{ vm.crud_status }}</p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Coming Soon Modal -->
+<div class="modal fade" id="modalComingSoon" role="dialog">
+  <div class="modal-dialog modal-sm">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h3 class="">Coming Soon!</h3>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
