@@ -5830,6 +5830,26 @@ button.close {
 .text-cross {
   color: #de6764; }
 
+.icon-save {
+  color: #355691; }
+  .icon-save:hover {
+    color: #537ac0; }
+
+.icon-download {
+  color: #6d9f71; }
+  .icon-download:hover {
+    color: #9bbd9e; }
+
+.icon-clone {
+  color: #f2a359; }
+  .icon-clone:hover {
+    color: #f6bd88; }
+
+.icon-trash {
+  color: #a4031f; }
+  .icon-trash:hover {
+    color: #d60428; }
+
 footer {
   padding: 2% 0; }
 
