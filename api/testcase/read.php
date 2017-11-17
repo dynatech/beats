@@ -79,6 +79,7 @@ function detailedView($results) {
 	  	extract($row);
 			$test_case_item = array(
 				"ts_id" => $ts_id,
+				"ts_name" => $ts_name,
 				"tc_id" => $tc_id,
 				"tc_name" => $tc_name,
 				"tc_desc" => $tc_desc,

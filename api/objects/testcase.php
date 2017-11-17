@@ -70,13 +70,17 @@ class Testcase {
 
 	// Used when viewing the details of one test case
 	public function readOne() {
-		$query = "SELECT tx.ts_id, tc.tc_id, tc.tc_name, " .
-						"	tc.tc_desc, tc.global_wait, tc.steps" .
-						" FROM test_cases as tc" .
-						" LEFT JOIN tstc_transactions as tx" .
-						" ON tc.tc_id = tx.tc_id" .
-						" WHERE tc.tc_id = " . $this->id . 
-						" ORDER BY tx.ts_id";
+		$query = "SELECT ts.ts_id, ts.ts_name, temp.tc_id, temp.tc_name, " .
+						"	temp.tc_desc, temp.global_wait, temp.steps FROM " .
+						"	(SELECT tx.ts_id, tc.tc_id, tc.tc_name, " .
+						"		tc.tc_desc, tc.global_wait, tc.steps " .
+						"	FROM test_cases as tc " .
+						"	LEFT JOIN tstc_transactions as tx " .
+						"	ON tc.tc_id = tx.tc_id " .
+						"	WHERE tc.tc_id = " . $this->id . ") as temp " .
+						"LEFT JOIN test_suites as ts " .
+						"ON ts.ts_id = temp.ts_id";
+
 		$result = $this->conn->query($query);
 
 		return $result;

@@ -4,7 +4,8 @@
       <a ui-sref="main" ui-sref-active="active">Home</a>
       <i class="fa fa-chevron-right" aria-hidden="true"></i>
 			<a ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
-				Parent Test Suite
+				<!-- Parent Test Suite -->
+        {{ vm.tcdata.testcases[0].ts_name }}
 			</a>
 			<i class="fa fa-chevron-right" aria-hidden="true"></i>
 			<u>Test Case Page</u> &nbsp; &nbsp;
