@@ -1,6 +1,8 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3>
+      <a ui-sref="main" ui-sref-active="active">Home</a>
+      <i class="fa fa-chevron-right" aria-hidden="true"></i>
 			<a ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
 				Parent Test Suite
 			</a>
@@ -29,18 +31,6 @@
     <div class="form-group">
       <label>
         Test Case &nbsp; &nbsp;
-<!--         <a href="">
-          <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
-        </a> &nbsp;
-        <a href="">
-          <i class="fa fa-download fa-2x" aria-hidden="true"></i>
-        </a> &nbsp;
-        <a href="">
-          <i class="fa fa-files-o fa-2x" aria-hidden="true"></i>
-        </a> &nbsp;
-        <a href="">
-          <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-        </a> -->
       </label>
       <input type="text" class="form-control" ng-model="vm.tcdata.testcases[0].tc_name">
     </div>
