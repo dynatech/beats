@@ -23,7 +23,7 @@
 <Br>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-4">
     <div class="form-group">
       <label>
         Test Suite &nbsp; &nbsp;
@@ -31,25 +31,28 @@
       <input type="text" class="form-control" ng-model="vm.tsdata.testsuites[0].ts_name">
     </div>
 	</div>
-	<div class="col-md-6 text-right">
-		<button class="btn btn-success" data-toggle="modal" 
-      data-target="#modalCreate"
-      ng-click="vm.clearParams()">
-			<i class="fa fa-plus" aria-hidden="true"></i>
-			Create New Test Case
-		</button>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12">
-		<label><small>Description:</small></label>
-		<input type="text" class="form-control" ng-model="vm.tsdata.testsuites[0].ts_desc">
+	<div class="col-md-8">
+    <label><small>Description:</small></label>
+    <input type="text" class="form-control" ng-model="vm.tsdata.testsuites[0].ts_desc">
 	</div>
 </div>
 
 <Br>
 
-<h4>Test Cases List:</h4>
+<!-- <h4>Test Cases List:</h4> -->
+<div class="row">
+  <div class="col-md-6">
+    <h4>Test Cases List:</h4>
+  </div>
+  <div class="col-md-6 text-right">
+    <button class="btn btn-info" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Create New Test Case
+    </button>
+  </div>
+</div>
 <div ng-repeat="testcase in vm.tsdata.testsuites[0].testcases">
 	<div class="case-step">
 		<div class="step">
@@ -91,11 +94,11 @@
 
 <div class="row">
 	<div class="col-md-12 text-right">
-		<button class="btn btn-primary" ng-click="" data-toggle="modal" data-target="#modalDownloadTestsuite">
+		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalDownloadTestsuite">
 			<i class="fa fa-download" aria-hidden="true"></i>
 			Download Test Suite
 		</button>
-		<button class="btn btn-success" data-toggle="modal" 
+		<button class="btn btn-info" data-toggle="modal" 
       data-target="#modalCreate"
       ng-click="vm.clearParams()">
 			<i class="fa fa-plus" aria-hidden="true"></i>
@@ -146,7 +149,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success" 
+          <button type="button" class="btn btn-info" 
             ng-click="vm.createTestcase()" 
             ng-disabled="(createTestcaseForm.newTestCaseName.$dirty && createTestcaseForm.newTestCaseName.$invalid) || (createTestcaseForm.newTestCaseDesc.$dirty && createTestcaseForm.newTestCaseDesc.$invalid) || createTestcaseForm.newTestCaseName.$pristine || createTestcaseForm.newTestCaseDesc.$pristine">
             <i class="fa fa-floppy-o" aria-hidden="true"></i>
@@ -178,11 +181,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info" ng-click="vm.downloadTestsuite()">
+        <button type="button" class="btn btn-success" ng-click="vm.downloadTestsuite()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	JSON
         </button>
-        <button type="button" class="btn btn-primary" ng-click="vm.downloadTestsuite()">
+        <button type="button" class="btn btn-success" ng-click="vm.downloadTestsuite()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	Selenium Script
         </button>
@@ -211,11 +214,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info" ng-click="vm.downloadTestcase()">
+        <button type="button" class="btn btn-success" ng-click="vm.downloadTestcase()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	JSON
         </button>
-        <button type="button" class="btn btn-primary" ng-click="vm.downloadTestcase()">
+        <button type="button" class="btn btn-success" ng-click="vm.downloadTestcase()">
         	<i class="fa fa-download" aria-hidden="true"></i>
         	Selenium Script
         </button>
@@ -248,7 +251,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="vm.cloneTestcase()">
+        <button type="button" class="btn btn-warning" ng-click="vm.cloneTestcase()">
         	<i class="fa fa-files-o" aria-hidden="true"></i>
         	Yes, Clone Test Case
         </button>
