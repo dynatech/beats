@@ -1,4 +1,4 @@
-var myApp = angular.module('beatsApp', ['ui.router']);
+var myApp = angular.module('beatsApp', ['ui.router', 'dndLists']);
 
 myApp.config(function($stateProvider, $urlRouterProvider) {
 	var helloState = {
