@@ -8,6 +8,7 @@
 				getAllTestcases: getAllTestcases,
 				getTestcaseDetail: getTestcaseDetail,
 				createTestcase: createTestcase,
+				updateTestcase: updateTestcase,
 				deleteTestcase: deleteTestcase,
 			}
 
@@ -36,6 +37,21 @@
 									desc: params.tc_desc })
 				.then(function(resp) {
 					$log.debug("TestcasesService createTestcase", resp.data);
+					return resp.data;
+				});
+			}
+
+			function updateTestcase(params) {
+				$log.debug("TestcasesService | updateTestcase");
+				return $http.post('api/testcase/update.php', 
+								{ id: params.tc_id, 
+									name: params.tc_name, 
+									desc: params.tc_desc,
+									global_wait: params.global_wait,
+									// steps: params.steps })
+									steps: JSON.stringify(params.steps) })
+				.then(function(resp) {
+					$log.debug("TestcasesService updateTestcase", resp.data);
 					return resp.data;
 				});
 			}

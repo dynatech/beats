@@ -35,6 +35,7 @@
 		vm.selectedAction = selectedAction;
 		vm.selectedAssertion = selectedAssertion;
 		vm.selectedLocator = selectedLocator;
+		vm.saveTestcase = saveTestcase;
 
 		// Function definitions
 
@@ -327,6 +328,19 @@
       hiddenElement.target = '_blank';
       hiddenElement.download = vm.tcdata.testcases[0].tc_name.replace(' ', '_') + '.js';
       hiddenElement.click();
+    }
+
+    function saveTestcase() {
+    	$log.debug("testcaseController | saveTestcase", vm.tcdata.testcases[0]);
+    	TestcasesService.updateTestcase(vm.tcdata.testcases[0]).then(function(response) {
+				vm.crud_status = response.message;
+    	}, function(response) {
+				vm.crud_status = response.message;
+    	});
+
+    	$log.debug("testcaseController | saveTestcase", vm.crud_status);
+			//Call the CRUD Status Message Modal
+			jQuery("#modalStatus").modal("show");
     }
 
 	}

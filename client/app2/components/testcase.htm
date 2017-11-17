@@ -4,21 +4,24 @@
       <a ui-sref="main" ui-sref-active="active">Home</a>
       <i class="fa fa-chevron-right" aria-hidden="true"></i>
 			<a ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
-				<!-- Parent Test Suite -->
         {{ vm.tcdata.testcases[0].ts_name }}
 			</a>
 			<i class="fa fa-chevron-right" aria-hidden="true"></i>
 			<u>Test Case Page</u> &nbsp; &nbsp;
-      <a href="" class="icon-save">
+      <a href="" class="icon-save" ng-click="vm.saveTestcase()"
+          title="Save your Test Case changes">
         <i class="fa fa-floppy-o" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-download">
+      <a href="" class="icon-download"
+          title="Download Selenium script for this Test Case">
         <i class="fa fa-download" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-clone">
+      <a href="" class="icon-clone"
+          title="Clone this Test Case">
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-trash">
+      <a href="" class="icon-trash"
+          title="Delete this Test Case">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </a>
 		</h3>
@@ -213,6 +216,30 @@
         	<i class="fa fa-trash" aria-hidden="true"></i>
         	Yes
         </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- CRUD Status Message Modal -->
+<div class="modal fade" id="modalStatus" role="dialog">
+  <div class="modal-dialog modal-sm">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          Action Status
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">{{ vm.crud_status }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
     
