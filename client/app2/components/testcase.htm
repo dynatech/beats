@@ -3,7 +3,7 @@
 		<h3>
       <a ui-sref="main" ui-sref-active="active">Home</a>
       <i class="fa fa-chevron-right" aria-hidden="true"></i>
-			<a ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
+			<a id="ts-link" ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
         {{ vm.tcdata.testcases[0].ts_name }}
 			</a>
 			<i class="fa fa-chevron-right" aria-hidden="true"></i>
@@ -22,6 +22,8 @@
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
       <a href="" class="icon-trash"
+          ng-click="vm.clickBeatsAction(vm.tcdata.testcases[0])"
+          data-toggle="modal" data-target="#modalDelete"
           title="Delete this Test Case">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </a>
@@ -201,19 +203,19 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">
         	<i class="fa fa-trash" aria-hidden="true"></i>
-        	Case Step Delete
+        	Test Case Delete
         </h4>
       </div>
       <div class="modal-body">
         <p>
           Are you sure you want to 
           <b><span class="text-danger">DELETE</span></b> 
-          <b><u>{{ vm.params.name }}</u></b>?
+          <b><u>{{ vm.params.tc_name }}</u></b>?
         </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.removeStep()">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.deleteTestcase()">
         	<i class="fa fa-trash" aria-hidden="true"></i>
         	Yes
         </button>

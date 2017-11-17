@@ -30,6 +30,7 @@
 		vm.clickBeatsAction = clickBeatsAction;
 
 		vm.addStep = addStep;
+		vm.deleteTestcase = deleteTestcase;
 		vm.downloadTestCase = downloadTestCase;
 		vm.removeStep = removeStep;
 		vm.selectedAction = selectedAction;
@@ -69,6 +70,25 @@
 
 			vm.tcdata.testcases[0].steps.push(step_blank);			
 			$log.debug("testcaseController | addStep: end", vm.tcdata.testcases[0].steps);
+		}
+
+		// Delete Test Case
+		function deleteTestcase() {
+			$log.debug("testcaseController | deleteTestcase", vm.params);
+			
+			TestcasesService.deleteTestcase(vm.params).then(function(response) {
+				$log.debug("deleteTestcase", response);
+				
+				// Go to Parent Test Suite Link
+				var testsuite_link = $("#ts-link").attr('href');
+				$window.location.href = testsuite_link;
+			}, function(response) {
+				$log.debug("deleteTestcase", response);
+				vm.crud_status = response.message;
+
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+			});
 		}
 
 		function removeStep(index) {
