@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService'];
+	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService', 'TestcasesService'];
 
-	function testsuiteController($log, $scope, $http, $window, TestcasesService) {
+	function testsuiteController($log, $scope, $http, $window, TestsuitesService, TestcasesService) {
 		$log.debug("testsuiteController start");
 		var vm = this;
 		vm.params = null;
@@ -32,6 +32,7 @@
 		vm.deleteTestcase = deleteTestcase;
 		vm.downloadTestcase = downloadTestcase;
 		vm.downloadTestsuite = downloadTestsuite;
+		vm.saveTestsuite = saveTestsuite;
 
 		// Clear Parameters
 		function clearParams() {
@@ -120,6 +121,20 @@
 		// Download Test Suite
 		function downloadTestsuite() {
 			$log.debug("downloadTestsuite");
+		}
+
+		// Save changes to the Test Suite
+		function saveTestsuite() {
+    	$log.debug("testsuiteController saveTestsuite", vm.tsdata.testsuites[0]);
+    	TestsuitesService.updateTestsuite(vm.tsdata.testsuites[0]).then(function(response) {
+    		vm.crud_status = response.message;
+    	}, function(response) {
+    		vm.crud_status = response.message;
+    	});
+
+    	$log.debug("testsuiteController saveTestsuite", vm.crud_status);
+			//Call the CRUD Status Message Modal
+			jQuery("#modalStatus").modal("show");
 		}
 
 	}

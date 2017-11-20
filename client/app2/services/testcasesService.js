@@ -7,9 +7,10 @@
 			var service = {
 				getAllTestcases: getAllTestcases,
 				getTestcaseDetail: getTestcaseDetail,
+
 				createTestcase: createTestcase,
-				updateTestcase: updateTestcase,
 				deleteTestcase: deleteTestcase,
+				updateTestcase: updateTestcase,
 			}
 
 			return service;
@@ -41,6 +42,14 @@
 				});
 			}
 
+			function deleteTestcase(params) {
+				// $log.debug("TestcasesService deleteTestcase", params);
+				return $http.post('api/testcase/delete.php', { id: params.tc_id }).then(function(resp) {
+					$log.debug("TestcasesService deleteTestcase", resp.data);
+					return resp.data;
+				});
+			}
+
 			function updateTestcase(params) {
 				$log.debug("TestcasesService | updateTestcase");
 				return $http.post('api/testcase/update.php', 
@@ -55,14 +64,7 @@
 					return resp.data;
 				});
 			}
-
-			function deleteTestcase(params) {
-				// $log.debug("TestcasesService deleteTestcase", params);
-				return $http.post('api/testcase/delete.php', { id: params.tc_id }).then(function(resp) {
-					$log.debug("TestcasesService deleteTestcase", resp.data);
-					return resp.data;
-				});
-			}
+			
 		});
 
 })();

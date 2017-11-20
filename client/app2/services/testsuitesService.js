@@ -7,8 +7,10 @@
 			var service = {
 				getAllTestsuites: getAllTestsuites,
 				getTestsuiteDetail: getTestsuiteDetail,
+
 				createTestsuite: createTestsuite,
 				deleteTestsuite: deleteTestsuite,
+				updateTestsuite: updateTestsuite,
 			}
 
 			return service;
@@ -40,6 +42,19 @@
 					return resp.data;
 				});
 			}
+
+			function updateTestsuite(params) {
+				$log.debug("TestsuitesService updateTestsuite", params);
+				return $http.post('api/testsuite/update.php', 
+								{ id: params.ts_id, 
+									name: params.ts_name, 
+									desc: params.ts_desc })
+				.then(function(resp) {
+					$log.debug("TestsuitesService updateTestsuite", resp.data);
+					return resp.data;
+				});
+			}
+
 		});
 
 })();
