@@ -23,8 +23,7 @@
 			return "";
 		}
 
-		function getSeleniumTestScript(params) {
-			$log.debug('DownloadService getSeleniumTestScript', params);
+		function getSeleniumBase(test_name, global_wait) {
       var base_script = [
         "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
         "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
@@ -33,8 +32,8 @@
         "var log4js = require('log4js'); \n",
         "var windowManager = driver.manage().window(); \n\n",
         "log4js.loadAppender('file'); \n",
-        "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
-        "var logger = log4js.getLogger('sampleTestCase'); \n\n",
+        "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), '", test_name, "'); \n\n",
+        "var logger = log4js.getLogger('", test_name, "'); \n\n",
         "function selectOption(selector, item){ \n",
         "  var selectList, desiredOption = null; \n",
         "  var trimmedItem = item.toString().trim(); \n",
@@ -87,9 +86,81 @@
         "    })\n",
         "}\n",
         "driver.selectOptionRandom = selectOptionRandom.bind(driver);\n\n",
-        "var globalDelay = ", params.global_wait, "; \n\n",
+        "var globalDelay = ", global_wait, "; \n\n",
       ].join("");
+
+			return base_script;
+		}
+
+		function getSeleniumTestScript(params) {
+			$log.debug('DownloadService getSeleniumTestScript', params);
+      // var base_script = [
+      //   "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
+      //   "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
+      //   "var assert = require('selenium-webdriver/testing/assert'); \n",
+      //   "var actions = require('selenium-webdriver/lib/actions'); \n",
+      //   "var log4js = require('log4js'); \n",
+      //   "var windowManager = driver.manage().window(); \n\n",
+      //   "log4js.loadAppender('file'); \n",
+      //   "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
+      //   "var logger = log4js.getLogger('sampleTestCase'); \n\n",
+      //   "function selectOption(selector, item){ \n",
+      //   "  var selectList, desiredOption = null; \n",
+      //   "  var trimmedItem = item.toString().trim(); \n",
+      //   "  var temp = null; \n",
+      //   "  selectList = this.findElement(selector); \n",
+      //   "  selectList.click(); \n",
+      //   "  selectList.findElements(webdriver.By.tagName('option')) \n",
+      //   "    .then(function findMatchingOption(options){ \n",
+      //   "      options.some(function(option){ \n",
+      //   "        option.getText().then(function doesOptionMatch(text){ \n",
+      //   "          if (trimmedItem === text.toString().trim()){ \n",
+      //   "            logger.info(text.trim()); \n",
+      //   "            logger.info('THERE IS A MATCH!!!'); \n",
+      //   "            desiredOption = option; \n",
+      //   "            return true; \n",
+      //   "          } \n",
+      //   "        }); \n",
+      //   "      }); \n",
+      //   "    }) \n",
+      //   "    .then(function clickOption(){ \n",
+      //   "      if (desiredOption){ \n",
+      //   "        desiredOption.getText() \n",
+      //   "          .then(function(text) { \n",
+      //   "            logger.info(text.trim()); \n",
+      //   "          }) \n",
+      //   "        desiredOption.click(); \n",
+      //   "        selectList.sendKeys(webdriver.Key.ESCAPE); \n",
+      //   "      } \n",
+      //   "      else { \n",
+      //   "        logger.error('Failed... Option does NOT exist.'); \n",
+      //   "        throw new Error(); \n",
+      //   "      } \n",
+      //   "    }); \n",
+      //   "} \n",
+      //   "driver.selectOption = selectOption.bind(driver); \n\n",
+      //   "function selectOptionRandom(selector){\n",
+      //   "  var selectList, desiredOption;\n",
+      //   "  selectList = this.findElement(selector);\n",
+      //   "  selectList.click();\n",
+      //   "  selectList.findElements(webdriver.By.tagName('option'))\n",
+      //   "    .then(function(options){\n",
+      //   "      var randomPos = Math.floor(Math.random() * options.length);\n",
+      //   "      desiredOption = options[randomPos];\n",
+      //   "      desiredOption.getText()\n",
+      //   "        .then(function(text) {\n",
+      //   "          logger.info('Random Selection: ', text.trim());\n",
+      //   "        })\n",
+      //   "      desiredOption.click();\n",
+      //   "      selectList.sendKeys(webdriver.Key.ESCAPE);\n",
+      //   "    })\n",
+      //   "}\n",
+      //   "driver.selectOptionRandom = selectOptionRandom.bind(driver);\n\n",
+      //   "var globalDelay = ", params.global_wait, "; \n\n",
+      // ].join("");
       
+      var base_script = getSeleniumBase(params.tc_name, params.global_wait);
+
       var footer_script = [
         ".then( function() {logger.info('Test Case Passed!');}) \n",
         ".catch( function() {logger.error('Test Case Failed...');}) \n"
@@ -131,9 +202,15 @@
 
       var hiddenElement = document.createElement('a');
 
+			// Remove white spaces of the filename and replace with underscore
+			var count = (filename.match(/ /g) || []).length;
+			for (var i = 0; i < count; i++) {
+				filename = filename.replace(' ', '_');
+			}
+
       hiddenElement.href = fileUrl;
       hiddenElement.target = '_blank';
-      hiddenElement.download = filename.replace(' ', '_') + '.js';
+      hiddenElement.download = filename + '.js';
       hiddenElement.click();
 		}
 

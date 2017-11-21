@@ -242,7 +242,7 @@
     	DownloadService.downloadTestcase(vm.tcdata.testcases[0], vm.tcdata.testcases[0].tc_id, 'selenium');
     }
 
-    function saveTestcase() {
+    function saveTestcase(callback=null) {
     	$log.debug("testcaseController | saveTestcase", vm.tcdata.testcases[0]);
     	TestcasesService.updateTestcase(vm.tcdata.testcases[0]).then(function(response) {
 				vm.crud_status = response.message;
