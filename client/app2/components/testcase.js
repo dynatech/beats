@@ -240,19 +240,27 @@
 
     function downloadTestcase() {
     	DownloadService.downloadTestcase(vm.tcdata.testcases[0], vm.tcdata.testcases[0].tc_id, 'selenium');
+    	return true;
     }
 
     function saveTestcase(callback=null) {
     	$log.debug("testcaseController | saveTestcase", vm.tcdata.testcases[0]);
     	TestcasesService.updateTestcase(vm.tcdata.testcases[0]).then(function(response) {
 				vm.crud_status = response.message;
+
+				if (callback) {
+					$log.debug("There is a callback");
+				} 
+				else {
+		    	$log.debug("testcaseController | saveTestcase", vm.crud_status);
+					jQuery("#modalStatus").modal("show");
+				}
     	}, function(response) {
 				vm.crud_status = response.message;
+	    	$log.debug("testcaseController | saveTestcase", vm.crud_status);
+				jQuery("#modalStatus").modal("show");
     	});
 
-    	$log.debug("testcaseController | saveTestcase", vm.crud_status);
-			//Call the CRUD Status Message Modal
-			jQuery("#modalStatus").modal("show");
     }
 
 	}
