@@ -8,10 +8,14 @@
   genTestActionService.$inject = ['$log'];
 
   function genTestActionService($log) {
-    var vm = this;
+    var service = {
+      genAction: genAction,
+    }
+
+    return service;
 
     //Generate Selenium Action Test line
-    vm.genAction = function(param) {
+    function genAction(param) {
       var actionSe = null;
       var stepName = param.name;
 

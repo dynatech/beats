@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'genTestActionService'];
+	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'genTestActionService', 'downloadService'];
 
-	function testcaseController($log, $scope, $http, $window, TestcasesService, genTestActionService) {
+	function testcaseController($log, $scope, $http, $window, TestcasesService, genTestActionService, downloadService) {
 		$log.debug("testcaseController start");
 		var vm = this;
 
