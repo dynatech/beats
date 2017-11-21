@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'genTestActionService', 'downloadService'];
+	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'genTestActionService', 'DownloadService'];
 
-	function testcaseController($log, $scope, $http, $window, TestcasesService, genTestActionService, downloadService) {
+	function testcaseController($log, $scope, $http, $window, TestcasesService, genTestActionService, DownloadService) {
 		$log.debug("testcaseController start");
 		var vm = this;
 
@@ -31,7 +31,7 @@
 
 		vm.addStep = addStep;
 		vm.deleteTestcase = deleteTestcase;
-		vm.downloadTestCase = downloadTestCase;
+		vm.downloadTestcase = downloadTestcase;
 		vm.removeStep = removeStep;
 		vm.selectedAction = selectedAction;
 		vm.selectedAssertion = selectedAssertion;
@@ -238,116 +238,8 @@
       $log.debug("testcaseController | selectedLocator: end");
 		}
 
-    function downloadTestCase() {
-      $log.debug("testcaseController | downloadTestCase: start");
-
-      var base_script = [
-        "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
-        "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
-        "var assert = require('selenium-webdriver/testing/assert'); \n",
-        "var actions = require('selenium-webdriver/lib/actions'); \n",
-        "var log4js = require('log4js'); \n",
-        "var windowManager = driver.manage().window(); \n\n",
-        "log4js.loadAppender('file'); \n",
-        "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), 'sampleTestCase'); \n\n",
-        "var logger = log4js.getLogger('sampleTestCase'); \n\n",
-        "function selectOption(selector, item){ \n",
-        "  var selectList, desiredOption = null; \n",
-        "  var trimmedItem = item.toString().trim(); \n",
-        "  var temp = null; \n",
-        "  selectList = this.findElement(selector); \n",
-        "  selectList.click(); \n",
-        "  selectList.findElements(webdriver.By.tagName('option')) \n",
-        "    .then(function findMatchingOption(options){ \n",
-        "      options.some(function(option){ \n",
-        "        option.getText().then(function doesOptionMatch(text){ \n",
-        "          if (trimmedItem === text.toString().trim()){ \n",
-        "            logger.info(text.trim()); \n",
-        "            logger.info('THERE IS A MATCH!!!'); \n",
-        "            desiredOption = option; \n",
-        "            return true; \n",
-        "          } \n",
-        "        }); \n",
-        "      }); \n",
-        "    }) \n",
-        "    .then(function clickOption(){ \n",
-        "      if (desiredOption){ \n",
-        "        desiredOption.getText() \n",
-        "          .then(function(text) { \n",
-        "            logger.info(text.trim()); \n",
-        "          }) \n",
-        "        desiredOption.click(); \n",
-        "        selectList.sendKeys(webdriver.Key.ESCAPE); \n",
-        "      } \n",
-        "      else { \n",
-        "        logger.error('Failed... Option does NOT exist.'); \n",
-        "        throw new Error(); \n",
-        "      } \n",
-        "    }); \n",
-        "} \n",
-        "driver.selectOption = selectOption.bind(driver); \n\n",
-        "function selectOptionRandom(selector){\n",
-        "  var selectList, desiredOption;\n",
-        "  selectList = this.findElement(selector);\n",
-        "  selectList.click();\n",
-        "  selectList.findElements(webdriver.By.tagName('option'))\n",
-        "    .then(function(options){\n",
-        "      var randomPos = Math.floor(Math.random() * options.length);\n",
-        "      desiredOption = options[randomPos];\n",
-        "      desiredOption.getText()\n",
-        "        .then(function(text) {\n",
-        "          logger.info('Random Selection: ', text.trim());\n",
-        "        })\n",
-        "      desiredOption.click();\n",
-        "      selectList.sendKeys(webdriver.Key.ESCAPE);\n",
-        "    })\n",
-        "}\n",
-        "driver.selectOptionRandom = selectOptionRandom.bind(driver);\n\n",
-        "var globalDelay = ", vm.tcdata.testcases[0].global_wait, "; \n\n",
-      ].join("");
-      
-      var footer_script = [
-        ".then( function() {logger.info('Test Case Passed!');}) \n",
-        ".catch( function() {logger.error('Test Case Failed...');}) \n"
-      ].join("");
-
-      var isFirst = true;
-      angular.forEach(vm.tcdata.testcases[0].steps, function(data) {
-        $log.debug(data.action);
-        // var SeAction = generateSeAction(data);
-        var SeAction = genTestActionService.genAction(data);
-        if (SeAction) {
-          if(isFirst) {
-            base_script = base_script + SeAction;
-            isFirst = !isFirst;
-          }
-          else {
-            var wrappedAction = [
-              ".then( function() { \n",
-              SeAction,
-              "}) \n"
-            ].join("");
-
-            base_script = base_script + wrappedAction;
-          }
-        }
-      })
-
-      base_script = base_script + footer_script;
-
-      $log.debug(base_script);
-      $log.debug("downloadTestCase: end");
-
-      var blob = new Blob([base_script], { type: 'text/javascript' }),
-        url = $window.URL || $window.webkitURL,
-        fileUrl = url.createObjectURL(blob);
-
-      var hiddenElement = document.createElement('a');
-
-      hiddenElement.href = fileUrl;
-      hiddenElement.target = '_blank';
-      hiddenElement.download = vm.tcdata.testcases[0].tc_name.replace(' ', '_') + '.js';
-      hiddenElement.click();
+    function downloadTestcase() {
+    	DownloadService.downloadTestcase(vm.tcdata.testcases[0], vm.tcdata.testcases[0].tc_id, 'selenium');
     }
 
     function saveTestcase() {
