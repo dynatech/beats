@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService', 'TestcasesService'];
+	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService', 'TestcasesService', 'DownloadService'];
 
-	function testsuiteController($log, $scope, $http, $window, TestsuitesService, TestcasesService) {
+	function testsuiteController($log, $scope, $http, $window, TestsuitesService, TestcasesService, DownloadService) {
 		$log.debug("testsuiteController start");
 		var vm = this;
 		vm.params = null;
@@ -114,8 +114,9 @@
 		}
 
 		// Download Test Case
-		function downloadTestcase() {
-			$log.debug("downloadTestcase");
+		function downloadTestcase(test_type) {
+			$log.debug("downloadTestcase", vm.params, test_type);
+			DownloadService.downloadTestcaseById(vm.params.tc_id, test_type);
 		}
 
 		// Download Test Suite

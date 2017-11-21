@@ -15,9 +15,9 @@
 		return component;
 	}
 
-	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'genTestActionService', 'DownloadService'];
+	testcaseController.$inject = ['$log', '$scope', '$http', '$window', 'TestcasesService', 'DownloadService'];
 
-	function testcaseController($log, $scope, $http, $window, TestcasesService, genTestActionService, DownloadService) {
+	function testcaseController($log, $scope, $http, $window, TestcasesService, DownloadService) {
 		$log.debug("testcaseController start");
 		var vm = this;
 
@@ -239,7 +239,7 @@
 		}
 
     function downloadTestcase() {
-    	DownloadService.downloadTestcase(vm.tcdata.testcases[0], vm.tcdata.testcases[0].tc_id, 'selenium');
+    	DownloadService.downloadTestcase(vm.tcdata.testcases[0], 'selenium');
     	return true;
     }
 

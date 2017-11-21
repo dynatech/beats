@@ -10,7 +10,9 @@
 	function DownloadService($log, $window, genTestActionService, TestcasesService, TestsuitesService) {
 		var service = {
 			downloadTestcase: downloadTestcase,
+			downloadTestcaseById: downloadTestcaseById,
 			downloadTestsuite: downloadTestsuite,
+			downloadTestsuiteById: downloadTestsuiteById,
 			getJSONScript: getJSONScript,
 			getSeleniumTestScript: getSeleniumTestScript,
 		}
@@ -94,7 +96,7 @@
 
 		function getSeleniumTestScript(params) {
 			$log.debug('DownloadService getSeleniumTestScript', params);
-			
+
       var base_script = getSeleniumBase(params.tc_name, params.global_wait);
 
       var footer_script = [
@@ -150,13 +152,9 @@
       hiddenElement.click();
 		}
 
-		function downloadTestcase(params, tc_id, test_type) {
-			$log.debug('DownloadService downloadTestcase', params);
-			$log.debug('DownloadService downloadTestcase', tc_id, test_type);
-
+		function downloadTestcase(params, test_type) {
+			$log.debug('DownloadService downloadTestcase', params, test_type);
 			var base_script = "";
-
-			// TODO: get test case data from tc_id
 
 			// TODO: compose script based on test_type
 			switch(test_type) {
@@ -169,12 +167,46 @@
 					break;
 			}
 
-			// TODO: pass composed script to download generic for download
+			// TODO: pass composed script to download generic for downloading
 			downloadGeneric(base_script, params.tc_name);
+		}
+
+		function downloadTestcaseById(tc_id, test_type) {
+			$log.debug('DownloadService downloadTestcaseById', tc_id, test_type);
+			var base_script = "";
+
+			// TODO: get test case data from tc_id
+			TestcasesService.getTestcaseDetail(tc_id).then(function(response) {
+				var params = response.testcases[0];
+				$log.debug('downloadTestcaseById params', params);
+
+				// TODO: compose script based on test_type
+				switch(test_type) {
+					case "json":
+						base_script = getJSONScript();
+						break;
+					case "selenium":
+					default:
+						base_script = getSeleniumTestScript(params);
+						break;
+				}
+
+				// TODO: pass composed script to download generic for downloading
+				downloadGeneric(base_script, params.tc_name);
+			}, function(response) {
+				$log.debug('downloadTestcaseById failed response', response);
+			});
 		}
 
 		function downloadTestsuite(ts_id, test_type) {
 			$log.debug('DownloadService downloadTestsuite', ts_id, test_type);
+		}
+
+		function downloadTestsuiteById(ts_id, test_type) {
+			$log.debug('DownloadService downloadTestsuiteById', ts_id, test_type);
+			// TODO: get test case data from ts_id
+			// TODO: compose script based on test_type
+			// TODO: pass composed script to download generic for downloading
 		}
 	}
 
