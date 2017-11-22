@@ -191,7 +191,7 @@
 						break;
 					case "selenium":
 					default:
-						base_script = getSeleniumTestScript(params);
+						base_script = getSeleniumTestcaseScript(params);
 						break;
 				}
 

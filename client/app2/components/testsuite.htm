@@ -8,7 +8,8 @@
           title="Save your Test Suite changes">
         <i class="fa fa-floppy-o" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-download">
+      <a href="" class="icon-download" ng-click="vm.downloadTestsuite()"
+          title="Download Selenium script for this Test Suite">
         <i class="fa fa-download" aria-hidden="true"></i>
       </a> &nbsp;
       <a href="" class="icon-clone"
@@ -128,7 +129,7 @@
       <form name="createTestcaseForm">
         <div class="modal-body">
           <label>
-            Test Suite Name: 
+            Test Case Name: 
             <span class="text-danger" 
               ng-show="createTestcaseForm.newTestCaseName.$invalid && createTestcaseForm.newTestCaseName.$dirty">
               (Empty or invalid input)
@@ -136,7 +137,7 @@
           </label>
           <input type="text" class="form-control" id="newTestCaseName" 
             name="newTestCaseName"
-            placeholder="Enter name of your test suite here..."
+            placeholder="Enter name of your test case here..."
             ng-model="vm.params.tc_name" required><Br>
           <label>
             Description:
