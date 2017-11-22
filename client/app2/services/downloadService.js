@@ -94,28 +94,16 @@
 			return base_script;
 		}
 
-		function getSeleniumFooter(test_name) {
-      var footer_script = [
-        ".then( function() {logger.info('", test_name, " Passed!');}) \n",
-        ".catch( function() {logger.error('", test_name, " Failed...');}) \n"
-      ].join("");
-
-      return footer_script;
-		}
-
-		function getSeleniumTestcaseScript(params) {
-			$log.debug('DownloadService getSeleniumTestcaseScript', params);
-      var base_script = getSeleniumBase(params.tc_name, params.global_wait);
-      var footer_script = getSeleniumFooter(params.tc_name);
-
+    function getSeleniumBody(steps) {
       var isFirst = true;
-      angular.forEach(params.steps, function(data) {
+      var body_script;
+
+      angular.forEach(steps, function(data) {
         $log.debug(data.action);
-        // var SeAction = generateSeAction(data);
         var SeAction = genTestActionService.genAction(data);
         if (SeAction) {
           if(isFirst) {
-            base_script = base_script + SeAction;
+            body_script = SeAction;
             isFirst = !isFirst;
           }
           else {
@@ -125,14 +113,56 @@
               "}) \n"
             ].join("");
 
-            base_script = base_script + wrappedAction;
+            body_script = body_script + wrappedAction;
           }
         }
       })
 
-      base_script = base_script + footer_script;
-      return base_script;
+      return body_script;
+    }
+
+		function getSeleniumFooter(test_name) {
+      var footer_script = [
+        ".then( function() {logger.info('", test_name, " PASSED!');}) \n",
+        ".catch( function() {logger.error('", test_name, " FAILED...');}) \n"
+      ].join("");
+
+      return footer_script;
 		}
+
+		function getSeleniumTestcaseScript(params, isTConly=true) {
+			$log.debug('DownloadService getSeleniumTestcaseScript', params, isTConly);
+      var base_script = "";
+
+      if (isTConly) {
+        base_script = getSeleniumBase(params.tc_name, params.global_wait);
+      } 
+
+      var body_script = getSeleniumBody(params.steps);
+      var footer_script = getSeleniumFooter(params.tc_name);
+
+      var full_test_script = base_script + body_script + footer_script;
+      return full_test_script;
+		}
+
+    function getSeleniumTestsuiteScript(params) {
+      $log.debug('DownloadService getSeleniumTestsuiteScript', params);
+
+      // Get Selenium base script from test suite name
+      var base_script = getSeleniumBase('Test Suite: ' + params.ts_name, 5000);
+
+      // TODO: Iterate the test cases and get their Selenium scripts
+      var tc_scripts = "";
+      angular.forEach(params.testcases, function(data) {
+        // $log.debug(data.tc_name);
+        tc_scripts = tc_scripts + getSeleniumTestcaseScript(data, false);
+      })
+
+      // Full Test Suite script
+      var full_test_script = base_script + tc_scripts;
+
+      $log.debug('test suite script sample', full_test_script);
+    }
 
 		// TODO: Generic downloader function used by other download script functions
 		function downloadGeneric(data_download, filename) {
@@ -158,52 +188,76 @@
 
 		function downloadTestcase(params, test_type) {
 			$log.debug('DownloadService downloadTestcase', params, test_type);
-			var base_script = "";
+			var full_test_script = "";
 
-			// TODO: compose script based on test_type
+			// compose script based on test_type
 			switch(test_type) {
 				// case "json":
-				// 	base_script = getJSONScript();
+				// 	full_test_script = getJSONScript();
 				// 	break;
 				case "selenium":
 				default:
-					base_script = getSeleniumTestcaseScript(params);
+					full_test_script = getSeleniumTestcaseScript(params);
 					break;
 			}
 
-			// TODO: pass composed script to download generic for downloading
-			downloadGeneric(base_script, params.tc_name);
+			// pass composed script to download generic for downloading
+			downloadGeneric(full_test_script, params.tc_name);
 		}
 
 		function downloadTestcaseById(tc_id, test_type) {
 			$log.debug('DownloadService downloadTestcaseById', tc_id, test_type);
-			var base_script = "";
+			var full_test_script = "";
 
-			// TODO: get test case data from tc_id
+			// Get test case data from tc_id
 			TestcasesService.getTestcaseDetail(tc_id).then(function(response) {
 				var params = response.testcases[0];
 				$log.debug('downloadTestcaseById params', params);
 
-				// TODO: compose script based on test_type
+				// compose script based on test_type
 				switch(test_type) {
 					case "json":
-						base_script = getJSONScript();
+            // TODO: JSON Script generator not yet working
+						full_test_script = getJSONScript();
 						break;
 					case "selenium":
 					default:
-						base_script = getSeleniumTestcaseScript(params);
+						full_test_script = getSeleniumTestcaseScript(params);
 						break;
 				}
 
-				// TODO: pass composed script to download generic for downloading
-				downloadGeneric(base_script, params.tc_name);
+				// pass composed script to download generic for downloading
+				downloadGeneric(full_test_script, params.tc_name);
 			}, function(response) {
 				$log.debug('downloadTestcaseById failed response', response);
 			});
 		}
 
-		function downloadTestsuite(ts_id, test_type) {
-			$log.debug('DownloadService downloadTestsuite', ts_id, test_type);
+		function downloadTestsuite(params, test_type) {
+			$log.debug('DownloadService downloadTestsuite', params, test_type);
+      var test_suite_script;
+      var temp_testcases = [];
+
+      // Get testcase details for the TestSuite
+      angular.forEach(params.testcases, function(value, idx, array) {
+        var isLastElement = array.length - 1;
+
+        TestcasesService.getTestcaseDetail(value.tc_id).then(function(data) {
+          var tcdata = data.testcases[0];
+          temp_testcases.push(tcdata);
+
+          if (idx === isLastElement) {
+            $log.debug('collected test cases ', temp_testcases, isLastElement);
+            params.testcases = temp_testcases;
+            // Wait for the data collection to finish before composing test suite
+            //    Selenium script
+            test_suite_script = getSeleniumTestsuiteScript(params);
+          }
+          
+        }, function(data) {
+          $log.debug('downloadTestsuite failed data', data);
+        });
+      })
 		}
 
 		function downloadTestsuiteById(ts_id, test_type) {

@@ -122,6 +122,7 @@
 		// Download Test Suite
 		function downloadTestsuite() {
 			$log.debug("downloadTestsuite");
+			DownloadService.downloadTestsuite(vm.tsdata.testsuites[0], "selenium");
 		}
 
 		// Save changes to the Test Suite
