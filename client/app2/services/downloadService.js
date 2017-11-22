@@ -14,7 +14,7 @@
 			downloadTestsuite: downloadTestsuite,
 			downloadTestsuiteById: downloadTestsuiteById,
 			getJSONScript: getJSONScript,
-			getSeleniumTestScript: getSeleniumTestScript,
+			getSeleniumTestcaseScript: getSeleniumTestcaseScript,
 		}
 
 		return service;
@@ -94,15 +94,19 @@
 			return base_script;
 		}
 
-		function getSeleniumTestScript(params) {
-			$log.debug('DownloadService getSeleniumTestScript', params);
-
-      var base_script = getSeleniumBase(params.tc_name, params.global_wait);
-
+		function getSeleniumFooter(test_name) {
       var footer_script = [
-        ".then( function() {logger.info('Test Case Passed!');}) \n",
-        ".catch( function() {logger.error('Test Case Failed...');}) \n"
+        ".then( function() {logger.info('", test_name, " Passed!');}) \n",
+        ".catch( function() {logger.error('", test_name, " Failed...');}) \n"
       ].join("");
+
+      return footer_script;
+		}
+
+		function getSeleniumTestcaseScript(params) {
+			$log.debug('DownloadService getSeleniumTestcaseScript', params);
+      var base_script = getSeleniumBase(params.tc_name, params.global_wait);
+      var footer_script = getSeleniumFooter(params.tc_name);
 
       var isFirst = true;
       angular.forEach(params.steps, function(data) {
@@ -163,7 +167,7 @@
 				// 	break;
 				case "selenium":
 				default:
-					base_script = getSeleniumTestScript(params);
+					base_script = getSeleniumTestcaseScript(params);
 					break;
 			}
 
