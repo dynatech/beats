@@ -11,10 +11,13 @@
       <a href="" class="icon-download">
         <i class="fa fa-download" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-clone">
+      <a href="" class="icon-clone"
+          data-toggle="modal" data-target="#modalComingSoon"
+          title="Clone this Test Suite">
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
-      <a href="" class="icon-trash">
+      <a href="" class="icon-trash"
+          title="Delete this Test Suite">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </a>
 		</h3>
@@ -298,16 +301,4 @@
 <modal-status crudstatus="vm.crud_status"></modal-status>
 
 <!-- Coming Soon Modal -->
-<div class="modal fade" id="modalComingSoon" role="dialog">
-  <div class="modal-dialog modal-sm">
-  
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-body text-center">
-        <h3 class="">Coming Soon!</h3>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-    
-  </div>
-</div>
+<comingsoon></comingsoon>
