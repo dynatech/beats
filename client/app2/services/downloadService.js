@@ -134,15 +134,20 @@
 			$log.debug('DownloadService getSeleniumTestcaseScript', params, isTConly);
       var base_script = "";
 
-      if (isTConly) {
-        base_script = getSeleniumBase(params.tc_name, params.global_wait);
+      if (params.steps) {
+        if (isTConly) {
+          base_script = getSeleniumBase(params.tc_name, params.global_wait);
+        } 
+
+        var body_script = getSeleniumBody(params.steps);
+        var footer_script = getSeleniumFooter(params.tc_name);
+
+        var full_test_script = base_script + body_script + footer_script;
+        return full_test_script;
       } 
-
-      var body_script = getSeleniumBody(params.steps);
-      var footer_script = getSeleniumFooter(params.tc_name);
-
-      var full_test_script = base_script + body_script + footer_script;
-      return full_test_script;
+      else {
+        return "";
+      }
 		}
 
     function getSeleniumTestsuiteScript(params) {
@@ -161,7 +166,8 @@
       // Full Test Suite script
       var full_test_script = base_script + tc_scripts;
 
-      $log.debug('test suite script sample', full_test_script);
+      // $log.debug('test suite script sample', full_test_script);
+      return full_test_script;
     }
 
 		// TODO: Generic downloader function used by other download script functions
@@ -237,21 +243,33 @@
 			$log.debug('DownloadService downloadTestsuite', params, test_type);
       var test_suite_script;
       var temp_testcases = [];
+      var finished = 0;
 
       // Get testcase details for the TestSuite
       angular.forEach(params.testcases, function(value, idx, array) {
-        var isLastElement = array.length - 1;
+        var isLastElement = array.length;
+        temp_testcases.push({});
 
         TestcasesService.getTestcaseDetail(value.tc_id).then(function(data) {
           var tcdata = data.testcases[0];
-          temp_testcases.push(tcdata);
+          // temp_testcases.push(tcdata);
+          temp_testcases[idx] = tcdata;
+          finished++;
 
-          if (idx === isLastElement) {
-            $log.debug('collected test cases ', temp_testcases, isLastElement);
+          $log.debug('finished: ', finished, ' index: ', idx, 
+              ' last element: ', isLastElement, ' tc_name: ', tcdata.tc_name);
+          if (finished === isLastElement) {
+            $log.debug('collected test cases ', temp_testcases, 
+                isLastElement, temp_testcases.length);
             params.testcases = temp_testcases;
             // Wait for the data collection to finish before composing test suite
             //    Selenium script
-            test_suite_script = getSeleniumTestsuiteScript(params);
+            test_suite_script = getSeleniumTestsuiteScript(params);       
+
+            $log.debug('test suite script sample', test_suite_script);
+
+            // pass composed script to download generic for downloading
+            downloadGeneric(test_suite_script, params.ts_name);
           }
           
         }, function(data) {
