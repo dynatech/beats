@@ -280,9 +280,19 @@
 
 		function downloadTestsuiteById(ts_id, test_type) {
 			$log.debug('DownloadService downloadTestsuiteById', ts_id, test_type);
-			// TODO: get test case data from ts_id
-			// TODO: compose script based on test_type
-			// TODO: pass composed script to download generic for downloading
+
+      // get test suite details from ts_id
+      TestsuitesService.getTestsuiteDetail(ts_id).then(function(data) {
+        var tsdata = data.testsuites[0];
+        $log.debug('downloadTestsuiteById success data', tsdata);
+
+        // Call DownloadTestsuite
+        downloadTestsuite(tsdata, test_type);
+      }, function(data) {
+        $log.debug('downloadTestsuiteById failed data', data);
+      })
+
+
 		}
 	}
 

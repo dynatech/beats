@@ -15,10 +15,10 @@
 		return component;
 	}
 
-	mainController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService'];
+	mainController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService', 'DownloadService'];
 
-	function mainController($log, $scope, $http, $window, TestsuitesService) {
-		$log.debug("mainController start");
+	function mainController($log, $scope, $http, $window, TestsuitesService, DownloadService) {
+		$log.debug("mainController start test edit");
 		var vm = this;
 		vm.params = null;
 		vm.crud_status = null;
@@ -30,6 +30,7 @@
 		vm.cloneTestsuite = cloneTestsuite;
 		vm.updateTestsuite = updateTestsuite;
 		vm.deleteTestsuite = deleteTestsuite;
+		vm.downloadTestsuite = downloadTestsuite;
 
 		// Clear Parameters
 		function clearParams() {
@@ -107,6 +108,12 @@
 				//Call the CRUD Status Message Modal
 				jQuery("#modalStatus").modal("show");
 			});
+		}
+
+		// Download Test Suite
+		function downloadTestsuite() {
+			$log.debug("downloadTestsuite");
+			DownloadService.downloadTestsuiteById(vm.params.ts_id, "selenium");
 		}
 
 	}
