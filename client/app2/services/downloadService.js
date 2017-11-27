@@ -32,6 +32,7 @@
         "var assert = require('selenium-webdriver/testing/assert'); \n",
         "var actions = require('selenium-webdriver/lib/actions'); \n",
         "var log4js = require('log4js'); \n",
+        "var Q = require('q');",
         "var windowManager = driver.manage().window(); \n\n",
         "log4js.loadAppender('file'); \n",
         "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), '", test_name, "'); \n\n",
@@ -103,7 +104,13 @@
         var SeAction = genTestActionService.genAction(data);
         if (SeAction) {
           if(isFirst) {
-            body_script = SeAction;
+            var wrappedAction = [
+              "driver.sleep(1).then( function() { \n",
+              SeAction,
+              "}) \n"
+            ].join("");
+            
+            body_script = wrappedAction;
             isFirst = !isFirst;
           }
           else {
