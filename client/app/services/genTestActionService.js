@@ -26,6 +26,9 @@
         case "Write Text":
           actionSe = actionWriteText(param);
           break;
+        case "Clear Text":
+          actionSe = actionClearText(param);
+          break;
         case "Click":
           actionSe = actionClick(param);
           break;
@@ -128,6 +131,20 @@
         " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
         " .then(function() { \n",
         "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys('", param.op_special_1.value, "'); \n",
+        " }) \n"
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionClearText(param) {
+      var locateElementBy = getElementLocator(param);
+
+      var actionSe = [
+        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " .then(function() { \n",
+        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).clear(); \n",
         " }) \n"
       ].join("");
 
