@@ -103,13 +103,27 @@
       
       switch(param.action) {
         case "Choose action":
-        case "Import Test Case":
         case "Close Alert Box":
+        case "Import Test Case":
         case "Maximize Window":
           param.locateElement = {};
           param.assert_options = {};
           param.op_special_1 = {};
           param.op_special_2 = {};
+          break;
+        case "Add Assertion":
+          param.locateElement = {};
+          param.op_special_1 = {};
+          param.op_special_2 = {};
+          param.assert_options.show = true;
+          param.assert_options.type = 'Choose Type';
+          break;
+        case "Go to URL":
+          param.locateElement = {};
+          param.op_special_1.label = 'Full URL';
+          param.op_special_1.show = true;
+          param.op_special_2 = {};
+          param.assert_options = {};
           break;
         case "Modify Window Size":
           param.locateElement = {};
@@ -121,10 +135,13 @@
           param.op_special_2.show = true;
           param.op_special_2.value = height_dft;
           break;
-        case "Go to URL":
-          param.locateElement = {};
-          param.op_special_1.label = 'Full URL';
+        case "Press Key":
+          param.locateElement.show = true;
+          param.locateElement.by = 'Choose locator';
+          param.op_special_1.label = 'Key';
           param.op_special_1.show = true;
+          param.op_special_1.type = 'select';
+          param.op_special_1.value = 'Choose key';
           param.op_special_2 = {};
           param.assert_options = {};
           break;
@@ -135,13 +152,6 @@
           param.op_special_1.value = 1000;
           param.op_special_2 = {};
           param.assert_options = {};
-          break;
-        case "Add Assertion":
-          param.locateElement = {};
-          param.op_special_1 = {};
-          param.op_special_2 = {};
-          param.assert_options.show = true;
-          param.assert_options.type = 'Choose Type';
           break;
         default:
           param.locateElement.show = true;
