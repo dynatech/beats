@@ -26,6 +26,7 @@
 		}
 
 		function getSeleniumBase(test_name, global_wait) {
+      var logname = stringTrim(test_name);
       var base_script = [
         "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
         "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
@@ -35,7 +36,7 @@
         "var Q = require('q');",
         "var windowManager = driver.manage().window(); \n\n",
         "log4js.loadAppender('file'); \n",
-        "log4js.addAppender(log4js.appenders.file('logs/runlog.log'), '", test_name, "'); \n\n",
+        "log4js.addAppender(log4js.appenders.file('logs/", logname, ".log'), '", test_name, "'); \n\n",
         "var logger = log4js.getLogger('", test_name, "'); \n\n",
         "function selectOption(selector, item){ \n",
         "  var selectList, desiredOption = null; \n",
@@ -109,7 +110,7 @@
               SeAction,
               "}) \n"
             ].join("");
-            
+
             body_script = wrappedAction;
             isFirst = !isFirst;
           }
@@ -131,7 +132,8 @@
 		function getSeleniumFooter(test_name) {
       var footer_script = [
         ".then( function() {logger.info('", test_name, " PASSED!');}) \n",
-        ".catch( function() {logger.error('", test_name, " FAILED...');}) \n"
+        ".catch( function() {logger.error('", test_name, " FAILED...');}) \n\n",
+        "driver.quit();"
       ].join("");
 
       return footer_script;
@@ -177,7 +179,18 @@
       return full_test_script;
     }
 
-		// TODO: Generic downloader function used by other download script functions
+    function stringTrim(filename) {
+      // Remove white spaces of the filename and replace with underscore
+      var count = (filename.match(/ |:/gi) || []).length;
+      for (var i = 0; i < count; i++) {
+        filename = filename.replace(' ', '_');
+        filename = filename.replace(':', '_');
+      }
+
+      return filename;
+    }
+
+		// Generic downloader function used by other download script functions
 		function downloadGeneric(data_download, filename) {
 			$log.debug('DownloadService downloadGeneric', data_download, filename);
 
@@ -187,15 +200,9 @@
 
       var hiddenElement = document.createElement('a');
 
-			// Remove white spaces of the filename and replace with underscore
-			var count = (filename.match(/ /g) || []).length;
-			for (var i = 0; i < count; i++) {
-				filename = filename.replace(' ', '_');
-			}
-
       hiddenElement.href = fileUrl;
       hiddenElement.target = '_blank';
-      hiddenElement.download = filename + '.js';
+      hiddenElement.download = stringTrim(filename) + '.js';
       hiddenElement.click();
 		}
 
