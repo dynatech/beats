@@ -28,6 +28,7 @@
 		function getSeleniumBase(test_name, global_wait) {
       var logname = stringTrim(test_name);
       var base_script = [
+        "require('chromedriver'); \n",
         "var webdriver = require('selenium-webdriver'), By = webdriver.By, until = webdriver.until; \n",
         "var driver = new webdriver.Builder().forBrowser('chrome').build(); \n",
         "var assert = require('selenium-webdriver/testing/assert'); \n",
@@ -129,15 +130,22 @@
       return body_script;
     }
 
-		function getSeleniumFooter(test_name) {
+		function getSeleniumFooter(test_name, isTConly=true) {
       var footer_script = [
         ".then( function() {logger.info('", test_name, " PASSED!');}) \n",
-        ".catch( function() {logger.error('", test_name, " FAILED...');}) \n\n",
-        "driver.quit();"
+        ".catch( function() {logger.error('", test_name, " FAILED...');}) \n\n"
       ].join("");
+
+      if (isTConly) {
+        footer_script = footer_script + getSeleniumCloseBrowser();
+      }
 
       return footer_script;
 		}
+
+    function getSeleniumCloseBrowser() {
+      return "driver.quit() \n\n";
+    }
 
 		function getSeleniumTestcaseScript(params, isTConly=true) {
 			$log.debug('DownloadService getSeleniumTestcaseScript', params, isTConly);
@@ -149,7 +157,7 @@
         } 
 
         var body_script = getSeleniumBody(params.steps);
-        var footer_script = getSeleniumFooter(params.tc_name);
+        var footer_script = getSeleniumFooter(params.tc_name, isTConly);
 
         var full_test_script = base_script + body_script + footer_script;
         return full_test_script;
@@ -173,7 +181,7 @@
       })
 
       // Full Test Suite script
-      var full_test_script = base_script + tc_scripts;
+      var full_test_script = base_script + tc_scripts + getSeleniumCloseBrowser();
 
       // $log.debug('test suite script sample', full_test_script);
       return full_test_script;
