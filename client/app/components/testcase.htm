@@ -1,0 +1,232 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3>
+      <a ui-sref="main" ui-sref-active="active">Home</a>
+      <i class="fa fa-chevron-right" aria-hidden="true"></i>
+			<a id="ts-link" ui-sref="testsuite({ tsId: vm.tcdata.testcases[0].ts_id })" ui-sref-active="active">
+        {{ vm.tcdata.testcases[0].ts_name }}
+			</a>
+			<i class="fa fa-chevron-right" aria-hidden="true"></i>
+			<u>Test Case Page</u> &nbsp; &nbsp;
+      <a href="" class="icon-save" ng-click="vm.saveTestcase()"
+          title="Save your Test Case changes">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+      </a> &nbsp;
+      <a href="" class="icon-download" ng-click="vm.saveTestcase( vm.downloadTestcase() )"
+          title="Download Selenium script for this Test Case">
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </a> &nbsp;
+      <a href="" class="icon-clone"
+          data-toggle="modal" data-target="#modalComingSoon"
+          title="Clone this Test Case">
+        <i class="fa fa-files-o" aria-hidden="true"></i>
+      </a> &nbsp;
+      <a href="" class="icon-trash"
+          ng-click="vm.clickBeatsAction(vm.tcdata.testcases[0])"
+          data-toggle="modal" data-target="#modalDelete"
+          title="Delete this Test Case">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </a>
+		</h3>
+	</div>
+</div>
+
+<Br>
+
+<div class="row">
+	<div class="col-md-9">
+    <div class="form-group">
+      <label>
+        Test Case &nbsp; &nbsp;
+      </label>
+      <input type="text" class="form-control" ng-model="vm.tcdata.testcases[0].tc_name">
+    </div>
+	</div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label><small>Global Wait (ms):</small></label>
+      <input type="number" class="form-control" ng-model="vm.tcdata.testcases[0].global_wait">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="form-group">
+			<label><small>Description:</small></label>
+			<input type="text" class="form-control" ng-model="vm.tcdata.testcases[0].tc_desc">
+		</div>
+	</div>
+</div>
+
+<Br>
+
+<div class="row">
+	<div class="col-md-6">
+		<h4>
+      Case Steps: 
+    </h4>
+	</div>
+  <div class="col-md-6 text-right">
+    <button class="btn btn-info" ng-click="vm.addStep()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      New Step
+    </button>
+  </div>
+</div>
+
+<div dnd-list="vm.tcdata.testcases[0].steps">
+	<div ng-repeat="indiv_step in vm.tcdata.testcases[0].steps"
+         dnd-draggable="indiv_step"
+         dnd-moved="vm.tcdata.testcases[0].steps.splice($index, 1)"
+         dnd-effect-allowed="move"
+         dnd-selected="vm.selected = indiv_step"
+         ng-class="{'selected': vm.selected === indiv_step}">
+		<div class="case-step">
+	    <div class="step">
+        <div class="item">
+          {{$index + 1}}.
+        </div>
+        <div class="item">
+          <div class="form-group">
+            <label>Step Name:</label>
+            <input type="text" class="form-control" ng-model="indiv_step.name">
+          </div>
+        </div>
+        <div class="item">
+	        <div class="form-group">
+	          <label>Action:</label>
+	          <select class="form-control" ng-model="indiv_step.action" ng-change="vm.selectedAction(indiv_step)">
+              <option>Choose action</option>
+              <option>Click</option>
+              <option>Hover</option>
+              <option>Write Text</option>
+              <option>Go to URL</option>
+              <option>Select Option</option>
+              <option>Select Random Option</option>
+              <option>Wait</option>
+              <option>Add Assertion</option>
+              <option>Maximize Window</option>
+              <option>Modify Window Size</option>
+              <!-- <option>Close Alert Box</option> -->
+	          </select>
+	        </div>
+        </div>
+        <div class="item" ng-show="indiv_step.assert_options.show">
+        	<div class="form-group">
+        		<label>Assertion Type:</label>
+            <select class="form-control" ng-model="indiv_step.assert_options.type" ng-change="vm.selectedAssertion(indiv_step)">
+            	<option>Choose Type</option>
+              <option>Element is Visible</option>
+              <option>Element is Not Visible</option>
+              <option>Matches Value / RegEx</option>
+              <option>Does Not Match Value / RegEx</option>
+              <option>Contains Value</option>
+              <option>Does Not Contain Value</option>
+              <option>Title Contains Value</option>
+              <option>URL Contains Value</option>
+            </select>
+        	</div>
+        </div>
+        <div class="item" ng-show="indiv_step.locateElement.show">
+        	<div class="form-group">
+        		<label>Locate Element By:</label>
+            <select class="form-control" ng-model="indiv_step.locateElement.by" ng-change="vm.selectedLocator(indiv_step)">
+              <option>Choose locator</option>
+              <option>Id</option>
+              <!-- <option>Text Inside</option> -->
+              <option>Name</option>
+              <option>Class Name</option>
+              <option>XPath</option>
+              <option>CSS Selector</option>
+              <option>Link Text</option>
+              <option>Partial Link Text</option>
+            </select>
+        	</div>
+        </div>
+        <div class="item-smaller" ng-show="indiv_step.element_id.show">
+        	<div class="form-group">
+        		<label>{{indiv_step.locateElement.by}}:</label>
+            <input type="text" class="form-control" ng-model="indiv_step.element_id.value">
+        	</div>
+        </div>
+        <div class="item-smaller" ng-show="indiv_step.op_special_1.show">
+        	<div class="form-group">
+        		<label>{{indiv_step.op_special_1.label}}:</label>
+            <input type="text" class="form-control" ng-model="indiv_step.op_special_1.value">
+        	</div>
+        </div>
+        <div class="item-smaller" ng-show="indiv_step.op_special_2.show">
+        	<div class="form-group">
+        		<label>{{indiv_step.op_special_2.label}}:</label>
+            <input type="text" class="form-control" ng-model="indiv_step.op_special_2.value">
+        	</div>
+        </div>
+	    </div>
+	    <div class="beats-action">
+				<div class="item">
+					<a href="" ng-click="vm.removeStep($index)">
+						<i class="fa fa-trash" aria-hidden="true"></i>
+						Delete
+					</a>
+				</div>
+	    </div>
+		</div>
+		<hr>
+	</div>
+</div>
+
+<Br>
+
+<div class="row">
+  <div class="col-md-6">
+  </div>
+	<div class="col-md-6 text-right">
+		<button class="btn btn-success" ng-click="vm.saveTestcase( vm.downloadTestcase() )">
+			<i class="fa fa-download" aria-hidden="true"></i>
+			Download Test Case
+		</button>
+    <button class="btn btn-info" ng-click="vm.addStep()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      New Step
+    </button>
+	</div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modalDelete" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-trash" aria-hidden="true"></i>
+        	Test Case Delete
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.params.tc_name }}</u></b>?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.deleteTestcase()">
+        	<i class="fa fa-trash" aria-hidden="true"></i>
+        	Yes
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- CRUD Status Message Modal -->
+<modal-status crudstatus="vm.crud_status"></modal-status>
+
+<!-- Coming Soon Modal -->
+<comingsoon></comingsoon>

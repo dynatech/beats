@@ -29,3 +29,35 @@
 .text-cross {
 	color: $cross-color;
 }
+
+.icon-save {
+	color: $blue-bedazzled;
+
+	&:hover {
+		color: lighten($blue-bedazzled, 15%);
+	}
+}
+
+.icon-download {
+	color: $green-russian;
+
+	&:hover {
+		color: lighten($green-russian, 15%);
+	}
+}
+
+.icon-clone {
+	color: $orange-sandy-brown;
+
+	&:hover {
+		color: lighten($orange-sandy-brown, 10%);
+	}
+}
+
+.icon-trash {
+	color: $red-heidelberg;
+
+	&:hover {
+		color: lighten($red-heidelberg, 10%);
+	}
+}

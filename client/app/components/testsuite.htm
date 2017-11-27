@@ -1,0 +1,339 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3>
+			<a ui-sref="main" ui-sref-active="active">Home</a>
+			<i class="fa fa-chevron-right" aria-hidden="true"></i>
+			<u>Test Suite Page</u> &nbsp; &nbsp;
+      <a href="" class="icon-save" ng-click="vm.saveTestsuite()"
+          title="Save your Test Suite changes">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+      </a> &nbsp;
+      <a href="" class="icon-download" ng-click="vm.downloadTestsuite()"
+          title="Download Selenium script for this Test Suite">
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </a> &nbsp;
+      <a href="" class="icon-clone"
+          data-toggle="modal" data-target="#modalComingSoon"
+          title="Clone this Test Suite">
+        <i class="fa fa-files-o" aria-hidden="true"></i>
+      </a> &nbsp;
+      <a href="" class="icon-trash"
+          data-toggle="modal" data-target="#modalDeleteTestsuite"
+          title="Delete this Test Suite">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </a>
+		</h3>
+	</div>
+</div>
+
+<Br>
+
+<div class="row">
+	<div class="col-md-4">
+    <div class="form-group">
+      <label>
+        Test Suite &nbsp; &nbsp;
+      </label>
+      <input type="text" class="form-control" ng-model="vm.tsdata.testsuites[0].ts_name">
+    </div>
+	</div>
+	<div class="col-md-8">
+    <label><small>Description:</small></label>
+    <input type="text" class="form-control" ng-model="vm.tsdata.testsuites[0].ts_desc">
+	</div>
+</div>
+
+<Br>
+
+<!-- <h4>Test Cases List:</h4> -->
+<div class="row">
+  <div class="col-md-6">
+    <h4>Test Cases List:</h4>
+  </div>
+  <div class="col-md-6 text-right">
+    <button class="btn btn-info" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Create New Test Case
+    </button>
+  </div>
+</div>
+<div ng-repeat="testcase in vm.tsdata.testsuites[0].testcases">
+	<div class="case-step">
+		<div class="step">
+			<div class="item">
+				{{ $index + 1 }}.
+			</div>
+			<div class="item">
+				<h4><a ui-sref="testcase({ tcId: testcase.tc_id })">{{ testcase.tc_name }}</a></h4>
+			</div>
+		</div>
+		<div class="beats-action">
+			<div class="item">
+				<a href="" data-toggle="modal" data-target="#modalDownload"
+          ng-click="vm.clickBeatsAction(testcase)">
+					<i class="fa fa-download" aria-hidden="true"></i>
+					Download
+				</a>
+			</div>
+			<div class="item">
+				<a href="" data-toggle="modal" data-target="#modalComingSoon"
+          ng-click="vm.clickBeatsAction(testcase)">
+					<i class="fa fa-files-o" aria-hidden="true"></i>
+					Clone
+				</a>
+			</div>
+			<div class="item">
+				<a href="" data-toggle="modal" data-target="#modalDelete"
+          ng-click="vm.clickBeatsAction(testcase)">
+					<i class="fa fa-trash" aria-hidden="true"></i>
+					Delete
+				</a>
+			</div>
+		</div>
+	</div>
+	<hr>
+</div>
+
+<Br>
+
+<div class="row">
+	<div class="col-md-12 text-right">
+		<button class="btn btn-success" ng-click="" data-toggle="modal" data-target="#modalDownloadTestsuite">
+			<i class="fa fa-download" aria-hidden="true"></i>
+			Download Test Suite
+		</button>
+		<button class="btn btn-info" data-toggle="modal" 
+      data-target="#modalCreate"
+      ng-click="vm.clearParams()">
+			<i class="fa fa-plus" aria-hidden="true"></i>
+			Create New Test Case
+		</button>
+	</div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="modalCreate" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-plus" aria-hidden="true"></i>
+        	Create a Test Case
+        </h4>
+      </div>
+
+      <form name="createTestcaseForm">
+        <div class="modal-body">
+          <label>
+            Test Case Name: 
+            <span class="text-danger" 
+              ng-show="createTestcaseForm.newTestCaseName.$invalid && createTestcaseForm.newTestCaseName.$dirty">
+              (Empty or invalid input)
+            </span>
+          </label>
+          <input type="text" class="form-control" id="newTestCaseName" 
+            name="newTestCaseName"
+            placeholder="Enter name of your test case here..."
+            ng-model="vm.params.tc_name" required><Br>
+          <label>
+            Description:
+            <span class="text-danger" 
+              ng-show="createTestcaseForm.newTestCaseDesc.$invalid && createTestcaseForm.newTestCaseDesc.$dirty">
+              (Empty or invalid input)
+            </span>
+          </label>
+          <textarea class="form-control" id="newTestCaseDesc" 
+            name="newTestCaseDesc"
+            placeholder="Enter description of your test case here..."
+            ng-model="vm.params.tc_desc" required>    
+          </textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info" 
+            ng-click="vm.createTestcase()" 
+            ng-disabled="(createTestcaseForm.newTestCaseName.$dirty && createTestcaseForm.newTestCaseName.$invalid) || (createTestcaseForm.newTestCaseDesc.$dirty && createTestcaseForm.newTestCaseDesc.$invalid) || createTestcaseForm.newTestCaseName.$pristine || createTestcaseForm.newTestCaseDesc.$pristine">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            Save New Test Case
+          </button>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Download Test Suite Modal -->
+<div class="modal fade" id="modalDownloadTestsuite" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Test Suite Download
+        </h4>
+      </div>
+      <div class="modal-body">
+      	<p>Download <b><u>{{ vm.tsdata.testsuites[0].ts_name }}</u></b>...</p>
+        <p>What format would you like to download?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" ng-click="" disabled>
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	JSON
+        </button>
+        <button type="button" class="btn btn-success" ng-click="vm.downloadTestsuite()">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Selenium Script
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Download Modal -->
+<div class="modal fade" id="modalDownload" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Test Case Download
+        </h4>
+      </div>
+      <div class="modal-body">
+      	<p>Download <b><u>{{ vm.params.tc_name }}</u></b>...</p>
+        <p>What format would you like to download?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" ng-click="" disabled>
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	JSON
+        </button>
+        <button type="button" class="btn btn-success" ng-click="vm.downloadTestcase('selenium')">
+        	<i class="fa fa-download" aria-hidden="true"></i>
+        	Selenium Script
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Clone Modal -->
+<div class="modal fade" id="modalClone" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-files-o" aria-hidden="true"></i>
+        	Test Case Clone
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Cloning 
+          <b><u>{{ vm.params.tc_name }}</u></b>... Name of clone will be 
+          <b><u>{{ vm.params.tc_name }} (copy)</u></b>
+        </p>
+        <p>Proceed with the Test Case Cloning?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.cloneTestcase()">
+        	<i class="fa fa-files-o" aria-hidden="true"></i>
+        	Yes, Clone Test Case
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Delete Test Suite Modal -->
+<div class="modal fade" id="modalDeleteTestsuite" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Test Suite Delete
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.tsdata.testsuites[0].ts_name }}</u></b>?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" 
+          ng-click="vm.deleteTestsuite()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Yes
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modalDelete" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+        	<i class="fa fa-trash" aria-hidden="true"></i>
+        	Test Case Delete
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.params.tc_name }}</u></b>?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" ng-click="vm.deleteTestcase()">
+        	<i class="fa fa-trash" aria-hidden="true"></i>
+        	Yes
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- CRUD Status Message Modal -->
+<modal-status crudstatus="vm.crud_status"></modal-status>
+
+<!-- Coming Soon Modal -->
+<comingsoon></comingsoon>

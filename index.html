@@ -1,33 +1,55 @@
+<!-- 
+Created by: Prado Arturo Bognot
+Position: SWAT Supervising SRS
+Date: Sept 6, 2017
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>BEATS - Builder of End-to-end Automated Tests System</title>
+  <title>BEATS - Builder of End-to-end Automated Tests System</title>
 
-    <!-- Theme CSS -->
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <!-- Theme CSS -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 
-    <!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <!-- Custom Fonts -->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="vendor/googleapis/fonts/montserrat.css" rel="stylesheet" type="text/css">
+  <link href="vendor/googleapis/fonts/lato.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <!-- Angular JS Files -->
+  <script src="vendor/angular/angular.min.js"></script>
+  <script src="vendor/angular/angular-ui-router.js"></script>
+  <script src="vendor/angular/angular-drag-and-drop-lists.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="vendor/angular/angular-drag-and-drop-lists.min.js"></script>
+  <!-- inject: BEATS js -->
+  <!-- Bootstrapping -->
+  <script src="client/app/app.beats.js"></script>
+
+  <!-- Services -->
+  <script src="client/app/services/testsuitesService.js"></script>
+  <script src="client/app/services/testcasesService.js"></script>
+  <script src="client/app/services/genTestActionService.js"></script>
+  <script src="client/app/services/downloadService.js"></script>
+
+  <!-- Components -->
+  <script src="client/app/components/modal.status.component.js"></script>
+  <script src="client/app/components/comingsoon.component.js"></script>
+
+  <!-- Pages -->
+  <script src="client/app/components/hello.js"></script>
+  <script src="client/app/components/main.js"></script>
+  <script src="client/app/components/testsuite.js"></script>
+  <script src="client/app/components/testcase.js"></script>
+
 </head>
 
 <body id="page-top" class="index">
@@ -35,42 +57,38 @@
 <!-- Start of Angular App -->
 <div ng-app="beatsApp">
 
-    <!-- Navigation -->
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#enroll-buddy-navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span> Menu 
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="#page-top"><i>BEATS</i></a>
-                <a class="navbar-brand" href="#"><small>Alpha</small></a>
-            </div>
+  <!-- Navigation -->
+  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header page-scroll">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#enroll-buddy-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span> Menu 
+          <i class="fa fa-bars"></i>
+        </button>
+        <a id="home-link" class="navbar-brand" ui-sref="main" ui-sref-active="active"><i>BEATS Gold</i></a></a>
+      </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div id="enroll-buddy-navbar-collapse" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">LOG IN</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div id="enroll-buddy-navbar-collapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="hidden">
+            <a href="#page-top"></a>
+          </li>
+<!--           <li class="page-scroll">
+            <a href="#" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">LOG IN</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Main content -->
-    <section id="main-content-bg">
-        <div class="container">
-            <div class="row">
-                <h4><a href="#">Test Suite</a></h4>
-                <test-case></test-case>
-            </div>
-        </div>
-    </section>
+  <!-- Main content -->
+  <section id="main-content-bg">
+    <div class="container">
+      <ui-view></ui-view>
+    </div>
+  </section>
 
 </div>
 <!-- End of Angular app -->
@@ -80,18 +98,6 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- inject: BEATS js -->
-<!-- Bootstrapping -->
-<script src="client/app/app.beats.js"></script>
-
-<!-- Test Cases -->
-<script src="client/app/cases/cases.module.js"></script>
-<script src="client/app/cases/test.case.js"></script>
-<script src="client/app/cases/generate.action.js"></script>
-
-<!-- Case Steps -->
-<script src="client/app/steps/case.step.js"></script>
 
 </body>
 </html>
