@@ -8,7 +8,7 @@
   function modalStatusComponent() {
     var component = {
       bindings: { crudstatus: '<' },
-      templateUrl: 'client/app2/components/modal.status.component.htm',
+      templateUrl: 'client/app/components/modal.status.component.htm',
       controllerAs: 'vm'
     }
     return component;

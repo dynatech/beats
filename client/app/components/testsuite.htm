@@ -18,6 +18,7 @@
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
       <a href="" class="icon-trash"
+          data-toggle="modal" data-target="#modalDeleteTestsuite"
           title="Delete this Test Suite">
         <i class="fa fa-trash" aria-hidden="true"></i>
       </a>
@@ -259,6 +260,39 @@
         <button type="button" class="btn btn-warning" ng-click="vm.cloneTestcase()">
         	<i class="fa fa-files-o" aria-hidden="true"></i>
         	Yes, Clone Test Case
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Delete Test Suite Modal -->
+<div class="modal fade" id="modalDeleteTestsuite" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Test Suite Delete
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to 
+          <b><span class="text-danger">DELETE</span></b> 
+          <b><u>{{ vm.tsdata.testsuites[0].ts_name }}</u></b>?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" 
+          ng-click="vm.deleteTestsuite()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Yes
         </button>
       </div>
     </div>

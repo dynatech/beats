@@ -32,23 +32,23 @@ Date: Sept 6, 2017
 
   <!-- inject: BEATS js -->
   <!-- Bootstrapping -->
-  <script src="client/app2/app.beats.js"></script>
+  <script src="client/app/app.beats.js"></script>
 
   <!-- Services -->
-  <script src="client/app2/services/testsuitesService.js"></script>
-  <script src="client/app2/services/testcasesService.js"></script>
-  <script src="client/app2/services/genTestActionService.js"></script>
-  <script src="client/app2/services/downloadService.js"></script>
+  <script src="client/app/services/testsuitesService.js"></script>
+  <script src="client/app/services/testcasesService.js"></script>
+  <script src="client/app/services/genTestActionService.js"></script>
+  <script src="client/app/services/downloadService.js"></script>
 
   <!-- Components -->
-  <script src="client/app2/components/modal.status.component.js"></script>
-  <script src="client/app2/components/comingsoon.component.js"></script>
+  <script src="client/app/components/modal.status.component.js"></script>
+  <script src="client/app/components/comingsoon.component.js"></script>
 
   <!-- Pages -->
-  <script src="client/app2/components/hello.js"></script>
-  <script src="client/app2/components/main.js"></script>
-  <script src="client/app2/components/testsuite.js"></script>
-  <script src="client/app2/components/testcase.js"></script>
+  <script src="client/app/components/hello.js"></script>
+  <script src="client/app/components/main.js"></script>
+  <script src="client/app/components/testsuite.js"></script>
+  <script src="client/app/components/testcase.js"></script>
 
 </head>
 
@@ -66,7 +66,7 @@ Date: Sept 6, 2017
           <span class="sr-only">Toggle navigation</span> Menu 
           <i class="fa fa-bars"></i>
         </button>
-        <a class="navbar-brand" ui-sref="main" ui-sref-active="active"><i>BEATS Gold</i></a></a>
+        <a id="home-link" class="navbar-brand" ui-sref="main" ui-sref-active="active"><i>BEATS Gold</i></a></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -75,9 +75,9 @@ Date: Sept 6, 2017
           <li class="hidden">
             <a href="#page-top"></a>
           </li>
-          <li class="page-scroll">
+<!--           <li class="page-scroll">
             <a href="#" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">LOG IN</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

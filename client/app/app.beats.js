@@ -1,36 +1,47 @@
-/*
-Created by: Prado Arturo Bognot
-Position: SWAT Supervising SRS
-Date: Sept 6, 2017
-*/
+var myApp = angular.module('beatsApp', ['ui.router', 'dndLists']);
 
-(function() {
-    'use strict';
+myApp.config(function($stateProvider, $urlRouterProvider) {
+	// This will display a list of test suites
+	var mainState = {
+		name: 'main',
+		url: '/',
+		component: 'main',
+		resolve: {
+			maindata: function(TestsuitesService) {
+				return TestsuitesService.getAllTestsuites();
+			}
+		}
+	}
 
-    angular.module('beatsApp', [
-        /*
-         * Order is not important. Angular makes a
-         * pass to register all of the modules listed
-         * and then when app.dashboard tries to use app.data,
-         * its components are available.
-         */
+	// This will display details of a test suite
+	var testsuiteState = {
+		name: 'testsuite',
+		url: '/testsuite/{tsId}',
+		component: 'testsuite',
+		resolve: {
+			tsdata: function(TestsuitesService, $transition$) {
+				return TestsuitesService.getTestsuiteDetail($transition$.params().tsId)
+			}
+		}
+	}
 
-        'dndLists',
+	// This will display details of a test case
+	var testcaseState = {
+		name: 'testcase',
+		url: '/testcase/{tcId}',
+		component: 'testcase',
+		resolve: {
+			tcdata: function(TestcasesService, $transition$) {
+				return TestcasesService.getTestcaseDetail($transition$.params().tcId)
+			}
+		}
+	}
 
-        /*
-         * Everybody has access to these.
-         * We could place these under every feature area,
-         * but this is easier to maintain.
-         */ 
-        // 'app.core',
-        // 'app.widgets',
+	// Declare states to make it available for "ui-sref" calls
+	$stateProvider.state(mainState);
+	$stateProvider.state(testsuiteState);
+	$stateProvider.state(testcaseState);
 
-        /*
-         * Feature areas
-         */
-         'app.case'
-        // 'app.avengers',
-        // 'app.dashboard',
-        // 'app.layout'
-    ]);
-})();
+	// Use the Main Testsuite List Page as the default page
+	$urlRouterProvider.otherwise('/');
+});

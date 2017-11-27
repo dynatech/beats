@@ -8,7 +8,7 @@
 	function mainComponent() {
 		var component = {
 			bindings: { maindata: '<' },
-			templateUrl: 'client/app2/components/main.htm',
+			templateUrl: 'client/app/components/main.htm',
 			controller: mainController,
 			controllerAs: 'vm'
 		}

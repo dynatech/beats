@@ -8,7 +8,7 @@
 	function testsuiteComponent() {
 		var component = {
 			bindings: { tsdata: '<' },
-			templateUrl: 'client/app2/components/testsuite.htm',
+			templateUrl: 'client/app/components/testsuite.htm',
 			controller: testsuiteController,
 			controllerAs: 'vm'
 		}
@@ -30,6 +30,7 @@
 		vm.cloneTestcase = cloneTestcase;
 		vm.updateTestcase = updateTestcase;
 		vm.deleteTestcase = deleteTestcase;
+		vm.deleteTestsuite = deleteTestsuite;
 		vm.downloadTestcase = downloadTestcase;
 		vm.downloadTestsuite = downloadTestsuite;
 		vm.saveTestsuite = saveTestsuite;
@@ -106,6 +107,23 @@
 				}
 			}, function(response) {
 				$log.debug("deleteTestcase", response);
+				vm.crud_status = response.message;
+
+				//Call the CRUD Status Message Modal
+				jQuery("#modalStatus").modal("show");
+			});
+		}
+
+		// Delete Test Suite
+		function deleteTestsuite() {
+			TestsuitesService.deleteTestsuite(vm.tsdata.testsuites[0]).then(function(response) {
+				$log.debug("deleteTestsuite", response);
+
+				// Go to Home Link
+				var testsuite_link = $("#home-link").attr('href');
+				$window.location.href = testsuite_link;
+			}, function(response) {
+				$log.debug("deleteTestsuite", response);
 				vm.crud_status = response.message;
 
 				//Call the CRUD Status Message Modal

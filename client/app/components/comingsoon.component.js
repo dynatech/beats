@@ -8,7 +8,7 @@
 	function comingsoonComponent() {
 		var component = {
 			bindings: { featuretitle: '<' },
-			templateUrl: 'client/app2/components/comingsoon.component.htm',
+			templateUrl: 'client/app/components/comingsoon.component.htm',
 			controllerAs: 'vm'
 		}
 		return component;

@@ -8,7 +8,7 @@
 	function testcaseComponent() {
 		var component = {
 			bindings: { tcdata: '<' },
-			templateUrl: 'client/app2/components/testcase.htm',
+			templateUrl: 'client/app/components/testcase.htm',
 			controller: testcaseController,
 			controllerAs: 'vm'
 		}
