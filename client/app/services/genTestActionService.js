@@ -20,11 +20,8 @@
       var stepName = param.name;
 
       switch(param.action) {
-        case "Go to URL":
-          actionSe = actionGoToURL(param);
-          break;
-        case "Write Text":
-          actionSe = actionWriteText(param);
+        case "Add Assertion":
+          actionSe = actionAssert(param);
           break;
         case "Clear Text":
           actionSe = actionClearText(param);
@@ -32,8 +29,20 @@
         case "Click":
           actionSe = actionClick(param);
           break;
+        case "Go to URL":
+          actionSe = actionGoToURL(param);
+          break;
         case "Hover":
           actionSe = actionHover(param);
+          break;
+        case "Maximize Window":
+          actionSe = actionMaximizeWindow(param);
+          break;
+        case "Modify Window Size":
+          actionSe = actionModifyWindow(param);
+          break;
+        case "Press Key":
+          actionSe = actionPressKey(param);
           break;
         case "Select Option":
           actionSe = actionSelect(param);
@@ -44,14 +53,8 @@
         case "Wait":
           actionSe = actionWait(param);
           break;
-        case "Add Assertion":
-          actionSe = actionAssert(param);
-          break;
-        case "Maximize Window":
-          actionSe = actionMaximizeWindow(param);
-          break;
-        case "Modify Window Size":
-          actionSe = actionModifyWindow(param);
+        case "Write Text":
+          actionSe = actionWriteText(param);
           break;
         default:
           $log.debug("To do test script for ", param.action);
@@ -177,6 +180,59 @@
         "     .mouseMove(driver.findElement(By.", locateElementBy, "('", elemValue, "'))) \n",
         "     .perform();  \n",
         " }) \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionPressKey(param) {
+      var locateElementBy = getElementLocator(param);
+      var keyEnum;
+
+      switch(param.op_special_1.value) {
+        case "Alt":
+          keyEnum = 'ALT';
+          break;
+        case "Arrow down":
+          keyEnum = 'ARROW_DOWN';
+          break;
+        case "Arrow left":
+          keyEnum = 'ARROW_LEFT';
+          break;
+        case "Arrow right":
+          keyEnum = 'ARROW_RIGHT';
+          break;
+        case "Arrow up":
+          keyEnum = 'ARROW_UP';
+          break;
+        case "Backspace":
+          keyEnum = 'BACK_SPACE';
+          break;
+        case "Ctrl":
+          keyEnum = 'CONTROL';
+          break;
+        case "Enter":
+          keyEnum = 'ENTER';
+          break; 
+        case "Escape":
+          keyEnum = 'ESCAPE';
+          break; 
+        case "Space":
+          keyEnum = 'SPACE';
+          break;
+        case "Tab":
+          keyEnum = 'TAB';
+          break;
+        default:
+          break;
+      }
+
+      var actionSe = [
+        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " .then(function() { \n",
+        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys(webdriver.Key.", keyEnum, "); \n",
+        " }) \n"
       ].join("");
 
       $log.log(actionSe);
