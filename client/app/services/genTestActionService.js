@@ -44,6 +44,9 @@
         case "Press Key":
           actionSe = actionPressKey(param);
           break;
+        case "Scroll":
+          actionSe = actionScroll(param);
+          break;
         case "Select Option":
           actionSe = actionSelect(param);
           break;
@@ -233,6 +236,71 @@
         " .then(function() { \n",
         "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys(webdriver.Key.", keyEnum, "); \n",
         " }) \n"
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScroll(param) {
+      var scrollType = param.scroll_options.type;
+      var actionSe;
+
+      switch(scrollType) {
+        case "Scroll vertical":
+            actionSe = actionScrollVertical(param);
+            break;
+        case "Scroll horizontal":
+            actionSe = actionScrollHorizontal(param);
+            break;
+        case "Scroll to bottom":
+            actionSe = actionScrollToBottom(param);
+            break;
+        case "Scroll to top":
+            actionSe = actionScrollToTop(param);
+            break;
+        default:
+            break;
+      }
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollVertical(param) {
+      var distance = param.op_special_1.value;
+
+      var actionSe = [
+        " driver.executeScript('window.scroll(0,", distance ,")') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollHorizontal(param) {
+      var distance = param.op_special_1.value;
+
+      var actionSe = [
+        " driver.executeScript('window.scroll(", distance ,", 0)') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollToBottom(param) {
+      var actionSe = [
+        " driver.executeScript('window.scroll(0, window.outerHeight)') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollToTop(param) {
+      var actionSe = [
+        " driver.executeScript('window.scroll(0, 0)') \n",
       ].join("");
 
       $log.log(actionSe);

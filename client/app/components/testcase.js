@@ -275,10 +275,8 @@
           param.op_special_1 = {};
           param.op_special_2 = {};
           break;
-        case "Scroll down":
-        case "Scroll left":
-        case "Scroll right":
-        case "Scroll up":
+        case "Scroll vertical":
+        case "Scroll horizontal":
           param.locateElement = {};
           param.op_special_1.show = true;
           param.op_special_1.label = "Distance (pixels)";
