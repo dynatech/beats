@@ -259,6 +259,9 @@
         case "Scroll to top":
             actionSe = actionScrollToTop(param);
             break;
+        case "Scroll to element":
+            actionSe = actionScrollToElement(param);
+            break;
         default:
             break;
       }
@@ -305,6 +308,43 @@
 
       $log.log(actionSe);
       return actionSe;
+    }
+
+    function actionScrollToElement(param) {
+      var elem = getElementFromJS(param);
+      var actionSe = null;
+
+      if (elem) {
+        var actionSe = [
+          " driver.executeScript( 'var elem = ", elem, ";' ) \n",
+          " driver.executeScript( 'elem.scrollIntoView();' ) \n",
+        ].join("");
+      }
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function getElementFromJS(param) {
+      var elem;
+      var elemValue = param.element_id.value;
+
+      switch(param.locateElement.by) {
+        case "Id":
+          elem = 'document.getElementById(\"' + elemValue + '\")';
+          break;
+        case "Class Name":
+          elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
+          break;
+        case "CSS Selector":
+          elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+          break;
+        default:
+          elem = null;
+          break;
+      }
+
+      return elem;
     }
 
     function actionSelect(param) {
