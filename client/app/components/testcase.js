@@ -36,6 +36,7 @@
 		vm.selectedAction = selectedAction;
 		vm.selectedAssertion = selectedAssertion;
 		vm.selectedLocator = selectedLocator;
+    vm.selectedScroll = selectedScroll;
 		vm.saveTestcase = saveTestcase;
 
 		// Function definitions
@@ -61,7 +62,8 @@
 				element_id: {},
 				op_special_1: {},
 				op_special_2: {},
-				assert_options: {}
+				assert_options: {},
+        scroll_options: {}
 			};
 
 			if (vm.tcdata.testcases[0].steps == null) {
@@ -103,17 +105,34 @@
       
       switch(param.action) {
         case "Choose action":
-        case "Import Test Case":
         case "Close Alert Box":
+        case "Import Test Case":
         case "Maximize Window":
           param.locateElement = {};
           param.assert_options = {};
+          param.scroll_options = {};
           param.op_special_1 = {};
           param.op_special_2 = {};
+          break;
+        case "Add Assertion":
+          param.locateElement = {};
+          param.op_special_1 = {};
+          param.op_special_2 = {};
+          param.scroll_options = {};
+          param.assert_options.show = true;
+          param.assert_options.type = 'Choose Type';
+          break;
+        case "Go to URL":
+          param.locateElement = {};
+          param.op_special_1.label = 'Full URL';
+          param.op_special_1.show = true;
+          param.op_special_2 = {};
+          param.assert_options = {};
           break;
         case "Modify Window Size":
           param.locateElement = {};
           param.assert_options = {};
+          param.scroll_options = {};
           param.op_special_1.label = 'Width';
           param.op_special_1.show = true;
           param.op_special_1.value = width_dft;
@@ -121,10 +140,23 @@
           param.op_special_2.show = true;
           param.op_special_2.value = height_dft;
           break;
-        case "Go to URL":
-          param.locateElement = {};
-          param.op_special_1.label = 'Full URL';
+        case "Press Key":
+          param.locateElement.show = true;
+          param.locateElement.by = 'Choose locator';
+          param.op_special_1.label = 'Press Key';
           param.op_special_1.show = true;
+          param.op_special_1.type = 'select';
+          param.op_special_1.value = 'Choose key';
+          param.op_special_2 = {};
+          param.assert_options = {};
+          param.scroll_options = {};
+          break;
+        case "Scroll":
+          param.locateElement = {};
+          param.scroll_options.label = 'Scroll type';
+          param.scroll_options.show = true;
+          param.scroll_options.type = 'Choose type';
+          param.op_special_1 = {};
           param.op_special_2 = {};
           param.assert_options = {};
           break;
@@ -135,13 +167,7 @@
           param.op_special_1.value = 1000;
           param.op_special_2 = {};
           param.assert_options = {};
-          break;
-        case "Add Assertion":
-          param.locateElement = {};
-          param.op_special_1 = {};
-          param.op_special_2 = {};
-          param.assert_options.show = true;
-          param.assert_options.type = 'Choose Type';
+          param.scroll_options = {};
           break;
         default:
           param.locateElement.show = true;
@@ -149,6 +175,7 @@
           param.op_special_1 = {};
           param.op_special_2 = {};
           param.assert_options = {};
+          param.scroll_options = {};
           break;
       }
 
@@ -237,6 +264,42 @@
 
       $log.debug("testcaseController | selectedLocator: end");
 		}
+
+    function selectedScroll(param) {
+      $log.debug("testcaseController | selectedScroll: start");
+      var delay_dft = 100;
+
+      switch(param.scroll_options.type) {
+        case "Choose type":
+          param.locateElement = {};
+          param.op_special_1 = {};
+          param.op_special_2 = {};
+          break;
+        case "Scroll vertical":
+        case "Scroll horizontal":
+          param.locateElement = {};
+          param.op_special_1.show = true;
+          param.op_special_1.label = "Distance (pixels)";
+          param.op_special_2 = {};
+          break;
+        case "Scroll to element":
+          param.op_special_1 = {};
+          param.op_special_2 = {};
+          param.locateElement.show = true;
+          param.locateElement.by = 'Choose locator';
+          break;
+        default:
+          param.locateElement = {};
+          param.op_special_1 = {};
+          param.op_special_2 = {};
+          break;
+      }
+
+      //Reset showing the element id label
+      param.element_id.show = false;
+
+      $log.debug("testcaseController | selectedScroll: end", param);
+    }
 
     function downloadTestcase() {
     	DownloadService.downloadTestcase(vm.tcdata.testcases[0], 'selenium');

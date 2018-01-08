@@ -20,17 +20,32 @@
       var stepName = param.name;
 
       switch(param.action) {
-        case "Go to URL":
-          actionSe = actionGoToURL(param);
+        case "Add Assertion":
+          actionSe = actionAssert(param);
           break;
-        case "Write Text":
-          actionSe = actionWriteText(param);
+        case "Clear Text":
+          actionSe = actionClearText(param);
           break;
         case "Click":
           actionSe = actionClick(param);
           break;
+        case "Go to URL":
+          actionSe = actionGoToURL(param);
+          break;
         case "Hover":
           actionSe = actionHover(param);
+          break;
+        case "Maximize Window":
+          actionSe = actionMaximizeWindow(param);
+          break;
+        case "Modify Window Size":
+          actionSe = actionModifyWindow(param);
+          break;
+        case "Press Key":
+          actionSe = actionPressKey(param);
+          break;
+        case "Scroll":
+          actionSe = actionScroll(param);
           break;
         case "Select Option":
           actionSe = actionSelect(param);
@@ -41,14 +56,8 @@
         case "Wait":
           actionSe = actionWait(param);
           break;
-        case "Add Assertion":
-          actionSe = actionAssert(param);
-          break;
-        case "Maximize Window":
-          actionSe = actionMaximizeWindow(param);
-          break;
-        case "Modify Window Size":
-          actionSe = actionModifyWindow(param);
+        case "Write Text":
+          actionSe = actionWriteText(param);
           break;
         default:
           $log.debug("To do test script for ", param.action);
@@ -135,6 +144,20 @@
       return actionSe;
     }
 
+    function actionClearText(param) {
+      var locateElementBy = getElementLocator(param);
+
+      var actionSe = [
+        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " .then(function() { \n",
+        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).clear(); \n",
+        " }) \n"
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
     function actionClick(param) {
       var locateElementBy = getElementLocator(param);
 
@@ -164,6 +187,164 @@
 
       $log.log(actionSe);
       return actionSe;
+    }
+
+    function actionPressKey(param) {
+      var locateElementBy = getElementLocator(param);
+      var keyEnum;
+
+      switch(param.op_special_1.value) {
+        case "Alt":
+          keyEnum = 'ALT';
+          break;
+        case "Arrow down":
+          keyEnum = 'ARROW_DOWN';
+          break;
+        case "Arrow left":
+          keyEnum = 'ARROW_LEFT';
+          break;
+        case "Arrow right":
+          keyEnum = 'ARROW_RIGHT';
+          break;
+        case "Arrow up":
+          keyEnum = 'ARROW_UP';
+          break;
+        case "Backspace":
+          keyEnum = 'BACK_SPACE';
+          break;
+        case "Ctrl":
+          keyEnum = 'CONTROL';
+          break;
+        case "Enter":
+          keyEnum = 'ENTER';
+          break; 
+        case "Escape":
+          keyEnum = 'ESCAPE';
+          break; 
+        case "Space":
+          keyEnum = 'SPACE';
+          break;
+        case "Tab":
+          keyEnum = 'TAB';
+          break;
+        default:
+          break;
+      }
+
+      var actionSe = [
+        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " .then(function() { \n",
+        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys(webdriver.Key.", keyEnum, "); \n",
+        " }) \n"
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScroll(param) {
+      var scrollType = param.scroll_options.type;
+      var actionSe;
+
+      switch(scrollType) {
+        case "Scroll vertical":
+            actionSe = actionScrollVertical(param);
+            break;
+        case "Scroll horizontal":
+            actionSe = actionScrollHorizontal(param);
+            break;
+        case "Scroll to bottom":
+            actionSe = actionScrollToBottom(param);
+            break;
+        case "Scroll to top":
+            actionSe = actionScrollToTop(param);
+            break;
+        case "Scroll to element":
+            actionSe = actionScrollToElement(param);
+            break;
+        default:
+            break;
+      }
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollVertical(param) {
+      var distance = param.op_special_1.value;
+
+      var actionSe = [
+        " driver.executeScript('window.scroll(0,", distance ,")') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollHorizontal(param) {
+      var distance = param.op_special_1.value;
+
+      var actionSe = [
+        " driver.executeScript('window.scroll(", distance ,", 0)') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollToBottom(param) {
+      var actionSe = [
+        " driver.executeScript('window.scroll(0, window.outerHeight)') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollToTop(param) {
+      var actionSe = [
+        " driver.executeScript('window.scroll(0, 0)') \n",
+      ].join("");
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollToElement(param) {
+      var elem = getElementFromJS(param);
+      var actionSe = null;
+
+      if (elem) {
+        var actionSe = [
+          " driver.executeScript( 'var elem = ", elem, ";' ) \n",
+          " driver.executeScript( 'elem.scrollIntoView();' ) \n",
+        ].join("");
+      }
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function getElementFromJS(param) {
+      var elem;
+      var elemValue = param.element_id.value;
+
+      switch(param.locateElement.by) {
+        case "Id":
+          elem = 'document.getElementById(\"' + elemValue + '\")';
+          break;
+        case "Class Name":
+          elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
+          break;
+        case "CSS Selector":
+          elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+          break;
+        default:
+          elem = null;
+          break;
+      }
+
+      return elem;
     }
 
     function actionSelect(param) {

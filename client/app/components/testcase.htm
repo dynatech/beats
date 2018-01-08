@@ -98,16 +98,19 @@
 	          <label>Action:</label>
 	          <select class="form-control" ng-model="indiv_step.action" ng-change="vm.selectedAction(indiv_step)">
               <option>Choose action</option>
+              <option>Add Assertion</option>
+              <option>Clear Text</option>
               <option>Click</option>
-              <option>Hover</option>
-              <option>Write Text</option>
               <option>Go to URL</option>
+              <option>Hover</option>
+              <option>Maximize Window</option>
+              <option>Modify Window Size</option>
+              <option>Press Key</option>
+              <option>Scroll</option>
               <option>Select Option</option>
               <option>Select Random Option</option>
               <option>Wait</option>
-              <option>Add Assertion</option>
-              <option>Maximize Window</option>
-              <option>Modify Window Size</option>
+              <option>Write Text</option>
               <!-- <option>Close Alert Box</option> -->
 	          </select>
 	        </div>
@@ -127,6 +130,19 @@
               <option>URL Contains Value</option>
             </select>
         	</div>
+        </div>
+        <div class="item" ng-show="indiv_step.scroll_options.show">
+          <div class="form-group">
+            <label>Scroll Type:</label>
+            <select class="form-control" ng-model="indiv_step.scroll_options.type" ng-change="vm.selectedScroll(indiv_step)">
+              <option>Choose type</option>
+              <option>Scroll vertical</option>
+              <option>Scroll horizontal</option>
+              <!-- <option>Scroll to element</option> -->
+              <option>Scroll to bottom</option>
+              <option>Scroll to top</option>
+            </select>
+          </div>
         </div>
         <div class="item" ng-show="indiv_step.locateElement.show">
         	<div class="form-group">
@@ -153,7 +169,26 @@
         <div class="item-smaller" ng-show="indiv_step.op_special_1.show">
         	<div class="form-group">
         		<label>{{indiv_step.op_special_1.label}}:</label>
-            <input type="text" class="form-control" ng-model="indiv_step.op_special_1.value">
+            <input type="text" class="form-control" 
+                ng-if="indiv_step.op_special_1.type != 'select'" 
+                ng-model="indiv_step.op_special_1.value">
+            <select class="form-control" 
+                ng-if="(indiv_step.op_special_1.type == 'select') && (indiv_step.action == 'Press Key')" 
+                ng-model="indiv_step.op_special_1.value" 
+                ng-change="">
+              <option>Choose key</option>
+              <option>Alt</option>
+              <option>Arrow down</option>
+              <option>Arrow left</option>
+              <option>Arrow right</option>
+              <option>Arrow up</option>
+              <option>Backspace</option>
+              <option>Ctrl</option>
+              <option>Enter</option>
+              <option>Escape</option>
+              <option>Space</option>
+              <option>Tab</option>
+            </select>
         	</div>
         </div>
         <div class="item-smaller" ng-show="indiv_step.op_special_2.show">
