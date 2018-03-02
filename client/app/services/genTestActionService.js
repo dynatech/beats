@@ -435,31 +435,37 @@
 
       switch(assertType) {
         case "Title Contains Value":
-            actionSe = actionAssertTitleContainsValue(param);
-            break;
+          actionSe = actionAssertTitleContainsValue(param);
+          break;
         case "URL Contains Value":
-            actionSe = actionAssertURLContainsValue(param);
-            break;
+          actionSe = actionAssertURLContainsValue(param);
+          break;
         case "Element is Not Visible":
-            actionSe = actionAssertElementNotVisible(param);
-            break;
+          actionSe = actionAssertElementNotVisible(param);
+          break;
         case "Element is Visible":
-            actionSe = actionAssertElementIsVisible(param);
-            break;
+          actionSe = actionAssertElementIsVisible(param);
+          break;
+        case "Element Exists":
+          actionSe = actionAssertElementExists(param);
+          break;
+        case "Element Does Not Exist":
+          actionSe = actionAssertElementDoesNotExist(param);
+          break;
         case "Contains Value":
-            actionSe = actionAssertContainsValue(param);
-            break;
+          actionSe = actionAssertContainsValue(param);
+          break;
         case "Does Not Contain Value":
-            actionSe = actionAssertDoesNotContainValue(param);
-            break;
+          actionSe = actionAssertDoesNotContainValue(param);
+          break;
         case "Matches Value / RegEx":
-            actionSe = actionAssertMatchValue(param);
-            break;
+          actionSe = actionAssertMatchValue(param);
+          break;
         case "Does Not Match Value / RegEx":
-            actionSe = actionAssertDoesNotMatchValue(param);
-            break;
+          actionSe = actionAssertDoesNotMatchValue(param);
+          break;
         default:
-            break;
+          break;
       }
 
       $log.log(actionSe);
@@ -489,6 +495,38 @@
         " .then(function(url) { \n",
         "   assert(url).contains(targetURL, 'Assert Failed'); \n",
         " }); \n",
+      ].join("");
+
+      return actionSe;
+    }
+
+    function actionAssertElementExists (param) {
+      var targetElement = getTargetElement(param);
+
+      var actionSe = [
+        " var bool = -999; \n",
+        " driver.findElement(", targetElement, ") \n",
+        " .then(function() { bool = true; }) \n",
+        " .catch(function() { bool = false; }) \n",
+        " .finally(function() {\n",
+        "    assert(bool).isTrue('Assert Failed');\n",
+        " })\n",
+      ].join("");
+
+      return actionSe;
+    }
+
+    function actionAssertElementDoesNotExist (param) {
+      var targetElement = getTargetElement(param);
+
+      var actionSe = [
+        " var bool = -999; \n",
+        " driver.findElement(", targetElement, ") \n",
+        " .then(function() { bool = true; }) \n",
+        " .catch(function() { bool = false; }) \n",
+        " .finally(function() {\n",
+        "    assert(bool).isFalse('Assert Failed');\n",
+        " })\n",
       ].join("");
 
       return actionSe;

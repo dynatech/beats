@@ -210,6 +210,8 @@
           break;
         case "Element is Visible":
         case "Element is Not Visible":
+        case "Element Exists":
+        case "Element Does Not Exist":
           param.op_special_1 = {};
           param.op_special_2 = {};
           param.locateElement.show = true;
