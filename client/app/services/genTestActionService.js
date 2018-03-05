@@ -69,12 +69,16 @@
       return actionSe;
     }
 
+    // TODO: Remove once getTargetElement() is stable
     function getElementLocator(param) {
       var locateElementBy;
 
       switch(param.locateElement.by) {
         case "Id":
           locateElementBy = 'id';
+          break;
+        case "Text Inside":
+          // locateElementBy = 'xpath';
           break;
         case "Name":
           locateElementBy = 'name';
@@ -100,6 +104,43 @@
       }
 
       return locateElementBy;
+    }
+
+    function getTargetElement(param) {
+      var elementValue = param.element_id.value;
+      var targetElement;
+
+      switch(param.locateElement.by) {
+        case "Id":
+          targetElement = "By.id('" + elementValue + "')";
+          break;
+        case "Name":
+          targetElement = "By.name('" + elementValue + "')";
+          break;
+        case "Class Name":
+          targetElement = "By.className('" + elementValue + "')";
+          break;
+        case "XPath":
+          targetElement = "By.xpath('" + elementValue + "')";
+          break;
+        case "CSS Selector":
+          targetElement = "By.css('" + elementValue + "')";
+          break;
+        case "Link Text":
+          targetElement = "By.linkText('" + elementValue + "')";
+          break;
+        case "Partial Link Text":
+          targetElement = "By.partialLinkText('" + elementValue + "')";
+          break;
+        case "Text Inside":
+          // Finds text inside the html tag
+          targetElement = "By.xpath('//*[text()[contains(.,\"" + elementValue + "\")]]')";
+          break;
+        default:
+          break;
+      }
+
+      return targetElement;
     }
 
     function actionGoToURL(param) {
@@ -131,12 +172,12 @@
     }
 
     function actionWriteText(param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys('", param.op_special_1.value, "'); \n",
+        "   driver.findElement(", targetElement, ").sendKeys('", param.op_special_1.value, "'); \n",
         " }) \n"
       ].join("");
 
@@ -145,12 +186,12 @@
     }
 
     function actionClearText(param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).clear(); \n",
+        "   driver.findElement(", targetElement, ").clear(); \n",
         " }) \n"
       ].join("");
 
@@ -159,12 +200,12 @@
     }
 
     function actionClick(param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).click();  \n",
+        "   driver.findElement(", targetElement, ").click();  \n",
         " }) \n",
       ].join("");
 
@@ -173,14 +214,13 @@
     }
 
     function actionHover(param) {
-      var locateElementBy = getElementLocator(param);
-      var elemValue = param.element_id.value;
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", elemValue, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
         "   driver.actions() \n",
-        "     .mouseMove(driver.findElement(By.", locateElementBy, "('", elemValue, "'))) \n",
+        "     .mouseMove(driver.findElement(", targetElement, ")) \n",
         "     .perform();  \n",
         " }) \n",
       ].join("");
@@ -190,7 +230,7 @@
     }
 
     function actionPressKey(param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
       var keyEnum;
 
       switch(param.op_special_1.value) {
@@ -232,9 +272,9 @@
       }
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).sendKeys(webdriver.Key.", keyEnum, "); \n",
+        "   driver.findElement(", targetElement, ").sendKeys(webdriver.Key.", keyEnum, "); \n",
         " }) \n"
       ].join("");
 
@@ -348,14 +388,14 @@
     }
 
     function actionSelect(param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
       var elemValue = param.element_id.value;
       var selectedOption = param.op_special_1.value;
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", elemValue, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.selectOption(By.", locateElementBy, "('", elemValue, "'), '", selectedOption, "') \n",
+        "   driver.selectOption(", targetElement, ", '", selectedOption, "') \n",
         " }) \n",
       ].join("");
 
@@ -364,13 +404,12 @@
     }
 
     function actionSelectRandom(param) {
-      var locateElementBy = getElementLocator(param);
-      var elemValue = param.element_id.value;
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", elemValue, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, ", globalDelay) \n",
         " .then(function() { \n",
-        "   driver.selectOptionRandom(By.", locateElementBy, "('", elemValue, "')) \n",
+        "   driver.selectOptionRandom(", targetElement, ") \n",
         " }) \n",
       ].join("");
 
@@ -396,31 +435,37 @@
 
       switch(assertType) {
         case "Title Contains Value":
-            actionSe = actionAssertTitleContainsValue(param);
-            break;
+          actionSe = actionAssertTitleContainsValue(param);
+          break;
         case "URL Contains Value":
-            actionSe = actionAssertURLContainsValue(param);
-            break;
+          actionSe = actionAssertURLContainsValue(param);
+          break;
         case "Element is Not Visible":
-            actionSe = actionAssertElementNotVisible(param);
-            break;
+          actionSe = actionAssertElementNotVisible(param);
+          break;
         case "Element is Visible":
-            actionSe = actionAssertElementIsVisible(param);
-            break;
+          actionSe = actionAssertElementIsVisible(param);
+          break;
+        case "Element Exists":
+          actionSe = actionAssertElementExists(param);
+          break;
+        case "Element Does Not Exist":
+          actionSe = actionAssertElementDoesNotExist(param);
+          break;
         case "Contains Value":
-            actionSe = actionAssertContainsValue(param);
-            break;
+          actionSe = actionAssertContainsValue(param);
+          break;
         case "Does Not Contain Value":
-            actionSe = actionAssertDoesNotContainValue(param);
-            break;
+          actionSe = actionAssertDoesNotContainValue(param);
+          break;
         case "Matches Value / RegEx":
-            actionSe = actionAssertMatchValue(param);
-            break;
+          actionSe = actionAssertMatchValue(param);
+          break;
         case "Does Not Match Value / RegEx":
-            actionSe = actionAssertDoesNotMatchValue(param);
-            break;
+          actionSe = actionAssertDoesNotMatchValue(param);
+          break;
         default:
-            break;
+          break;
       }
 
       $log.log(actionSe);
@@ -455,13 +500,45 @@
       return actionSe;
     }
 
-    function actionAssertElementNotVisible (param) {
-      var locateElementBy = getElementLocator(param);
+    function actionAssertElementExists (param) {
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " var bool = -999; \n",
+        " driver.findElement(", targetElement, ") \n",
+        " .then(function() { bool = true; }) \n",
+        " .catch(function() { bool = false; }) \n",
+        " .finally(function() {\n",
+        "    assert(bool).isTrue('Assert Failed');\n",
+        " })\n",
+      ].join("");
+
+      return actionSe;
+    }
+
+    function actionAssertElementDoesNotExist (param) {
+      var targetElement = getTargetElement(param);
+
+      var actionSe = [
+        " var bool = -999; \n",
+        " driver.findElement(", targetElement, ") \n",
+        " .then(function() { bool = true; }) \n",
+        " .catch(function() { bool = false; }) \n",
+        " .finally(function() {\n",
+        "    assert(bool).isFalse('Assert Failed');\n",
+        " })\n",
+      ].join("");
+
+      return actionSe;
+    }
+
+    function actionAssertElementNotVisible (param) {
+      var targetElement = getTargetElement(param);
+
+      var actionSe = [
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).isDisplayed() \n",
+        "   driver.findElement(", targetElement, ").isDisplayed() \n",
         "   .then(function(bool) { \n",
         "     assert(bool).isFalse('Assert Failed'); \n",
         "   }) \n",
@@ -472,12 +549,12 @@
     }
 
     function actionAssertElementIsVisible (param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')).isDisplayed() \n",
+        "   driver.findElement(", targetElement, ").isDisplayed() \n",
         "   .then(function(bool) { \n",
         "     assert(bool).isTrue('Assert Failed'); \n",
         "   }) \n",
@@ -488,12 +565,12 @@
     }
 
     function actionAssertContainsValue (param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+        "   driver.findElement(", targetElement, ") \n",
         "   .getText().then(function(text) { \n",
         "     assert(text).contains('", param.op_special_2.value, "'); \n",
         "   }) \n",
@@ -504,12 +581,12 @@
     }
 
     function actionAssertDoesNotContainValue (param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+        "   driver.findElement(", targetElement, ")) \n",
         "   .getText().then(function(text) { \n",
         "     var bool = text.includes('", param.op_special_2.value, "') \n",
         "     assert(bool).isFalse('Assert Failed'); \n",
@@ -521,12 +598,12 @@
     }
 
     function actionAssertMatchValue (param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+        "   driver.findElement(", targetElement, ") \n",
         "   .getText().then(function(text) { \n",
         "     var bool = new RegExp('", param.op_special_2.value, "').test(text) \n",
         "     assert(bool).isTrue('Assert Failed'); \n",
@@ -538,12 +615,12 @@
     }
 
     function actionAssertDoesNotMatchValue (param) {
-      var locateElementBy = getElementLocator(param);
+      var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(By.", locateElementBy, "('", param.element_id.value, "')), globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(By.", locateElementBy, "('", param.element_id.value, "')) \n",
+        "   driver.findElement(", targetElement, ") \n",
         "   .getText().then(function(text) { \n",
         "     var bool = new RegExp('", param.op_special_2.value, "').test(text) \n",
         "     assert(bool).isFalse('Assert Failed'); \n",
