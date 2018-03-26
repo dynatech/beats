@@ -407,7 +407,7 @@
       var targetElement = getTargetElement(param);
 
       var actionSe = [
-        " driver.wait(until.elementLocated(", targetElement, ", globalDelay) \n",
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
         "   driver.selectOptionRandom(", targetElement, ") \n",
         " }) \n",
