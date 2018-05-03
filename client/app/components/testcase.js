@@ -194,6 +194,15 @@
           param.locateElement = {};
           param.assert_options.delay = null;
           break;
+        case "Matches Attribute Value":
+          param.op_special_1.show = true;
+          param.op_special_1.label = 'Attribute';
+          param.op_special_2.show = true;
+          param.op_special_2.label = 'Value to check for';
+          param.locateElement.show = true;
+          param.locateElement.by = 'Choose locator';
+          param.assert_options.delay = delay_dft;
+          break;
         case "Title Contains Value":
           param.locateElement = {};
           param.op_special_2 = {};
