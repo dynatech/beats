@@ -195,6 +195,7 @@
           param.assert_options.delay = null;
           break;
         case "Matches Attribute Value":
+        case "Does Not Match Attribute Value":
           param.op_special_1.show = true;
           param.op_special_1.label = 'Attribute';
           param.op_special_2.show = true;

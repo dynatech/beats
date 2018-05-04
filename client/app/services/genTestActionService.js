@@ -467,6 +467,9 @@
         case "Does Not Match Value / RegEx":
           actionSe = actionAssertDoesNotMatchValue(param);
           break;
+        case "Does Not Match Attribute Value":
+          actionSe = actionAssertDoesNotMatchAttributeValue(param);
+          break;
         default:
           break;
       }
@@ -647,7 +650,6 @@
         "     elem.getAttribute('", attr,"') \n",
         "     .then(function(data) { \n",
         "       var bool = new RegExp('", attr_val, "').test(data) \n",
-        // "       logger.info('attribute val and data: ' + data + ', ' + ", attr_val, "); \n",
         "       assert(bool).isTrue('Assert Failed'); \n",
         "     }) \n",
         "   }) \n",
@@ -656,6 +658,30 @@
 
       return actionSe;
     }
+
+    function actionAssertDoesNotMatchAttributeValue (param) {
+      var targetElement = getTargetElement(param);
+      var attr = param.op_special_1.value;
+      var attr_val = param.op_special_2.value;
+
+      var actionSe = [
+        " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
+        " .then(function() { \n",
+        "   driver.findElement(", targetElement, ") \n",
+        "   .then(function(elem) { \n",
+        "     elem.getAttribute('", attr,"') \n",
+        "     .then(function(data) { \n",
+        "       var bool = new RegExp('", attr_val, "').test(data) \n",
+        "       assert(bool).isFalse('Assert Failed'); \n",
+        "     }) \n",
+        "   }) \n",
+        " }) \n"
+      ].join("");
+
+      return actionSe;
+    }
+
+
   }
 
 })();
