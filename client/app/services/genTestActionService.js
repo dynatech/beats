@@ -592,7 +592,7 @@
       var actionSe = [
         " driver.wait(until.elementLocated(", targetElement, "), globalDelay) \n",
         " .then(function() { \n",
-        "   driver.findElement(", targetElement, ")) \n",
+        "   driver.findElement(", targetElement, ") \n",
         "   .getText().then(function(text) { \n",
         "     var bool = text.includes('", param.op_special_2.value, "') \n",
         "     assert(bool).isFalse('Assert Failed'); \n",
