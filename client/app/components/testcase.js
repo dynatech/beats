@@ -300,6 +300,14 @@
           param.locateElement.show = true;
           param.locateElement.by = 'Choose locator';
           break;
+        case "Scroll an element":
+          param.locateElement.show = true;
+          param.locateElement.by = 'Choose locator';
+          param.op_special_1.show = true;
+          param.op_special_1.label = "Repeat";
+          param.op_special_2.show = true;
+          param.op_special_2.label = "Distance (px)";
+          break;
         default:
           param.locateElement = {};
           param.op_special_1 = {};
