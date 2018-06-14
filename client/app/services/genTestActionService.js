@@ -386,28 +386,67 @@
       var elem;
       var elemValue = param.element_id.value;
 
-      switch(param.locateElement.by) {
-        case "Id":
-          elem = 'document.getElementById(\"' + elemValue + '\")';
+      // if(param.scroll_options.type == "Scroll to element"){
+      //   switch(param.locateElement.by) {
+      //     case "Id":
+      //       elem = 'document.getElementById(\"' + elemValue + '\")';
+      //       break;
+      //     case "Name":
+      //       elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
+      //       break;
+      //     case "CSS Selector":
+      //       elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+      //       break;
+      //     default:
+      //       elem = null;
+      //       break;
+      //   }
+      // }else{
+      //   switch(param.locateElement.by) {
+      //     case "Id":
+      //       elem = '$("#' + elemValue + '")';
+      //       break;
+      //     case "CSS Selector":
+      //       elem = '$(".' + elemValue + '")';
+      //       break;
+      //     default:
+      //       elem = null;
+      //       break;
+      //   }
+      // }
+      switch(param.scroll_options.type){
+        case "Scroll to element":
+          switch(param.locateElement.by) {
+            case "Id":
+              elem = 'document.getElementById(\"' + elemValue + '\")';
+              break;
+            case "Name":
+              elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
+              break;
+            case "CSS Selector":
+              elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+              break;
+            default:
+              elem = null;
+              break;
+          }
           break;
-        case "Class Name":
-          elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
-          break;
-        case "CSS Selector":
-          elem = 'document.querySelectorAll(\"' + elemValue + '\")';
-          break;
-        // TO DO: XPath Elem
-        // case "XPath":
-        //   elem = '';
-        //   break; 
-        case "JQuery Selector":
-          elem = '$("' + elemValue + '")';
+        case "Scroll an element":
+          switch(param.locateElement.by) {
+            case "Id":
+              elem = '$("#' + elemValue + '")';
+              break;
+            case "CSS Selector":
+              elem = '$(".' + elemValue + '")';
+              break;
+            default:
+              elem = null;
+              break;
+          }  
           break;
         default:
-          elem = null;
           break;
-      }
-
+      }      
       return elem;
     }
 

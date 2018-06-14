@@ -154,14 +154,14 @@
             <select class="form-control" ng-model="indiv_step.locateElement.by" ng-change="vm.selectedLocator(indiv_step)">
               <option>Choose locator</option>
               <option>Id</option>
-              <option>Text Inside</option>
-              <option>Name</option>
-              <option>Class Name</option>
-              <option>XPath</option>
+              <option ng-if="indiv_step.scroll_options.type!='Scroll an element' && indiv_step.scroll_options.type!='Scroll to element'">Text Inside</option>
+              <option ng-if="indiv_step.scroll_options.type!='Scroll an element'">Name</option>
+              <option ng-if="indiv_step.scroll_options.type!='Scroll an element' && indiv_step.scroll_options.type!='Scroll to element'">Class Name</option>
+              <option ng-if="indiv_step.scroll_options.type!='Scroll an element' && indiv_step.scroll_options.type!='Scroll to element'">XPath</option>
               <option>CSS Selector</option>
-              <option>Link Text</option>
-              <option>Partial Link Text</option>
-              <option>JQuery Selector</option>
+              <option ng-if="indiv_step.scroll_options.type!='Scroll an element' && indiv_step.scroll_options.type!='Scroll to element'">Link Text</option>
+              <option ng-if="indiv_step.scroll_options.type!='Scroll an element' && indiv_step.scroll_options.type!='Scroll to element'">Partial Link Text</option>
+              <!-- <option>JQuery Selector</option> -->
             </select>
         	</div>
         </div>

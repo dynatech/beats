@@ -143,7 +143,7 @@
         case "Press Key":
           param.locateElement.show = true;
           param.locateElement.by = 'Choose locator';
-          param.op_special_1.label = 'Press Key';
+          param.op_special_1.label = 'Press Key'; 
           param.op_special_1.show = true;
           param.op_special_1.type = 'select';
           param.op_special_1.value = 'Choose key';
