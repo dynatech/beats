@@ -70,41 +70,41 @@
     }
 
     // TODO: Remove once getTargetElement() is stable
-    function getElementLocator(param) {
-      var locateElementBy;
+    // function getElementLocator(param) {
+    //   var locateElementBy;
 
-      switch(param.locateElement.by) {
-        case "Id":
-          locateElementBy = 'id';
-          break;
-        case "Text Inside":
-          // locateElementBy = 'xpath';
-          break;
-        case "Name":
-          locateElementBy = 'name';
-          break;
-        case "Class Name":
-          locateElementBy = 'className';
-          break;
-        case "XPath":
-          locateElementBy = 'xpath';
-          break;
-        case "CSS Selector":
-          locateElementBy = 'css';
-          break;
-        case "Link Text":
-          locateElementBy = 'linkText';
-          break;
-        case "Partial Link Text":
-          locateElementBy = 'partialLinkText';
-          break;
-        case "Text Inside":
-        default:
-          break;
-      }
+    //   switch(param.locateElement.by) {
+    //     case "Id":
+    //       locateElementBy = 'id';
+    //       break;
+    //     case "Text Inside":
+    //       // locateElementBy = 'xpath';
+    //       break;
+    //     case "Name":
+    //       locateElementBy = 'name';
+    //       break;
+    //     case "Class Name":
+    //       locateElementBy = 'className';
+    //       break;
+    //     case "XPath":
+    //       locateElementBy = 'xpath';
+    //       break;
+    //     case "CSS Selector":
+    //       locateElementBy = 'css';
+    //       break;
+    //     case "Link Text":
+    //       locateElementBy = 'linkText';
+    //       break;
+    //     case "Partial Link Text":
+    //       locateElementBy = 'partialLinkText';
+    //       break;
+    //     case "Text Inside":
+    //     default:
+    //       break;
+    //   }
 
-      return locateElementBy;
-    }
+    //   return locateElementBy;
+    // }
 
     function getTargetElement(param) {
       var elementValue = param.element_id.value;
@@ -302,6 +302,8 @@
         case "Scroll to element":
             actionSe = actionScrollToElement(param);
             break;
+        case "Scroll an element":
+            actionSe = actionScrollAnElement(param);
         default:
             break;
       }
@@ -356,8 +358,23 @@
 
       if (elem) {
         var actionSe = [
-          " driver.executeScript( 'var elem = ", elem, ";' ) \n",
-          " driver.executeScript( 'elem.scrollIntoView();' ) \n",
+          " driver.executeScript( 'var elem = ", elem, "; elem.scrollIntoView();' ) \n",
+        ].join("");
+      }
+
+      $log.log(actionSe);
+      return actionSe;
+    }
+
+    function actionScrollAnElement(param) {
+      var repeatNum = param.op_special_1.value;
+      var distance = param.op_special_2.value;
+      var elem = getElementFromJS(param);
+      var actionSe = null;
+
+      if (elem) {
+        var actionSe = [
+          " driver.executeScript( 'var elem = ", elem, "; for(var x=0; x<", repeatNum, "; x++) { elem.animate({scrollTop: ", distance, "});}' ) \n",
         ].join("");
       }
 
@@ -369,21 +386,67 @@
       var elem;
       var elemValue = param.element_id.value;
 
-      switch(param.locateElement.by) {
-        case "Id":
-          elem = 'document.getElementById(\"' + elemValue + '\")';
+      // if(param.scroll_options.type == "Scroll to element"){
+      //   switch(param.locateElement.by) {
+      //     case "Id":
+      //       elem = 'document.getElementById(\"' + elemValue + '\")';
+      //       break;
+      //     case "Name":
+      //       elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
+      //       break;
+      //     case "CSS Selector":
+      //       elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+      //       break;
+      //     default:
+      //       elem = null;
+      //       break;
+      //   }
+      // }else{
+      //   switch(param.locateElement.by) {
+      //     case "Id":
+      //       elem = '$("#' + elemValue + '")';
+      //       break;
+      //     case "CSS Selector":
+      //       elem = '$(".' + elemValue + '")';
+      //       break;
+      //     default:
+      //       elem = null;
+      //       break;
+      //   }
+      // }
+      switch(param.scroll_options.type){
+        case "Scroll to element":
+          switch(param.locateElement.by) {
+            case "Id":
+              elem = 'document.getElementById(\"' + elemValue + '\")';
+              break;
+            case "Name":
+              elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
+              break;
+            case "CSS Selector":
+              elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+              break;
+            default:
+              elem = null;
+              break;
+          }
           break;
-        case "Class Name":
-          elem = 'document.getElementsByClassName(\"' + elemValue + '\")';
-          break;
-        case "CSS Selector":
-          elem = 'document.querySelectorAll(\"' + elemValue + '\")';
+        case "Scroll an element":
+          switch(param.locateElement.by) {
+            case "Id":
+              elem = '$("#' + elemValue + '")';
+              break;
+            case "CSS Selector":
+              elem = '$(".' + elemValue + '")';
+              break;
+            default:
+              elem = null;
+              break;
+          }  
           break;
         default:
-          elem = null;
           break;
-      }
-
+      }      
       return elem;
     }
 
