@@ -77,6 +77,7 @@
 		// Clone Test Suite
 		function cloneTestsuite() {
 			$log.debug("cloneTestsuite");
+			console.log("Entered clone state!");
 		}
 
 		// Update Test Suite

@@ -13,7 +13,7 @@
         <i class="fa fa-download" aria-hidden="true"></i>
       </a> &nbsp;
       <a href="" class="icon-clone"
-          data-toggle="modal" data-target="#modalComingSoon"
+          data-toggle="modal" data-target="#modalCloneTestsuite"
           title="Clone this Test Suite">
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
@@ -78,7 +78,7 @@
 				</a>
 			</div>
 			<div class="item">
-				<a href="" data-toggle="modal" data-target="#modalComingSoon"
+				<a href="" data-toggle="modal" data-target="#modalCloneTestcase"
           ng-click="vm.clickBeatsAction(testcase)">
 					<i class="fa fa-files-o" aria-hidden="true"></i>
 					Clone
@@ -234,8 +234,41 @@
   </div>
 </div>
 
-<!-- Clone Modal -->
-<div class="modal fade" id="modalClone" role="dialog">
+<!-- Clone Testsuite Modal -->
+<div class="modal fade" id="modalCloneTestsuite" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <i class="fa fa-files-o" aria-hidden="true"></i>
+          Test Suite Clone
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Cloning 
+          <b><u>{{ vm.tsdata.testsuites[0].ts_name }}</u></b>... Name of clone will be 
+          <b><u>{{ vm.tsdata.testsuites[0].ts_name }} (copy)</u></b>
+        </p>
+        <p>Proceed with the Test Suite Cloning?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.cloneTestsuite()">
+          <i class="fa fa-files-o" aria-hidden="true"></i>
+          Yes, Clone Test Suite
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Clone Testcase Modal -->
+<div class="modal fade" id="modalCloneTestcase" role="dialog">
   <div class="modal-dialog">
   
     <!-- Modal content-->

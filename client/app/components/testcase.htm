@@ -17,7 +17,7 @@
         <i class="fa fa-download" aria-hidden="true"></i>
       </a> &nbsp;
       <a href="" class="icon-clone"
-          data-toggle="modal" data-target="#modalComingSoon"
+          data-toggle="modal" data-target="#modalCloneTestcase"
           title="Clone this Test Case">
         <i class="fa fa-files-o" aria-hidden="true"></i>
       </a> &nbsp;
@@ -231,6 +231,39 @@
       New Step
     </button>
 	</div>
+</div>
+
+<!-- Clone Testcase Modal -->
+<div class="modal fade" id="modalCloneTestcase" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          <i class="fa fa-files-o" aria-hidden="true"></i>
+          Test Case Clone
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Cloning 
+          <b><u>{{ vm.params.tc_name }}</u></b>... Name of clone will be 
+          <b><u>{{ vm.params.tc_name }} (copy)</u></b>
+        </p>
+        <p>Proceed with the Test Case Cloning?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning" ng-click="vm.cloneTestcase()">
+          <i class="fa fa-files-o" aria-hidden="true"></i>
+          Yes, Clone Test Case
+        </button>
+      </div>
+    </div>
+    
+  </div>
 </div>
 
 <!-- Delete Modal -->

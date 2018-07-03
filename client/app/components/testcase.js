@@ -88,7 +88,7 @@
 				$log.debug("deleteTestcase", response);
 				vm.crud_status = response.message;
 
-				//Call the CRUD Status Message Modal
+				// Call the CRUD Status Message Modal
 				jQuery("#modalStatus").modal("show");
 			});
 		}
