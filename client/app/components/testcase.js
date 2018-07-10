@@ -30,6 +30,7 @@
 		vm.clickBeatsAction = clickBeatsAction;
 
 		vm.addStep = addStep;
+    vm.cloneTestcase = cloneTestcase;
 		vm.deleteTestcase = deleteTestcase;
 		vm.downloadTestcase = downloadTestcase;
 		vm.removeStep = removeStep;
@@ -74,6 +75,63 @@
 			$log.debug("testcaseController | addStep: end", vm.tcdata.testcases[0].steps);
 		}
 
+    // Clone Test Case
+    function cloneTestcase() {
+      console.log("CASE STEP ONE VM PARAMS");
+      console.log(vm.params);
+      console.log("VM TSDATA");
+      console.log(vm.tcdata);
+      console.log("VM TSDATA.TESTSUITES");
+      console.log(vm.tcdata.testcases[0].ts_id);
+      vm.params = vm.tcdata.testcases[0];
+      // vm.params.ts_id = vm.tsdata.testsuites[0].ts_id;
+      
+      TestcasesService.getTestcaseDetail(vm.tcdata.testcases[0].tc_id)
+        .then(function(response) {
+          console.log("-------------VALUE of vm.params BEFORE");
+          console.log(response); 
+          let newParams = {};
+          newParams = {
+            ts_id: vm.params.ts_id,
+            tc_name: response.testcases[0].tc_name,
+            tc_desc: response.testcases[0].tc_desc,
+            global_wait: response.testcases[0].global_wait,
+            steps: response.testcases[0].steps
+          }
+
+          console.log("-------------VALUE of vm.params AFTER");
+          console.log(vm.params); 
+
+          TestcasesService.cloneTestcase(newParams)
+            .then(function(response) {
+              console.log(newParams);
+              $log.debug("cloneTestcase", response);
+              vm.crud_status = response.message;
+              vm.params.tc_id = response.tc_id;
+              vm.params.numTestCases = 0;
+
+              // Hide the createTestsuite modal
+              $(".modal.in").modal("hide");
+              // Call the CRUD Status Message Modal
+              $("#modalStatus").modal("show");
+      
+            }, function(response) {
+              $log.debug("cloneTestcase", response);
+              vm.crud_status = response.message;
+
+              // Call the CRUD Status Message Modal
+              $("#modalStatus").modal("show");             
+            });
+        }, function(response) {
+          $log.debug("cloneTestcase", response);
+          vm.crud_status = response.message;
+
+          // Call the CRUD Status Message Modal
+          $("#modalStatus").modal("show");
+
+        });
+    }
+    
 		// Delete Test Case
 		function deleteTestcase() {
 			$log.debug("testcaseController | deleteTestcase", vm.params);

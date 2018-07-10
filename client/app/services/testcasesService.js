@@ -9,6 +9,7 @@
 				getTestcaseDetail: getTestcaseDetail,
 
 				createTestcase: createTestcase,
+				cloneTestcase: cloneTestcase,
 				deleteTestcase: deleteTestcase,
 				updateTestcase: updateTestcase,
 			}
@@ -38,6 +39,23 @@
 									desc: params.tc_desc })
 				.then(function(resp) {
 					$log.debug("TestcasesService createTestcase", resp.data);
+					return resp.data;
+				});
+			}
+
+			// Newly created function for cloning testcase
+			function cloneTestcase(params) {
+				console.log("FX cloneTestcase");
+				console.log(params);	
+				params.tc_name = params.tc_name + " (copy)";			
+				return $http.post('api/testcase/create.php',
+								{ "ts_id": params.ts_id, 
+									"name": params.tc_name,
+									"desc": params.tc_desc,
+									"global_wait": params.global_wait,
+									"steps": params.steps	})
+				.then(function(resp) {
+					$log.debug("TestcasesService cloneTestcase", resp.data);
 					return resp.data;
 				});
 			}

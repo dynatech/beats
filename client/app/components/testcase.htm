@@ -75,7 +75,7 @@
 </div>
 
 <div dnd-list="vm.tcdata.testcases[0].steps">
-	<div ng-repeat="indiv_step in vm.tcdata.testcases[0].steps"
+	<div ng-repeat="indiv_step in vm.tcdata.testcases[0].steps track by $index"
          dnd-draggable="indiv_step"
          dnd-moved="vm.tcdata.testcases[0].steps.splice($index, 1)"
          dnd-effect-allowed="move"
@@ -249,8 +249,8 @@
       <div class="modal-body">
         <p>
           Cloning 
-          <b><u>{{ vm.params.tc_name }}</u></b>... Name of clone will be 
-          <b><u>{{ vm.params.tc_name }} (copy)</u></b>
+          <b><u>{{ vm.tcdata.testcases[0].tc_name }}</u></b>... Name of clone will be 
+          <b><u>{{ vm.tcdata.testcases[0].tc_name }} (copy)</u></b>
         </p>
         <p>Proceed with the Test Case Cloning?</p>
       </div>
