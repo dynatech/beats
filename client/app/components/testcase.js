@@ -33,6 +33,7 @@
     vm.cloneTestcase = cloneTestcase;
 		vm.deleteTestcase = deleteTestcase;
 		vm.downloadTestcase = downloadTestcase;
+    vm.cloneStep = cloneStep;
 		vm.removeStep = removeStep;
 		vm.selectedAction = selectedAction;
 		vm.selectedAssertion = selectedAssertion;
@@ -81,8 +82,8 @@
       
       TestcasesService.getTestcaseDetail(vm.tcdata.testcases[0].tc_id)
         .then((response) => {
-          let newParams = {};
-          newParams = {
+          let new_params = {};
+          new_params = {
             ts_id: vm.params.ts_id,
             tc_name: response.testcases[0].tc_name,
             tc_desc: response.testcases[0].tc_desc,
@@ -90,9 +91,9 @@
             steps: response.testcases[0].steps
           }
 
-          TestcasesService.cloneTestcase(newParams)
+          TestcasesService.cloneTestcase(new_params)
             .then(( response ) => {
-              console.log(newParams);
+              console.log(new_params);
               $log.debug("cloneTestcase", response);
               vm.crud_status = response.message;
               vm.params.tc_id = response.tc_id;
@@ -136,6 +137,32 @@
 				jQuery("#modalStatus").modal("show");
 			});
 		}
+
+    // Clone Step Function
+    function cloneStep(index) {
+      $log.debug("testcaseController | cloneStep: ", index);
+
+      // Get the chosen step to clone
+      let chosen_step = vm.tcdata.testcases[0].steps[index];
+
+      // Set the values to a new variable
+      let cloneStep = {
+        action: chosen_step.action,
+        assert_options: chosen_step.assert_options,
+        element_id: chosen_step.element_id,
+        locateElement: chosen_step.locateElement,
+        name: chosen_step.name,
+        op_special_2: chosen_step.op_special_2,
+        op_special_1: chosen_step.op_special_1,
+        scroll_options: chosen_step.scroll_options
+      }
+
+      // Append the word copy after the step name to indicate it is a clone 
+      cloneStep.name += " (clone)"; 
+
+      // Insert the cloned step to the array list
+      vm.tcdata.testcases[0].steps.splice(index+1, 0, cloneStep);
+    }
 
 		function removeStep(index) {
 			$log.debug("testcaseController | removeStep: ", index);

@@ -18,7 +18,7 @@
 	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService', 'TestcasesService', 'DownloadService'];
 
 	// Instantiate an object to hold the cloned test case details
-	let newParams = {};
+	let new_params = {};
 
 	function testsuiteController($log, $scope, $http, $window, TestsuitesService, TestcasesService, DownloadService) {
 		$log.debug("testsuiteController start");
@@ -88,7 +88,7 @@
 			// Get first the test case details of the TC to be cloned
 			TestcasesService.getTestcaseDetail(vm.params.tc_id)
 				.then(( response ) => {
-					newParams = {
+					new_params = {
 						ts_id: vm.params.ts_id,
 						tc_name: response.testcases[0].tc_name,
 						tc_desc: response.testcases[0].tc_desc,
@@ -97,12 +97,12 @@
 					};
 
 					// Clone the details of the chosen test case
-					TestcasesService.cloneTestcase(newParams)
+					TestcasesService.cloneTestcase(new_params)
 						.then(( response ) => {
 							$log.debug("cloneTestcase", response);
 							vm.crud_status = response.message;
 							vm.params.tc_id = response.tc_id;
-							newParams.tc_id = response.tc_id;
+							new_params.tc_id = response.tc_id;
 							vm.params.numTestCases = 0;
 
 							// Hide the createTestsuite modal
@@ -110,12 +110,8 @@
 							// Call the CRUD Status Message Modal
 							$("#modalStatus").modal("show");
 
-							console.log("---------------VM PARAMS VALUE---------------");
-							console.log(vm.params);
-							console.log("------------------NEW PARAMS-----------------");
-							console.log(newParams);
 							// Add the newly created data to the testcases list
-							vm.tsdata.testsuites[0].testcases.push(newParams);
+							vm.tsdata.testsuites[0].testcases.push(new_params);
 							$log.debug("All Test Cases",vm.tsdata.testsuites[0]);
 						}, ( response ) => {
 							$log.debug("cloneTestcase", response);

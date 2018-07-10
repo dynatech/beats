@@ -202,8 +202,14 @@
             <input type="text" class="form-control" ng-model="indiv_step.op_special_2.value">
         	</div>
         </div>
-	    </div>
+	    </div>    
 	    <div class="beats-action">
+        <div class="item">
+          <a href="" ng-click="vm.cloneStep($index)">
+            <i class="fa fa-files-o" aria-hidden="true"></i>
+            Clone
+          </a>
+        </div>  
 				<div class="item">
 					<a href="" ng-click="vm.removeStep($index)">
 						<i class="fa fa-trash" aria-hidden="true"></i>

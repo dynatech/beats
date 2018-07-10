@@ -45,8 +45,6 @@
 
 			// Newly created function for cloning testcase
 			function cloneTestcase(params) {
-				console.log("FX cloneTestcase");
-				console.log(params);	
 				params.tc_name = params.tc_name + " (copy)";			
 				return $http.post('api/testcase/create.php',
 								{ "ts_id": params.ts_id, 
