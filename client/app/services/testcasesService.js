@@ -54,7 +54,7 @@
 									"desc": params.tc_desc,
 									"global_wait": params.global_wait,
 									"steps": params.steps	})
-				.then(function(resp) {
+				.then((resp) => {
 					$log.debug("TestcasesService cloneTestcase", resp.data);
 					return resp.data;
 				});

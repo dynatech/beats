@@ -16,7 +16,10 @@
 	}
 
 	testsuiteController.$inject = ['$log', '$scope', '$http', '$window', 'TestsuitesService', 'TestcasesService', 'DownloadService'];
+
+	// Instantiate an object to hold the cloned test case details
 	let newParams = {};
+
 	function testsuiteController($log, $scope, $http, $window, TestsuitesService, TestcasesService, DownloadService) {
 		$log.debug("testsuiteController start");
 		var vm = this;
@@ -81,13 +84,10 @@
 		// Clone Test Case
 		function cloneTestcase() {
 			vm.params.ts_id = vm.tsdata.testsuites[0].ts_id;
-			console.log("STEP ONE");
+
+			// Get first the test case details of the TC to be cloned
 			TestcasesService.getTestcaseDetail(vm.params.tc_id)
-				.then(function(response) {
-					console.log("-------------VALUE of vm.params BEFORE");
-					console.log(vm.params);
-					console.log("-------------VALUE of newParams");
-					console.log(newParams);	
+				.then(( response ) => {
 					newParams = {
 						ts_id: vm.params.ts_id,
 						tc_name: response.testcases[0].tc_name,
@@ -95,16 +95,14 @@
 						global_wait: response.testcases[0].global_wait,
 						steps: response.testcases[0].steps
 					};
-					console.log(newParams);
-					console.log("-------------VALUE of vm.params AFTER");
-					console.log(vm.params);	
 
+					// Clone the details of the chosen test case
 					TestcasesService.cloneTestcase(newParams)
-						.then(function(response) {
-							console.log(vm.params);
+						.then(( response ) => {
 							$log.debug("cloneTestcase", response);
 							vm.crud_status = response.message;
 							vm.params.tc_id = response.tc_id;
+							newParams.tc_id = response.tc_id;
 							vm.params.numTestCases = 0;
 
 							// Hide the createTestsuite modal
@@ -112,17 +110,21 @@
 							// Call the CRUD Status Message Modal
 							$("#modalStatus").modal("show");
 
+							console.log("---------------VM PARAMS VALUE---------------");
+							console.log(vm.params);
+							console.log("------------------NEW PARAMS-----------------");
+							console.log(newParams);
 							// Add the newly created data to the testcases list
-							vm.tsdata.testsuites[0].testcases.push(newParams  );
+							vm.tsdata.testsuites[0].testcases.push(newParams);
 							$log.debug("All Test Cases",vm.tsdata.testsuites[0]);
-						}, function(response) {
+						}, ( response ) => {
 							$log.debug("cloneTestcase", response);
 							vm.crud_status = response.message;
 
 							// Call the CRUD Status Message Modal
 							$("#modalStatus").modal("show");
 						});
-				}, function(response) {
+				}, ( response ) => {
 					$log.debug("cloneTestcase", response);
 					vm.crud_status = response.message;
 

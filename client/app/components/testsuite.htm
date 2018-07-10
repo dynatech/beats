@@ -59,7 +59,8 @@
     </button>
   </div>
 </div>
-<div ng-repeat="testcase in vm.tsdata.testsuites[0].testcases">
+  <!-- Added a "track by $index to ng-repeat to try fix the dupes issue." -->
+<div ng-repeat="testcase in vm.tsdata.testsuites[0].testcases track by $index">
 	<div class="case-step">
 		<div class="step">
 			<div class="item">
