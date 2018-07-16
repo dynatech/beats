@@ -7,7 +7,7 @@
 			var service = {
 				getAllTestsuites: getAllTestsuites,
 				getTestsuiteDetail: getTestsuiteDetail,
-
+				cloneTestsuite: cloneTestsuite,
 				createTestsuite: createTestsuite,
 				deleteTestsuite: deleteTestsuite,
 				updateTestsuite: updateTestsuite,
@@ -31,6 +31,21 @@
 
 			function createTestsuite(params) {
 				return $http.post('api/testsuite/create.php', { name: params.ts_name, desc: params.ts_desc }).then(function(resp) {
+					$log.debug("TestsuitesService createTestsuite", resp.data);
+					return resp.data;
+				});
+			}
+
+			// Newly created function for testsuite clone
+			function cloneTestsuite(params) {
+				params.ts_name += " (copy)";
+				return $http.post('api/testsuite/create.php', 
+					{ 
+						name: params.ts_name, 
+						desc: params.ts_desc 
+					}
+				)
+				.then((resp) => {
 					$log.debug("TestsuitesService createTestsuite", resp.data);
 					return resp.data;
 				});
